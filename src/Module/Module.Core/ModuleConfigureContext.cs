@@ -2,13 +2,14 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenModular.Module.Abstractions;
+using OpenModular.Module.Abstractions.Configurator;
 
 namespace OpenModular.Module.Core;
 
 /// <summary>
 /// 用于模块中添加特有服务的上下文
 /// </summary>
-public class ModuleConfigureContext(IServiceCollection services, IHostEnvironment environment, IConfiguration configuration, IModuleCollection modules) : IModuleConfigureContext
+public class ModuleConfigureContext(IServiceCollection services, IHostEnvironment environment, IConfiguration configuration, IModuleCollection modules) : IModuleConfiguratorContext
 {
     /// <summary>
     /// 服务集合

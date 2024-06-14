@@ -5,17 +5,28 @@ namespace OpenModular.Module.Core;
 
 public static class ServiceCollectionExtensions
 {
+    private static ModuleDescriptorCollection _collection = new();
+
     /// <summary>
     /// 添加模块化服务
     /// </summary>
     /// <param name="services"></param>
-    public static IModuleCollection AddModuleCoreService(this IServiceCollection services)
+    public static IServiceCollection AddModuleCoreService(this IServiceCollection services)
     {
-        var collection = new ModuleCollection();
+        var collection = new ModuleDescriptorCollection();
 
-        services.AddSingleton<IModuleCollection>(collection);
+        services.AddSingleton<IModuleDescriptorCollection>(collection);
 
-        return collection;
+        return services;
+    }
+
+    public static IServiceCollection AddModule(this IServiceCollection services, IModule module)
+    {
+        var descriptor = new ModuleDescriptor(module);
+
+        _collection.Add(descriptor);
+
+        return services;
     }
 
     /// <summary>

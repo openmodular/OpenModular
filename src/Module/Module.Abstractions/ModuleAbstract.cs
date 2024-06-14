@@ -19,16 +19,4 @@ public abstract class ModuleAbstract : IModule
     public int Id { get; }
 
     public string Code { get; }
-
-    public virtual void PreConfigureService(IModuleConfigureContext context)
-    {
-    }
-
-    public virtual void ConfigureService(IModuleConfigureContext context)
-    {
-    }
-
-    public virtual void PostConfigureService(IModuleConfigureContext context)
-    {
-    }
 }

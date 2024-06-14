@@ -1,6 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
+	  <Compile Remove="Middlewares\**" />
+	  <EmbeddedResource Remove="Middlewares\**" />
+	  <None Remove="Middlewares\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
@@ -10,10 +16,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Module.Core\Module.Core.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Middlewares\" />
 	</ItemGroup>
 
 </Project>

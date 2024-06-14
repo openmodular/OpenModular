@@ -14,19 +14,4 @@ public interface IModule
     /// 模块唯一编码
     /// </summary>
     string Code { get; }
-
-    /// <summary>
-    /// 前置配置服务
-    /// </summary>
-    void PreConfigureService(IModuleConfigureContext context);
-
-    /// <summary>
-    /// 配置服务
-    /// </summary>
-    void ConfigureService(IModuleConfigureContext context);
-
-    /// <summary>
-    /// 后置配置服务
-    /// </summary>
-    void PostConfigureService(IModuleConfigureContext context);
 }

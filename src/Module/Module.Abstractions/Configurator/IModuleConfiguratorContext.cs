@@ -2,12 +2,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace OpenModular.Module.Abstractions;
+namespace OpenModular.Module.Abstractions.Configurator;
 
 /// <summary>
-/// 服务配置器上下文
+/// 模块配置器上下文
 /// </summary>
-public interface IModuleConfigureContext
+public interface IModuleConfiguratorContext
 {
     /// <summary>
     /// 服务集合
