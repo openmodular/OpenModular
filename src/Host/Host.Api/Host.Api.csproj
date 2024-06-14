@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0-preview.5.24306.11" />
+		<PackageReference Include="Serilog.AspNetCore" Version="8.0.2-dev-00338" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.6.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Commonn\Common.Utils\Common.Utils.csproj" />
+		<ProjectReference Include="..\..\Domain\DDD.Core\DDD.Core.csproj" />
+		<ProjectReference Include="..\..\Module\Module.Api\Module.Api.csproj" />
+		<ProjectReference Include="..\..\Persistence\Persistence\Persistence.csproj" />
+		<ProjectReference Include="..\Host.Abstractions\Host.Abstractions.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,25 @@
+﻿<Project>
+	<PropertyGroup>
+		<Version>1.0.0</Version>
+		<Authors>OpenModular</Authors>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>Latest</LangVersion>
+		<TargetFramework>net9.0</TargetFramework>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<RootNamespacePrefix>OpenModular</RootNamespacePrefix>
+		<AssemblyName>$(RootNamespacePrefix).$(MSBuildProjectName)</AssemblyName>
+		<RootNamespace>$(AssemblyName)</RootNamespace>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+		<PackageOutputPath>$(SolutionDir)\_packages</PackageOutputPath>
+		<Company></Company>
+		<Copyright>Copyright：2024-2099</Copyright>
+		<PackageProjectUrl>https://www.openmodular.io/</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/openmodular/modular</RepositoryUrl>
+	</PropertyGroup>
+</Project>
