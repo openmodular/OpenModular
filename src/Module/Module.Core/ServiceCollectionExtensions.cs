@@ -34,9 +34,8 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <param name="context"></param>
-    /// <param name="modules"></param>
     /// <returns></returns>
-    public static IServiceCollection AddModulePreService(this IServiceCollection services, ModuleConfigureContext context, IModuleCollection modules)
+    public static IServiceCollection AddModulePreService(this IServiceCollection services, ModuleConfigureContext context)
     {
         foreach (var module in modules)
         {

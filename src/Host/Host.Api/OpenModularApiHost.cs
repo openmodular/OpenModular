@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using OpenModular.Host.Abstractions;
 using OpenModular.Host.Api.Middlewares;
-using OpenModular.Module.Abstractions;
+using OpenModular.Module.Abstractions.Configurator;
 using OpenModular.Module.Api;
 using OpenModular.Module.Core;
 using OpenModular.Persistence;
@@ -12,11 +12,9 @@ namespace OpenModular.Host.Api;
 
 public class OpenModularApiHost : IOpenModularHost
 {
-    private readonly ModuleApiCollection _moduleApiCollection = new();
+    private readonly ModuleApiCollection _moduleApiCollection = [];
     private readonly WebApplicationBuilder _builder;
     public IServiceCollection Services { get; }
-
-    public readonly IModuleCollection Modules;
 
     public OpenModularApiHost(string[] args)
     {
@@ -28,7 +26,7 @@ public class OpenModularApiHost : IOpenModularHost
 
         Services.AddSingleton<IModuleApiCollection>(_moduleApiCollection);
 
-        Modules = Services.AddModuleCoreService();
+        Services.AddModuleCoreService();
     }
 
     /// <summary>
@@ -38,13 +36,21 @@ public class OpenModularApiHost : IOpenModularHost
     public void RegisterModuleApi<TModuleApi>() where TModuleApi : IModuleApi, new()
     {
         var moduleApi = new TModuleApi();
+        var module = moduleApi.Module;
 
-        _moduleApiCollection.Add(moduleApi);
+        var coreAssembly = module.GetType().Assembly;
+        var apiAssembly = moduleApi.GetType().Assembly;
 
-        Modules.Add(moduleApi.Module);
+        var moduleConfiguratorType = coreAssembly.GetTypes().FirstOrDefault(m =>
+            typeof(IModuleConfigurator).IsAssignableFrom(m) && !m.IsInterface && !m.IsAbstract);
 
-        Services.AddSingleton(moduleApi.Module);
-        Services.AddSingleton(moduleApi.Module.GetType(), moduleApi.Module);
+        if (moduleConfiguratorType != null)
+        {
+            var configurator = (IModuleConfigurator)Activator.CreateInstance(moduleConfiguratorType);
+        }
+
+
+        Services.AddModule(moduleApi.Module);
     }
 
     /// <summary>
@@ -54,7 +60,7 @@ public class OpenModularApiHost : IOpenModularHost
     {
         var moduleConfigureContext = new ModuleConfigureContext(Services, _builder.Environment, _builder.Configuration, Modules);
 
-        Services.AddModulePreService(moduleConfigureContext, Modules);
+        Services.AddModulePreService(moduleConfigureContext);
 
         Services.AddModuleApiPreConfigureService(moduleConfigureContext, _moduleApiCollection);
 
