@@ -3,4 +3,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-preview.4.24266.19" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0-preview.4.24266.19" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Commonn\Common.Utils\Common.Utils.csproj" />
+  </ItemGroup>
 </Project>

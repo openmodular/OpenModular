@@ -4,7 +4,7 @@ using OpenModular.Module.UAP.Core.Infrastructure.Persistence;
 
 namespace OpenModular.Module.UAP.Core.Application.Users.CreateUser;
 
-internal class CreateUserCommandHandler(IUserRepository _repository,UAPDbContext dbContext) : ICommandHandler<CreateUserCommand, UserId>
+internal class CreateUserCommandHandler(IUserRepository _repository, UAPDbContext dbContext) : ICommandHandler<CreateUserCommand, UserId>
 {
     public async Task<UserId> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
@@ -12,11 +12,11 @@ internal class CreateUserCommandHandler(IUserRepository _repository,UAPDbContext
         if (exists != null)
         {
             if (exists.Username == request.Username)
-                throw new InvalidOperationException("The username is exist");
+                throw new UAPBusinessException(UAPErrorCode.User_UsernameExists);
             if (exists.Email == request.Email)
-                throw new InvalidOperationException("The user email is exist");
+                throw new UAPBusinessException(UAPErrorCode.User_UsernameExists);
             if (exists.Phone == request.Phone)
-                throw new InvalidOperationException("The user phone is exist");
+                throw new UAPBusinessException(UAPErrorCode.User_PhoneExists);
         }
 
         //处理密码
@@ -29,4 +29,4 @@ internal class CreateUserCommandHandler(IUserRepository _repository,UAPDbContext
 
         return user.Id!;
     }
-} 
+}
