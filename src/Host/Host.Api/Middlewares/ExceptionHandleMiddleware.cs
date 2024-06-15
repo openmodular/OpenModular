@@ -3,12 +3,14 @@ using Microsoft.Extensions.Logging;
 using OpenModular.Module.Abstractions.Exceptions;
 using System.Net;
 using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenModular.DDD.Core.Domain.Exceptions;
+using OpenModular.Module.Abstractions.Localization;
 
 namespace OpenModular.Host.Api.Middlewares
 {
-    internal class ExceptionHandleMiddleware(ILogger<ExceptionHandleMiddleware> logger, IHostEnvironment env) : IMiddleware
+    internal class ExceptionHandleMiddleware(ILogger<ExceptionHandleMiddleware> logger, IHostEnvironment env, IServiceProvider _service) : IMiddleware
     {
         private readonly ILogger _logger = logger;
 
@@ -22,7 +24,14 @@ namespace OpenModular.Host.Api.Middlewares
             {
                 _logger.LogError(ex, "Throw module business exception,the module code is {moduleCode},the error code is {errorCode}", ex.ModuleCode, ex.ErrorCode);
 
-                await HandleExceptionAsync(context, ex.Message);
+                var message = ex.Message;
+                var localizer = _service.GetKeyedService<IModuleLocalizer>(ex.ModuleCode);
+                if (localizer != null)
+                {
+                    message = localizer[$"ErrorCode_{ex.ErrorCode}"];
+                }
+
+                await HandleExceptionAsync(context, message);
             }
             catch (EntityNotFoundException ex)
             {

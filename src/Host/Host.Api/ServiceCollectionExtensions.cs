@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using OpenModular.Common.Utils.Json;
 using OpenModular.Module.Api;
 using OpenModular.Module.Core;
 
@@ -29,28 +28,6 @@ internal static class ServiceCollectionExtensions
                     .AllowAnyHeader()
                     .AllowCredentials()
                     .WithExposedHeaders("Content-Disposition"));//下载文件时，文件名称会保存在headers的Content-Disposition属性里面
-        });
-
-        return services;
-    }
-
-    /// <summary>
-    /// 配置JSON序列化选项
-    /// </summary>
-    /// <param name="services"></param>
-    /// <param name="moduleApiCollection"></param>
-    /// <returns></returns>
-    public static IServiceCollection ConfigureJsonOptions(this IServiceCollection services, IModuleApiCollection moduleApiCollection)
-    {
-        services.ConfigureHttpJsonOptions(options =>
-        {
-            options.SerializerOptions.AddCommonUtilsJsonSerializerContext();
-
-            foreach (var moduleApi in moduleApiCollection)
-            {
-                options.SerializerOptions.AddJsonTypeInfoResolverFromAssembly(moduleApi.GetType().Assembly);
-                options.SerializerOptions.AddJsonTypeInfoResolverFromAssembly(moduleApi.Module.GetType().Assembly);
-            }
         });
 
         return services;
