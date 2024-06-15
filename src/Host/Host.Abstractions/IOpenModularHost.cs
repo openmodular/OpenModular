@@ -1,8 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿namespace OpenModular.Host.Abstractions;
 
-namespace OpenModular.Host.Abstractions;
-
-public interface IOpenModularHost
-{
-    IServiceCollection Services { get; }
-}
+/// <summary>
+/// OpenModular主机
+/// </summary>
+public interface IOpenModularHost;

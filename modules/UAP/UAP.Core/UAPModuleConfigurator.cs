@@ -1,8 +1,8 @@
-﻿using OpenModular.Module.Abstractions.Configurator;
+﻿using OpenModular.Module.Abstractions;
 using OpenModular.Module.UAP.Core.Infrastructure.Persistence;
 using OpenModular.Persistence;
 
-namespace OpenModular.Module.UAP.Core.Infrastructure;
+namespace OpenModular.Module.UAP.Core;
 
 internal class UAPModuleConfigurator : ModuleConfiguratorAbstract
 {

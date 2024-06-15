@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenModular.Module.Api;
 
@@ -7,9 +8,11 @@ namespace OpenModular.Host.Api
 {
     public static class EndpointRouteBuilderExtensions
     {
-        public static WebApplication UseOpenModularEndpoints(this WebApplication app, IModuleApiCollection moduleApis)
+        public static WebApplication UseOpenModularEndpoints(this WebApplication app)
         {
-            foreach (var moduleApi in moduleApis)
+            var moduleApiCollection = app.Services.GetRequiredService<IModuleApiCollection>();
+
+            foreach (var moduleApi in moduleApiCollection)
             {
                 var endpointTypes = moduleApi.GetType().Assembly.GetTypes()
                     .Where(t => typeof(IEndpoint).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract).ToList();
@@ -29,16 +32,22 @@ namespace OpenModular.Host.Api
             return app;
         }
 
-        public static WebApplication UseOpenApi(this WebApplication app, IModuleApiCollection moduleApis)
+        public static WebApplication UseOpenApi(this WebApplication app)
         {
+            var moduleApiCollection = app.Services.GetRequiredService<IModuleApiCollection>();
+
             app.MapOpenApi();
 
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwaggerUI(options =>
+                foreach (var moduleApi in moduleApiCollection)
                 {
-                    options.SwaggerEndpoint("/openapi/uap.json", "v1");
-                });
+                    app.UseSwaggerUI(options =>
+                    {
+                        options.SwaggerEndpoint($"/openapi/{moduleApi.Module.Code.ToLower()}.json", "v1");
+                    });
+
+                }
             }
 
             return app;

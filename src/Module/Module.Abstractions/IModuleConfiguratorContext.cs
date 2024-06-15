@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace OpenModular.Module.Abstractions.Configurator;
+namespace OpenModular.Module.Abstractions;
 
 /// <summary>
 /// 模块配置器上下文
@@ -23,9 +23,4 @@ public interface IModuleConfiguratorContext
     /// 配置对象
     /// </summary>
     IConfiguration Configuration { get; }
-
-    /// <summary>
-    /// 模块集合
-    /// </summary>
-    IModuleCollection Modules { get; }
 }

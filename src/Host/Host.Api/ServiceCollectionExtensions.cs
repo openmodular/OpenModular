@@ -60,13 +60,14 @@ internal static class ServiceCollectionExtensions
     /// 添加OpenApi
     /// </summary>
     /// <param name="services"></param>
-    /// <param name="moduleApiCollection"></param>
     /// <returns></returns>
-    public static IServiceCollection AddOpenModularOpenApi(this IServiceCollection services, IModuleApiCollection moduleApiCollection)
+    public static IServiceCollection AddOpenModularOpenApi(this IServiceCollection services)
     {
-        foreach (var moduleApi in moduleApiCollection)
+        var moduleCollection = services.GetModuleCollection();
+
+        foreach (var module in moduleCollection)
         {
-            services.AddOpenApi(moduleApi.Module.Code.ToLower());
+            services.AddOpenApi(module.Code.ToLower());
         }
 
         return services;
@@ -76,12 +77,13 @@ internal static class ServiceCollectionExtensions
     /// 添加MediatR
     /// </summary>
     /// <param name="services"></param>
-    /// <param name="moduleApiCollection"></param>
     /// <returns></returns>
-    public static IServiceCollection AddMediatR(this IServiceCollection services, IModuleApiCollection moduleApiCollection)
+    public static IServiceCollection AddOpenModularMediatR(this IServiceCollection services)
     {
         services.AddMediatR(cfg =>
         {
+            var moduleApiCollection = services.GetModuleApiCollection();
+
             foreach (var moduleApi in moduleApiCollection)
             {
                 cfg.RegisterServicesFromAssembly(moduleApi.GetType().Assembly);
@@ -89,55 +91,6 @@ internal static class ServiceCollectionExtensions
             }
         });
 
-        return services;
-    }
-
-    /// <summary>
-    /// 处理模块API的前置服务注入
-    /// </summary>
-    /// <param name="services"></param>
-    /// <param name="context"></param>
-    /// <param name="moduleApiCollection"></param>
-    /// <returns></returns>
-    public static IServiceCollection AddModuleApiPreConfigureService(this IServiceCollection services, ModuleConfigureContext context, IModuleApiCollection moduleApiCollection)
-    {
-        foreach (var moduleApi in moduleApiCollection)
-        {
-            moduleApi.PreConfigureService(context);
-        }
-
-        return services;
-    }
-
-    /// <summary>
-    /// 处理模块API的服务
-    /// </summary>
-    /// <param name="services"></param>
-    /// <param name="context"></param>
-    /// <param name="moduleApiCollection"></param>
-    /// <returns></returns>
-    internal static IServiceCollection AddModuleApiConfigureService(this IServiceCollection services, ModuleConfigureContext context, IModuleApiCollection moduleApiCollection)
-    {
-        foreach (var moduleApi in moduleApiCollection)
-        {
-            moduleApi.ConfigureService(context);
-        }
-        return services;
-    }
-
-    /// <summary>
-    /// 处理模块API的后置服务
-    /// </summary>
-    /// <param name="services"></param>
-    /// <param name="context"></param>
-    /// <param name="moduleApiCollection"></param>
-    /// <returns></returns>
-    internal static IServiceCollection AddModuleApiPostConfigureService(this IServiceCollection services, ModuleConfigureContext context, IModuleApiCollection moduleApiCollection)
-    {
-        foreach (var moduleApi in moduleApiCollection)
-        {
-            moduleApi.PostConfigureService(context);
-        }
         return services;
     }
 }

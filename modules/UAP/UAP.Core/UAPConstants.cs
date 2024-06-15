@@ -1,4 +1,4 @@
-﻿namespace OpenModular.Module.UAP.Core.Infrastructure;
+﻿namespace OpenModular.Module.UAP.Core;
 
 /// <summary>
 /// 统一认证模块常量

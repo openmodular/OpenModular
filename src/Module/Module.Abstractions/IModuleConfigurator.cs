@@ -1,4 +1,4 @@
-﻿namespace OpenModular.Module.Abstractions.Configurator;
+﻿namespace OpenModular.Module.Abstractions;
 
 /// <summary>
 /// 模块配置器

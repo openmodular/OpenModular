@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
-using OpenModular.Module.Abstractions;
+﻿using OpenModular.Module.Abstractions;
 
 namespace OpenModular.Module.Api;
 

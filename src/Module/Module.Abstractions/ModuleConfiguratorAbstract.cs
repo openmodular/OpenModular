@@ -1,4 +1,4 @@
-﻿namespace OpenModular.Module.Abstractions.Configurator;
+﻿namespace OpenModular.Module.Abstractions;
 
 public abstract class ModuleConfiguratorAbstract : IModuleConfigurator
 {
