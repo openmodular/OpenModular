@@ -1,4 +1,4 @@
-﻿using OpenModular.Common.Utils;
+﻿using OpenModular.Common.Utils.Exceptions;
 
 namespace OpenModular.DDD.Core.Domain.Exceptions;
 

@@ -1,4 +1,4 @@
-﻿namespace OpenModular.Common.Utils;
+﻿namespace OpenModular.Common.Utils.Exceptions;
 
 /// <summary>
 /// OpenModular异常基类

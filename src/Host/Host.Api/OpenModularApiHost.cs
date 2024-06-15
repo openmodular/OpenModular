@@ -66,6 +66,8 @@ public class OpenModularApiHost : IOpenModularHost
 
         app.UseOpenModularEndpoints();
 
+        app.UseMiddleware<ExceptionHandleMiddleware>();
+
         app.UseOpenApi();
 
         app.UseMiddleware<UnitOfWorkMiddleware>();

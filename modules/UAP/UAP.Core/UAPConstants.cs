@@ -8,7 +8,7 @@ public static class UAPConstants
     /// <summary>
     /// 模块唯一标识
     /// </summary>
-    public const int ModuleId = 0;
+    public const int ModuleId = 1;
 
     /// <summary>
     /// 模块唯一编码
