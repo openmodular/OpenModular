@@ -4,11 +4,11 @@ using OpenModular.Module.UAP.Core.Infrastructure.Persistence;
 
 namespace OpenModular.Module.UAP.Core.Application.Users.CreateUser;
 
-internal class CreateUserCommandHandler(IUserRepository _repository, UAPDbContext dbContext) : ICommandHandler<CreateUserCommand, UserId>
+internal class CreateUserCommandHandler(IUserRepository repository, UAPDbContext dbContext) : ICommandHandler<CreateUserCommand, UserId>
 {
     public async Task<UserId> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        var exists = await _repository.FindAsync(m => m.Username == request.Username || m.Email == request.Email || m.Phone == request.Phone, false, cancellationToken);
+        var exists = await repository.FindAsync(m => m.Username == request.Username || m.Email == request.Email || m.Phone == request.Phone, false, cancellationToken);
         if (exists != null)
         {
             if (exists.Username == request.Username)
@@ -23,7 +23,7 @@ internal class CreateUserCommandHandler(IUserRepository _repository, UAPDbContex
 
         var user = User.Create(request.Username, request.Password, request.Email, request.Phone, null);
 
-        await _repository.InsertAsync(user, cancellationToken: cancellationToken);
+        await repository.InsertAsync(user, cancellationToken: cancellationToken);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

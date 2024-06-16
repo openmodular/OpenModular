@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using OpenModular.Host.Api.Middlewares;
 using OpenModular.Module.Api;
 using OpenModular.Module.Core;
 
@@ -6,12 +7,20 @@ namespace OpenModular.Host.Api;
 
 internal static class ServiceCollectionExtensions
 {
+    public static IServiceCollection AddOpenModularMiddlewares(this IServiceCollection services)
+    {
+        services.AddScoped<ExceptionHandleMiddleware>();
+        services.AddScoped<UnitOfWorkMiddleware>();
+
+        return services;
+    }
+
     /// <summary>
     /// 添加CORS
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection AddCors(this IServiceCollection services)
+    public static IServiceCollection AddOpenModularCors(this IServiceCollection services)
     {
         services.AddCors(options =>
         {

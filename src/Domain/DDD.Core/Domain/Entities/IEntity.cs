@@ -14,5 +14,5 @@ public interface IEntity<out TKey> : IEntity
     /// <summary>
     /// 实体唯一标识
     /// </summary>
-    TKey Id { get; }
+    TKey? Id { get; }
 }

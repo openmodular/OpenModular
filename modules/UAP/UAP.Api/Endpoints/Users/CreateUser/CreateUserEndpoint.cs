@@ -23,12 +23,12 @@ internal class CreateUserEndpoint : IEndpoint
         group.MapPost("users", Execute).WithTags(EndpointTags.User);
     }
 
-    public async Task<Guid> Execute([FromBody] CreateUserRequest request, [FromServices] IMediator mediator, [FromServices] ILogger<CreateUserEndpoint> logger)
+    public async Task<ApiResponse<Guid>> Execute([FromBody] CreateUserRequest request, [FromServices] IMediator mediator, [FromServices] ILogger<CreateUserEndpoint> logger)
     {
         logger.LogInformation("test");
 
         var command = request.Adapt<CreateUserCommand>();
         var userId = await mediator.Send(command);
-        return userId.Value;
+        return ApiResponse.Success(userId.Value);
     }
 }

@@ -1,10 +1,6 @@
-﻿using OpenModular.DDD.Core.Domain;
+﻿namespace OpenModular.Module.UAP.Core.Domain.Users.Rules;
 
-namespace OpenModular.Module.UAP.Core.Domain.Users.Rules;
-
-internal record UserCannotActivateWhenAlreadyActivatedRule(UserStatus activatedStatus) : BusinessRuleBase
+internal record UserCannotActivateWhenAlreadyActivatedRule(UserStatus ActivatedStatus) : UAPBusinessRule(UAPErrorCode.User_EmailFormatNotValid)
 {
-    public override bool IsBroken() => activatedStatus != UserStatus.Inactive;
-
-    public override string Message => "User is already active";
+    public override bool IsBroken() => ActivatedStatus != UserStatus.Inactive;
 }

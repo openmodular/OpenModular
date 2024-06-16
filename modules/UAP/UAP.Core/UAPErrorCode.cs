@@ -23,5 +23,9 @@ public enum UAPErrorCode
     /// <summary>
     /// 邮箱已存在
     /// </summary>
-    User_PhoneExists
+    User_PhoneExists,
+    /// <summary>
+    /// 邮箱格式不正确
+    /// </summary>
+    User_EmailFormatNotValid
 }

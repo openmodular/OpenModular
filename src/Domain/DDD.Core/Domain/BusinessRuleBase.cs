@@ -2,7 +2,7 @@
 
 public abstract record BusinessRuleBase : IBusinessRule
 {
-    public abstract string Message { get; }
+    public abstract Enum ErrorCode { get; }
 
     public abstract bool IsBroken();
 }

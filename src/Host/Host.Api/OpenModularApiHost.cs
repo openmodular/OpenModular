@@ -49,7 +49,7 @@ public class OpenModularApiHost : IOpenModularHost
 
         _services.AddOpenModularMediatR();
 
-        _services.AddCors();
+        _services.AddOpenModularCors();
 
         _services.AddPersistence(_builder.Configuration);
 
@@ -57,7 +57,7 @@ public class OpenModularApiHost : IOpenModularHost
 
         _services.AddModuleApiPostConfigureService(moduleConfigureContext);
 
-        _services.AddScoped<UnitOfWorkMiddleware>();
+        _services.AddOpenModularMiddlewares();
 
         var app = _builder.Build();
 
