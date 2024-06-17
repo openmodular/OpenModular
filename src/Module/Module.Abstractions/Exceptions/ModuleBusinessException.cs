@@ -5,7 +5,7 @@ namespace OpenModular.Module.Abstractions.Exceptions;
 /// <summary>
 /// 模块业务异常基类
 /// </summary>
-public abstract class ModuleBusinessException(string moduleCode, Enum errorCode, string? message = null) : ExceptionBase(message)
+public class ModuleBusinessException(string moduleCode, Enum errorCode, string? message = null) : ExceptionBase(message)
 {
     /// <summary>
     /// 模块编码

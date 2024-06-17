@@ -1,5 +1,5 @@
 ﻿using OpenModular.DDD.Core.Domain.Events;
-using OpenModular.DDD.Core.Domain.Exceptions;
+using OpenModular.Module.Abstractions.Exceptions;
 
 namespace OpenModular.DDD.Core.Domain.Entities;
 
@@ -34,12 +34,12 @@ public abstract class Entity : IEntity
     /// 检测业务规则
     /// </summary>
     /// <param name="rule"></param>
-    /// <exception cref="BusinessRuleValidationException"></exception>
+    /// <exception cref="ModuleBusinessException"></exception>
     protected void CheckRule(IBusinessRule rule)
     {
         if (rule.IsBroken())
         {
-            throw new BusinessRuleValidationException(rule);
+            throw new ModuleBusinessException(rule.ModuleCode, rule.ErrorCode);
         }
     }
 }

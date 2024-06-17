@@ -4,7 +4,9 @@ namespace OpenModular.Module.UAP.Core;
 
 internal abstract record UAPBusinessRule(UAPErrorCode errorCode) : IBusinessRule
 {
-    public abstract bool IsBroken();
+    public string ModuleCode => UAPConstants.ModuleCode;
 
     public Enum ErrorCode { get; } = errorCode;
+
+    public abstract bool IsBroken();
 }

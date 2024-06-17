@@ -5,7 +5,9 @@
 /// </summary>
 public interface IBusinessRule
 {
-    bool IsBroken();
+    string ModuleCode { get; }
 
     Enum ErrorCode { get; }
+
+    bool IsBroken();
 }
