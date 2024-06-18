@@ -42,26 +42,26 @@ public class User : AggregateRoot<UserId>
     /// <summary>
     /// 激活时间
     /// </summary>
-    public DateTime? ActivatedTime { get; private set; }
+    public DateTimeOffset? ActivatedTime { get; private set; }
 
     /// <summary>
     /// 创建人标识
     /// </summary>
-    public UserId CreatedBy { get; private set; }
+    public UserId CreatedBy { get; }
 
     /// <summary>
     /// 创建时间
     /// </summary>
-    public DateTime CreatedAt { get; }
+    public DateTimeOffset CreatedAt { get; }
 
     /// <summary>
     /// 更新时间
     /// </summary>
-    public DateTime UpdatedAt { get; private set; }
+    public DateTimeOffset? UpdatedAt { get; private set; }
 
     public User()
     {
-        
+
     }
 
     private User(string username, string password, string email, string phone, UserId createdBy) : base(new UserId())
@@ -79,9 +79,9 @@ public class User : AggregateRoot<UserId>
 
         Status = UserStatus.Inactive;
         CreatedBy = createdBy;
-        CreatedAt = DateTime.UtcNow;
+        CreatedAt = DateTimeOffset.UtcNow;
 
-        AddDomainEvent(new UserCreatedDomainEven(Id!, createdBy, CreatedAt));
+        AddDomainEvent(new UserCreatedDomainEvent(this));
     }
 
     /// <summary>
@@ -108,7 +108,7 @@ public class User : AggregateRoot<UserId>
         Status = UserStatus.Enabled;
         ActivatedTime = DateTime.UtcNow;
 
-        AddDomainEvent(new UserActivatedDomainEvent(Id!, ActivatedTime.Value));
+        AddDomainEvent(new UserActivatedDomainEvent(this));
     }
 
     /// <summary>

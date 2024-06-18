@@ -4,6 +4,7 @@
 		<Authors>OpenModular</Authors>
 		<NoWarn>$(NoWarn);1591</NoWarn>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
 		<LangVersion>Latest</LangVersion>
 		<TargetFramework>net9.0</TargetFramework>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
