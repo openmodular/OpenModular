@@ -1,10 +1,9 @@
 ﻿using OpenModular.DDD.Core.Application.Command;
 using OpenModular.Module.UAP.Core.Domain.Users;
-using OpenModular.Module.UAP.Core.Infrastructure.Persistence;
 
 namespace OpenModular.Module.UAP.Core.Application.Users.CreateUser;
 
-internal class CreateUserCommandHandler(IUserRepository repository, UAPDbContext dbContext) : ICommandHandler<CreateUserCommand, UserId>
+internal class CreateUserCommandHandler(IUserRepository repository) : ICommandHandler<CreateUserCommand, UserId>
 {
     public async Task<UserId> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
@@ -24,8 +23,6 @@ internal class CreateUserCommandHandler(IUserRepository repository, UAPDbContext
         var user = User.Create(request.Username, request.Password, request.Email, request.Phone, null);
 
         await repository.InsertAsync(user, cancellationToken: cancellationToken);
-
-        await dbContext.SaveChangesAsync(cancellationToken);
 
         return user.Id!;
     }

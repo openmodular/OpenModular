@@ -1,9 +1,7 @@
 ﻿namespace OpenModular.DDD.Core.Application.Query;
 
-public abstract record QueryBase<TRequest>(Guid id) : IQuery<TRequest>
+public abstract record QueryBase<TDto>(Guid Id) : IQuery<TDto>
 {
-    public Guid Id { get; } = id;
-
     protected QueryBase() : this(Guid.NewGuid())
     {
     }

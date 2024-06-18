@@ -3,15 +3,18 @@ using OpenModular.Module.UAP.Core.Domain.Users;
 
 namespace OpenModular.Module.UAP.Core.Domain.Organizations;
 
+/// <summary>
+/// 组织单位
+/// </summary>
 public class Organization : AggregateRoot<OrganizationId>
 {
     /// <summary>
-    /// 部门名称
+    /// 组织名称
     /// </summary>
-    public string Name { get; }
+    public string Name { get; private set; }
 
     /// <summary>
-    /// 部门编码
+    /// 组织编码
     /// </summary>
     public string Code { get; }
 
@@ -46,5 +49,11 @@ public class Organization : AggregateRoot<OrganizationId>
 
         CreatedBy = createdBy;
         CreatedAt = DateTime.UtcNow;
+    }
+
+    public void Rename(string name)
+    {
+        Name = name;
+        UpdatedAt = DateTimeOffset.UtcNow;
     }
 }
