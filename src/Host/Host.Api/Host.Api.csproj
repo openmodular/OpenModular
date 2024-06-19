@@ -7,6 +7,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\..\modules\UAP\UAP.DataSeeding\UAP.DataSeeding.csproj" />
 		<ProjectReference Include="..\..\Commonn\Common.Utils\Common.Utils.csproj" />
 		<ProjectReference Include="..\..\Domain\DDD.Core\DDD.Core.csproj" />
 		<ProjectReference Include="..\..\Module\Module.Api\Module.Api.csproj" />

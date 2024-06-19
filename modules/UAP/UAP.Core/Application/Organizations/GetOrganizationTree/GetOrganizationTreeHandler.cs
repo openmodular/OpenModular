@@ -17,7 +17,17 @@ internal class GetOrganizationTreeHandler(
 
         var tree = new OrganizationTreeDto(org.Id.Value, org.Name);
 
-        ResolveTree(tree, departments);
+        var rootDepartments = departments.Where(m => m.ParentId == null);
+        foreach (var department in rootDepartments)
+        {
+            var rootNode = new TreeNodeModel<Guid, OrganizationTreeNode>(department.Id.Value, department.Name)
+            {
+                Data = new OrganizationTreeNode(department.Id.Value, department.Name, department.Code)
+            };
+            ResolveTree(rootNode, departments);
+
+            tree.Children.Add(rootNode);
+        }
 
         return tree;
     }
@@ -31,12 +41,7 @@ internal class GetOrganizationTreeHandler(
             {
                 var childNode = new TreeNodeModel<Guid, OrganizationTreeNode>(department.Id.Value, department.Name)
                 {
-                    Data = new OrganizationTreeNode
-                    {
-                        Id = department.Id.Value,
-                        Name = department.Name,
-                        Code = department.Code
-                    }
+                    Data = new OrganizationTreeNode(department.Id.Value, department.Name, department.Code)
                 };
 
                 ResolveTree(childNode, departments);

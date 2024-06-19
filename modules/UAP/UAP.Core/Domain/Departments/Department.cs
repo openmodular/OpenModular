@@ -1,5 +1,6 @@
 ﻿using OpenModular.DDD.Core.Domain.Entities;
 using OpenModular.Module.UAP.Core.Domain.Departments.Events;
+using OpenModular.Module.UAP.Core.Domain.Organizations;
 using OpenModular.Module.UAP.Core.Domain.Users;
 
 namespace OpenModular.Module.UAP.Core.Domain.Departments;
@@ -9,6 +10,11 @@ namespace OpenModular.Module.UAP.Core.Domain.Departments;
 /// </summary>
 public class Department : AggregateRoot<DepartmentId>
 {
+    /// <summary>
+    /// 所属部门编号
+    /// </summary>
+    public OrganizationId OrganizationId { get; }
+
     /// <summary>
     /// 部门名称
     /// </summary>
@@ -49,11 +55,12 @@ public class Department : AggregateRoot<DepartmentId>
         //for mapper or serializable
     }
 
-    private Department(string name, DepartmentId? parentId, string code, UserId createdBy) : base(new DepartmentId())
+    private Department(OrganizationId organizationId, string name, DepartmentId parentId, string code, UserId createdBy) : base(new DepartmentId())
     {
         Check.NotNullOrWhiteSpace(name, nameof(name));
         Check.NotNullOrWhiteSpace(code, nameof(code));
 
+        OrganizationId = organizationId;
         Name = name;
         ParentId = parentId;
         Code = code;
@@ -67,14 +74,15 @@ public class Department : AggregateRoot<DepartmentId>
     /// <summary>
     /// 创建部门
     /// </summary>
+    /// <param name="organizationId"></param>
     /// <param name="name"></param>
     /// <param name="parentId"></param>
     /// <param name="code"></param>
     /// <param name="createdBy"></param>
     /// <returns></returns>
-    public static Department Create(string name, DepartmentId? parentId, string code, UserId createdBy)
+    public static Department Create(OrganizationId organizationId, string name, DepartmentId parentId, string code, UserId createdBy)
     {
-        return new Department(name, parentId, code, createdBy);
+        return new Department(organizationId, name, parentId, code, createdBy);
     }
 
     /// <summary>
