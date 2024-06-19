@@ -20,17 +20,17 @@ public class RepositoryAbstract<TEntity, TDbContext> : IRepository<TEntity> wher
         DbContext = uow.GetDbContextAsync<TDbContext>().Result;
     }
 
-    public Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
     {
         return DbContext.Set<TEntity>().Where(predicate).ToListAsync(cancellationToken);
     }
 
-    public Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate, bool includeDetails = true, CancellationToken cancellationToken = default)
+    public Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
     {
         return DbContext.Set<TEntity>().Where(predicate).FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, bool includeDetails = true, CancellationToken cancellationToken = default)
+    public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
     {
         var entity = await DbContext.Set<TEntity>().Where(predicate).SingleOrDefaultAsync(cancellationToken);
         if (entity == null)
@@ -39,7 +39,7 @@ public class RepositoryAbstract<TEntity, TDbContext> : IRepository<TEntity> wher
         return entity;
     }
 
-    public async Task DeleteAsync(Expression<Func<TEntity, bool>> predicate, bool autoSave = false, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
     {
         var db = DbContext.Set<TEntity>();
         var entities = await db.Where(predicate).ToListAsync(cancellationToken);
@@ -54,12 +54,12 @@ public class RepositoryAbstract<TEntity, TDbContext> : IRepository<TEntity> wher
 
 public class RepositoryAbstract<TEntity, TKey, TDbContext>(IUnitOfWork unitOfWork) : RepositoryAbstract<TEntity, TDbContext>(unitOfWork), IRepository<TEntity, TKey> where TEntity : class, IEntity<TKey> where TDbContext : OpenModularDbContext<TDbContext>
 {
-    public Task<TEntity?> FindAsync(TKey id, bool includeDetails = true, CancellationToken cancellationToken = default)
+    public Task<TEntity?> FindAsync(TKey id, CancellationToken cancellationToken = default)
     {
         return DbContext.Set<TEntity>().Where(m => m.Id!.Equals(id)).FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<TEntity> GetAsync(TKey id, bool includeDetails = true, CancellationToken cancellationToken = default)
+    public async Task<TEntity> GetAsync(TKey id, CancellationToken cancellationToken = default)
     {
         var entity = await DbContext.Set<TEntity>().Where(m => m.Id!.Equals(id)).SingleOrDefaultAsync(cancellationToken);
         if (entity == null)
@@ -68,7 +68,7 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IUnitOfWork unitOfWor
         return entity;
     }
 
-    public async Task<TEntity> InsertAsync(TEntity entity, bool autoSave = false, CancellationToken cancellationToken = default)
+    public async Task<TEntity> InsertAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         await DbContext.Set<TEntity>().AddAsync(entity, cancellationToken);
 
@@ -80,7 +80,7 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IUnitOfWork unitOfWor
         return entity;
     }
 
-    public async Task InsertManyAsync(IEnumerable<TEntity> entities, bool autoSave = false, CancellationToken cancellationToken = default)
+    public async Task InsertManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
         await DbContext.Set<TEntity>().AddRangeAsync(entities, cancellationToken);
 
@@ -90,7 +90,7 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IUnitOfWork unitOfWor
         }
     }
 
-    public async Task<TEntity> UpdateAsync(TEntity entity, bool autoSave = false, CancellationToken cancellationToken = default)
+    public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         DbContext.Set<TEntity>().Update(entity);
 
@@ -102,7 +102,7 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IUnitOfWork unitOfWor
         return entity;
     }
 
-    public async Task UpdateManyAsync(IEnumerable<TEntity> entities, bool autoSave = false, CancellationToken cancellationToken = default)
+    public async Task UpdateManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
         DbContext.Set<TEntity>().UpdateRange(entities);
 
@@ -112,7 +112,7 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IUnitOfWork unitOfWor
         }
     }
 
-    public async Task DeleteAsync(TEntity entity, bool autoSave = false, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         DbContext.Set<TEntity>().Remove(entity);
 
@@ -122,7 +122,7 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IUnitOfWork unitOfWor
         }
     }
 
-    public async Task DeleteManyAsync(IEnumerable<TEntity> entities, bool autoSave = false, CancellationToken cancellationToken = default)
+    public async Task DeleteManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
         DbContext.Set<TEntity>().RemoveRange(entities);
 

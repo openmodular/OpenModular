@@ -17,7 +17,7 @@ public class Department : AggregateRoot<DepartmentId>
     /// <summary>
     /// 父级部门
     /// </summary>
-    public DepartmentId? ParentId { get; }
+    public DepartmentId ParentId { get; }
 
     /// <summary>
     /// 部门编码
@@ -27,7 +27,7 @@ public class Department : AggregateRoot<DepartmentId>
     /// <summary>
     /// 排序
     /// </summary>
-    public int Order { get; set; }
+    public int Order { get; private set; }
 
     /// <summary>
     /// 创建人标识
@@ -46,10 +46,10 @@ public class Department : AggregateRoot<DepartmentId>
 
     public Department()
     {
-
+        //for mapper or serializable
     }
 
-    private Department(string name, DepartmentId? parentId, string code, UserId createdBy)
+    private Department(string name, DepartmentId? parentId, string code, UserId createdBy) : base(new DepartmentId())
     {
         Check.NotNullOrWhiteSpace(name, nameof(name));
         Check.NotNullOrWhiteSpace(code, nameof(code));
