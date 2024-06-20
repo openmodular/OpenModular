@@ -5,7 +5,7 @@ using OpenModular.Persistence;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure.Persistence;
 
-public class UAPDbContext(DbContextOptions<UAPDbContext> dbContextOptions) : OpenModularDbContext<UAPDbContext>(dbContextOptions)
+public class UAPDbContext(DbContextOptions<UAPDbContext> dbContextOptions, UAPModule module) : OpenModularDbContext<UAPDbContext>(dbContextOptions, module)
 {
     public DbSet<User> Users { get; set; }
 

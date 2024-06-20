@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OpenModular.Module.Abstractions;
 
 namespace OpenModular.Persistence;
 
-public abstract class OpenModularDbContext<TDbContext>(DbContextOptions<TDbContext> dbContextOptions) : DbContext(dbContextOptions) where TDbContext : DbContext
+public abstract class OpenModularDbContext<TDbContext>(DbContextOptions<TDbContext> dbContextOptions, IModule module) : DbContext(dbContextOptions) where TDbContext : DbContext
 {
+    public IModule Module { get; set; } = module;
+
     /// <summary>
     /// 获取数据库类型
     /// </summary>

@@ -25,7 +25,7 @@ public class RepositoryAbstract<TEntity, TDbContext> : IRepository<TEntity> wher
         return DbContext.Set<TEntity>().Where(predicate).ToListAsync(cancellationToken);
     }
 
-    public Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+    public Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
     {
         return DbContext.Set<TEntity>().Where(predicate).FirstOrDefaultAsync(cancellationToken);
     }
@@ -44,17 +44,12 @@ public class RepositoryAbstract<TEntity, TDbContext> : IRepository<TEntity> wher
         var db = DbContext.Set<TEntity>();
         var entities = await db.Where(predicate).ToListAsync(cancellationToken);
         db.RemoveRange(entities);
-
-        if (autoSave)
-        {
-            await DbContext.SaveChangesAsync(cancellationToken);
-        }
     }
 }
 
 public class RepositoryAbstract<TEntity, TKey, TDbContext>(IUnitOfWork unitOfWork) : RepositoryAbstract<TEntity, TDbContext>(unitOfWork), IRepository<TEntity, TKey> where TEntity : class, IEntity<TKey> where TDbContext : OpenModularDbContext<TDbContext>
 {
-    public Task<TEntity?> FindAsync(TKey id, CancellationToken cancellationToken = default)
+    public Task<TEntity> FindAsync(TKey id, CancellationToken cancellationToken = default)
     {
         return DbContext.Set<TEntity>().Where(m => m.Id!.Equals(id)).FirstOrDefaultAsync(cancellationToken);
     }
@@ -72,63 +67,37 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IUnitOfWork unitOfWor
     {
         await DbContext.Set<TEntity>().AddAsync(entity, cancellationToken);
 
-        if (autoSave)
-        {
-            await DbContext.SaveChangesAsync(cancellationToken);
-        }
-
         return entity;
     }
 
     public async Task InsertManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
         await DbContext.Set<TEntity>().AddRangeAsync(entities, cancellationToken);
-
-        if (autoSave)
-        {
-            await DbContext.SaveChangesAsync(cancellationToken);
-        }
     }
 
-    public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         DbContext.Set<TEntity>().Update(entity);
 
-        if (autoSave)
-        {
-            await DbContext.SaveChangesAsync(cancellationToken);
-        }
-
-        return entity;
+        return Task.FromResult(entity);
     }
 
-    public async Task UpdateManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+    public Task UpdateManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
         DbContext.Set<TEntity>().UpdateRange(entities);
-
-        if (autoSave)
-        {
-            await DbContext.SaveChangesAsync(cancellationToken);
-        }
+        return Task.CompletedTask;
     }
 
-    public async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         DbContext.Set<TEntity>().Remove(entity);
-
-        if (autoSave)
-        {
-            await DbContext.SaveChangesAsync(cancellationToken);
-        }
+        return Task.CompletedTask;
     }
 
-    public async Task DeleteManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+    public Task DeleteManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
         DbContext.Set<TEntity>().RemoveRange(entities);
 
-        if (autoSave)
-        {
-            await DbContext.SaveChangesAsync(cancellationToken);
-        }
+        return Task.CompletedTask;
     }
 }

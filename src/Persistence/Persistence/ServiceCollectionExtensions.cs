@@ -68,7 +68,7 @@ public static class ServiceCollectionExtensions
             }
 
             var dir = Path.GetDirectoryName(connectionStringBuilder.DataSource);
-            if (!Directory.Exists(dir))
+            if (dir.NotNullAndWhiteSpace() && !Directory.Exists(dir))
             {
                 Directory.CreateDirectory(dir);
             }

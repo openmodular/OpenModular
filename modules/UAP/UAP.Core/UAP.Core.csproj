@@ -3,6 +3,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\src\Domain\DDD.Core\DDD.Core.csproj" />
 		<ProjectReference Include="..\..\..\src\Module\Module.Abstractions\Module.Abstractions.csproj" />
+		<ProjectReference Include="..\..\..\src\Persistence\Persistence.DataSeeding\Persistence.DataSeeding.csproj" />
 		<ProjectReference Include="..\..\..\src\Persistence\Persistence\Persistence.csproj" />
 	</ItemGroup>
 

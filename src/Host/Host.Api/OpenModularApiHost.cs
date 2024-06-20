@@ -5,6 +5,7 @@ using OpenModular.Host.Api.Middlewares;
 using OpenModular.Module.Api;
 using OpenModular.Module.Core;
 using OpenModular.Persistence;
+using OpenModular.Persistence.DataSeeding;
 using Serilog;
 
 namespace OpenModular.Host.Api;
@@ -52,6 +53,8 @@ public class OpenModularApiHost : IOpenModularHost
         _services.AddOpenModularCors();
 
         _services.AddPersistence(_builder.Configuration);
+
+        _services.AddDataSeedingCore();
 
         _services.AddModuleApiConfigureService(moduleConfigureContext);
 
