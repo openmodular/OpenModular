@@ -1,6 +1,5 @@
 using OpenModular.Host.Api;
 using OpenModular.Module.UAP.Api;
-using OpenModular.Module.UAP.DataSeeding;
 
 var host = new OpenModularApiHost(args);
 

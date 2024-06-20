@@ -7,18 +7,6 @@ namespace OpenModular.Persistence.DataSeeding;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// 添加数据种子核心服务
-    /// </summary>
-    /// <param name="services"></param>
-    /// <returns></returns>
-    public static IServiceCollection AddDataSeedingCore(this IServiceCollection services)
-    {
-        services.AddScoped<IDataSeedingExecutor, DefaultDataSeedingExecutor>();
-
-        return services;
-    }
-
-    /// <summary>
     /// 添加数据种子
     /// </summary>
     /// <typeparam name="TDbContext"></typeparam>
@@ -26,7 +14,9 @@ public static class ServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddDataSeeding<TDbContext>(this IServiceCollection services) where TDbContext : OpenModularDbContext<TDbContext>
     {
-        services.TryAddScoped<IDataSeedingHandler<TDbContext>, DefaultDataSeedingHandler<TDbContext>>();
+        services.TryAddScoped<IDataSeedingExecutor, DefaultDataSeedingExecutor>();
+
+        services.TryAddScoped<IDataSeedingHandler, DefaultDataSeedingHandler<TDbContext>>();
 
         return services;
     }

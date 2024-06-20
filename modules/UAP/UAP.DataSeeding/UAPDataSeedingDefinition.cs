@@ -1,10 +1,10 @@
-﻿using OpenModular.Module.DataSeeding;
-using OpenModular.Module.UAP.Core.Infrastructure.Persistence;
+﻿using OpenModular.Module.UAP.Core;
+using OpenModular.Persistence.DataSeeding.Builder;
 
 namespace OpenModular.Module.UAP.DataSeeding
 {
-    public abstract class UAPDataSeedingDefinition : IDataSeedingDefinition<UAPDbContext>
+    public abstract class UAPDataSeedingDefinition : DataSeedingDefinitionAbstract
     {
-        public abstract Task Define(UAPDbContext dbContext);
+        public override string Module => UAPConstants.ModuleCode;
     }
 }

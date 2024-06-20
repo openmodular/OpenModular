@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Persistence\Persistence.DataSeeding.Builder\Persistence.DataSeeding.Builder.csproj" />
-    <ProjectReference Include="..\UAP.Core\UAP.Core.csproj" />
+    <ProjectReference Include="..\Persistence.DataSeeding\Persistence.DataSeeding.csproj" />
   </ItemGroup>
 
 </Project>

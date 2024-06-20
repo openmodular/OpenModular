@@ -18,27 +18,28 @@
         public DataSeedingMode Mode { get; }
 
         /// <summary>
+        /// 版本
+        /// </summary>
+        public int Version { get; }
+
+        /// <summary>
         /// 数据
         /// </summary>
         public string Data { get; set; }
-
-        /// <summary>
-        /// 版本
-        /// </summary>
-        public int Version { get; set; }
 
         /// <summary>
         /// SQL模式
         /// </summary>
         public DataSeedingSqlMode SqlMode { get; set; }
 
-        public DataSeedingRecord(string module, string entityName, DataSeedingMode mode, string data, DataSeedingSqlMode sqlMode = DataSeedingSqlMode.Common)
+        public DataSeedingRecord(string module, string entityName, DataSeedingMode mode, string data, int version, DataSeedingSqlMode sqlMode = DataSeedingSqlMode.Common)
         {
             Module = module;
             EntityName = entityName;
             Mode = mode;
             Data = data;
             SqlMode = sqlMode;
+            Version = version;
         }
     }
 }

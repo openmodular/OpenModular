@@ -5,7 +5,6 @@ using OpenModular.Host.Api.Middlewares;
 using OpenModular.Module.Api;
 using OpenModular.Module.Core;
 using OpenModular.Persistence;
-using OpenModular.Persistence.DataSeeding;
 using Serilog;
 
 namespace OpenModular.Host.Api;
@@ -54,8 +53,6 @@ public class OpenModularApiHost : IOpenModularHost
 
         _services.AddPersistence(_builder.Configuration);
 
-        _services.AddDataSeedingCore();
-
         _services.AddModuleApiConfigureService(moduleConfigureContext);
 
         _services.AddModuleApiPostConfigureService(moduleConfigureContext);
@@ -64,8 +61,9 @@ public class OpenModularApiHost : IOpenModularHost
 
         var app = _builder.Build();
 
-        using var scope = app.Services.CreateScope();
-        await scope.ServiceProvider.GetRequiredService<DbMigrationHandler>().MigrateAsync();
+        app.ExecuteDbMigration();
+
+        app.ExecuteDataSeeding();
 
         app.UseOpenModularEndpoints();
 
@@ -92,5 +90,4 @@ public class OpenModularApiHost : IOpenModularHost
                 .FromLogContext();
         });
     }
-
 }
