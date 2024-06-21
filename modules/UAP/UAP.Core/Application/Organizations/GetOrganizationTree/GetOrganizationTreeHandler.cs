@@ -13,7 +13,7 @@ internal class GetOrganizationTreeHandler(
     public async Task<OrganizationTreeDto> Handle(GetOrganizationTreeQuery request, CancellationToken cancellationToken)
     {
         var org = await organizationRepository.GetAsync(request.OrganizationId, cancellationToken);
-        var departments = await departmentRepository.QueryByCodePrefixAsync(org.Code, cancellationToken);
+        var departments = await departmentRepository.GetListAsync(m => m.Code.StartsWith(org.Code), cancellationToken);
 
         var tree = new OrganizationTreeDto(org.Id.Value, org.Name);
 

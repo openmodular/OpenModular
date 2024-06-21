@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using OpenModular.Common.Utils;
 using OpenModular.Module.Core;
 
 namespace OpenModular.Module.Api;
 
 public static class ServiceCollectionExtensions
 {
-    private static List<IModuleApiConfigurator>? _apiConfigurators = new();
+    private static List<IModuleApiConfigurator> _apiConfigurators = new();
 
     /// <summary>
     /// 添加模块化API服务
@@ -78,6 +79,7 @@ public static class ServiceCollectionExtensions
 
         foreach (var moduleApi in _apiConfigurators!)
         {
+            context.Services.AddFromAssembly(moduleApi.GetType().Assembly);
             moduleApi.ConfigureService(context);
         }
         return services;

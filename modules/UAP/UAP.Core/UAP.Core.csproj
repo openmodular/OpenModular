@@ -1,6 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
+	  <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="9.0.0-preview.5.24306.11" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\..\..\src\Domain\DDD.Core\DDD.Core.csproj" />
 		<ProjectReference Include="..\..\..\src\Module\Module.Abstractions\Module.Abstractions.csproj" />
 		<ProjectReference Include="..\..\..\src\Persistence\Persistence.DataSeeding\Persistence.DataSeeding.csproj" />

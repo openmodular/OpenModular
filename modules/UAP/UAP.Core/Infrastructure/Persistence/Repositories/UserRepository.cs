@@ -4,6 +4,6 @@ using OpenModular.Persistence;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure.Persistence.Repositories;
 
-public class UserRepository(IUnitOfWork unitOfWork) : RepositoryAbstract<User, UserId, UAPDbContext>(unitOfWork), IUserRepository
+internal class UserRepository(IUnitOfWork unitOfWork) : RepositoryAbstract<User, UserId, UAPDbContext>(unitOfWork), IUserRepository
 {
 }

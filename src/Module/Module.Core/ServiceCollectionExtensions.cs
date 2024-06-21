@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using OpenModular.Common.Utils;
 using OpenModular.Module.Abstractions;
 
 namespace OpenModular.Module.Core;
@@ -70,6 +71,8 @@ public static class ServiceCollectionExtensions
     {
         foreach (var module in _configuratorCollection!)
         {
+            context.Services.AddFromAssembly(module.GetType().Assembly);
+
             module.ConfigureService(context);
         }
 

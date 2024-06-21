@@ -1,2 +1,8 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using OpenModular.Module.UAP.DataSeeding;
+using OpenModular.Persistence.DataSeeding.Builder;
+
+var builder = new DataSeedingBuilder(Path.Combine("../../../../ApiHost"));
+
+builder.Register<UAPDataSeedingDefinition>();
+
+builder.Build();

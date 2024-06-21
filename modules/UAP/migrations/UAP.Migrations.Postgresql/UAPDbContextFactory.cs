@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using OpenModular.Module.UAP.Core;
 using OpenModular.Module.UAP.Core.Infrastructure.Persistence;
 
 namespace OpenModular.Module.UAP.Migrations.Postgresql;
@@ -13,6 +14,6 @@ public class UAPDbContextFactory : IDesignTimeDbContextFactory<UAPDbContext>
         var builder = new DbContextOptionsBuilder<UAPDbContext>()
             .UseNpgsql("connstring", o => o.MigrationsAssembly(typeof(UAPDbContextFactory).Assembly.FullName));
 
-        return new UAPDbContext(builder.Options);
+        return new UAPDbContext(builder.Options, new UAPModule());
     }
 }

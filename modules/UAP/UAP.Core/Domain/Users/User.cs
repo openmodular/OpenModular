@@ -15,9 +15,9 @@ public class User : AggregateRoot<UserId>
     public string Username { get; }
 
     /// <summary>
-    /// 密码
+    /// 密码哈希值
     /// </summary>
-    public string Password { get; }
+    public string PasswordHash { get; set; }
 
     /// <summary>
     /// 邮箱
@@ -64,16 +64,14 @@ public class User : AggregateRoot<UserId>
 
     }
 
-    private User(string username, string password, string email, string phone, UserId createdBy) : base(new UserId())
+    private User(string username, string email, string phone, UserId createdBy) : base(new UserId())
     {
         Check.NotNullOrWhiteSpace(username, nameof(username));
-        Check.NotNullOrWhiteSpace(password, nameof(password));
         Check.NotNullOrWhiteSpace(phone, nameof(phone));
 
         CheckRule(new UserEmailFormatNotValidRule(email));
 
         Username = username;
-        Password = password;
         Email = email;
         Phone = phone;
 
@@ -88,14 +86,13 @@ public class User : AggregateRoot<UserId>
     /// 创建用户
     /// </summary>
     /// <param name="username"></param>
-    /// <param name="password"></param>
     /// <param name="email"></param>
     /// <param name="phone"></param>
     /// <param name="createdBy"></param>
     /// <returns></returns>
-    public static User Create(string username, string password, string email, string phone, UserId createdBy)
+    public static User Create(string username, string email, string phone, UserId createdBy)
     {
-        return new User(username, password, email, phone, createdBy);
+        return new User(username, email, phone, createdBy);
     }
 
     /// <summary>

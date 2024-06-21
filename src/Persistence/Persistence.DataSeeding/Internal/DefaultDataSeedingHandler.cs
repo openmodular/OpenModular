@@ -1,17 +1,17 @@
-﻿namespace OpenModular.Persistence.DataSeeding.Internal;
+﻿using LiteDB;
 
-internal class DefaultDataSeedingHandler<TDbContext> : IDataSeedingHandler where TDbContext : OpenModularDbContext<TDbContext>
+namespace OpenModular.Persistence.DataSeeding.Internal;
+
+internal class DefaultDataSeedingHandler<TDbContext>(TDbContext dbContext) : IDataSeedingHandler where TDbContext : OpenModularDbContext<TDbContext>
 {
-    private readonly TDbContext _dbContext;
-
-    public DefaultDataSeedingHandler(TDbContext dbContext)
+    public async Task DoAsync()
     {
-        _dbContext = dbContext;
+        var moduleCode = dbContext.Module.Code;
 
-    }
-
-    public Task DoAsync()
-    {
-        throw new NotImplementedException();
+        //using var db = new LiteDatabase(new ConnectionString
+        //{
+        //    Filename = _dbFilePath,
+        //    Password = DataMigrationConstant.DbPassword
+        //});
     }
 }

@@ -9,6 +9,11 @@ public sealed class UserId : TypedIdValueBase
 
     }
 
+    public UserId(string id) : base(id)
+    {
+
+    }
+
     public UserId(Guid id) : base(id)
     {
 

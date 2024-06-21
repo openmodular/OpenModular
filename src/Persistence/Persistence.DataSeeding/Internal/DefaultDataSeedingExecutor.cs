@@ -1,17 +1,10 @@
 ﻿namespace OpenModular.Persistence.DataSeeding.Internal;
 
-internal class DefaultDataSeedingExecutor : IDataSeedingExecutor
+internal class DefaultDataSeedingExecutor(IEnumerable<IDataSeedingHandler> handlers) : IDataSeedingExecutor
 {
-    private readonly IEnumerable<IDataSeedingHandler> _handlers;
-
-    public DefaultDataSeedingExecutor(IEnumerable<IDataSeedingHandler> handlers)
-    {
-        _handlers = handlers;
-    }
-
     public async Task ExecuteAsync()
     {
-        foreach (var handler in _handlers)
+        foreach (var handler in handlers)
         {
             await handler.DoAsync();
         }
