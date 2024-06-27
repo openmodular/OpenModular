@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OpenModular.Module.UAP.Core.Infrastructure.Persistence;
 
@@ -10,9 +11,11 @@ using OpenModular.Module.UAP.Core.Infrastructure.Persistence;
 namespace OpenModular.Module.UAP.Migrations.Sqlite.Migrations
 {
     [DbContext(typeof(UAPDbContext))]
-    partial class UAPDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240627084305_uap_v0001")]
+    partial class uap_v0001
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0-preview.1.24081.2");

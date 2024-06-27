@@ -6,7 +6,7 @@ namespace OpenModular.Module.Core;
 
 public static class ServiceCollectionExtensions
 {
-    private static List<IModuleConfigurator>? _configuratorCollection = new();
+    private static List<IModuleConfigurator> _configuratorCollection = new();
 
     /// <summary>
     /// 添加模块化服务
@@ -27,6 +27,8 @@ public static class ServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddModule(this IServiceCollection services, IModule module)
     {
+        services.AddSingleton(module.GetType(), module);
+
         var moduleCollection = services.GetModuleCollection();
         moduleCollection.Add(module);
 

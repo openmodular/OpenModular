@@ -5,10 +5,10 @@ using OpenModular.DDD.Core.Uow;
 
 namespace OpenModular.Persistence;
 
-internal class UnitOfWork(IServiceProvider serviceProvider) : IUnitOfWork
+public class UnitOfWork(IServiceProvider serviceProvider) : IUnitOfWork
 {
     private readonly List<DbContext> _dbContexts = new();
-    private IDbContextTransaction? _transaction;
+    private IDbContextTransaction _transaction;
 
     public async Task CompleteAsync(CancellationToken cancellationToken = default)
     {
@@ -34,7 +34,7 @@ internal class UnitOfWork(IServiceProvider serviceProvider) : IUnitOfWork
         }
     }
 
-    public async Task<TDbContext> GetDbContextAsync<TDbContext>(CancellationToken cancellationToken = default) where TDbContext : DbContext
+    public async Task<TDbContext> GetDbContextAsync<TDbContext>(CancellationToken cancellationToken = default) where TDbContext : OpenModularDbContext<TDbContext>
     {
         var dbContext = _dbContexts.OfType<TDbContext>().FirstOrDefault();
         if (dbContext == null)
@@ -42,13 +42,17 @@ internal class UnitOfWork(IServiceProvider serviceProvider) : IUnitOfWork
             dbContext = serviceProvider.GetRequiredService<TDbContext>();
             _dbContexts.Add(dbContext);
 
-            if (_transaction == null)
+            //Sqlite不支持事务
+            if (dbContext.GetDatabaseProvider() != DbProvider.Sqlite)
             {
-                _transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
-            }
-            else
-            {
-                await dbContext.Database.UseTransactionAsync(_transaction.GetDbTransaction(), cancellationToken);
+                if (_transaction == null)
+                {
+                    _transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
+                }
+                else
+                {
+                    await dbContext.Database.UseTransactionAsync(_transaction.GetDbTransaction(), cancellationToken);
+                }
             }
         }
 

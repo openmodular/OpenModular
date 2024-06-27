@@ -31,7 +31,7 @@ public abstract class DataSeedingDefinitionAbstract : IDataSeedingDefinition
     /// <returns></returns>
     protected void AddInsert<TEntity>(TEntity entity) where TEntity : class
     {
-        DataCollection.Add(new DataSeedingRecord(Module, typeof(TEntity).Name, DataSeedingMode.Insert, JsonSerializer.Serialize(entity), _version));
+        DataCollection.Add(new DataSeedingRecord(Module, typeof(TEntity).FullName!, DataSeedingMode.Insert, JsonSerializer.Serialize(entity), _version));
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public abstract class DataSeedingDefinitionAbstract : IDataSeedingDefinition
     /// <returns></returns>
     protected void AddUpdate<TEntity>(TEntity entity) where TEntity : class
     {
-        DataCollection.Add(new DataSeedingRecord(Module, typeof(TEntity).Name, DataSeedingMode.Update, JsonSerializer.Serialize(entity), _version));
+        DataCollection.Add(new DataSeedingRecord(Module, typeof(TEntity).FullName!, DataSeedingMode.Update, JsonSerializer.Serialize(entity), _version));
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ public abstract class DataSeedingDefinitionAbstract : IDataSeedingDefinition
     /// <returns></returns>
     protected void AddDelete<TEntity>(string id) where TEntity : class
     {
-        DataCollection.Add(new DataSeedingRecord(Module, typeof(TEntity).Name, DataSeedingMode.Delete, id, _version));
+        DataCollection.Add(new DataSeedingRecord(Module, typeof(TEntity).FullName!, DataSeedingMode.Delete, id, _version));
     }
 
     /// <summary>

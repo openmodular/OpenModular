@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Runtime.InteropServices.ComTypes;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using OpenModular.Persistence.DataSeeding.Internal;
 
@@ -14,10 +16,16 @@ public static class ServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddDataSeeding<TDbContext>(this IServiceCollection services) where TDbContext : OpenModularDbContext<TDbContext>
     {
+        services.Configure<DataSeedingOptions>(opts =>
+        {
+            opts.DbFileName = DataSeedingConstants.DbFileName;
+            opts.DbPassword = DataSeedingConstants.DbPassword;
+        });
+
         services.TryAddScoped<IDataSeedingExecutor, DefaultDataSeedingExecutor>();
 
         services.TryAddScoped<IDataSeedingHandler, DefaultDataSeedingHandler<TDbContext>>();
-
+        
         return services;
     }
 }

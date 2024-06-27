@@ -21,7 +21,7 @@ internal class CreateUserCommandHandler(IUserRepository repository, IPasswordHas
 
         var user = User.Create(request.Username, request.Email, request.Phone, null);
 
-        user.PasswordHash = passwordHasher.HashPassword(user, request.Password);
+        user.SetPasswordHash(passwordHasher.HashPassword(user, request.Password));
 
         await repository.InsertAsync(user, cancellationToken: cancellationToken);
 

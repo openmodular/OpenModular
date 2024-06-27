@@ -11,9 +11,9 @@ internal class DataSeedingDefinition_20240619 : UAPDataSeedingDefinition
     {
         var user = User.Create("openmodular", "service@openmodular.io", "15155555555", CreatedBy);
         user.Id = CreatedBy;
-        
-        user.PasswordHash =  new PasswordHasher().HashPassword(user, "openmodular");
-        
+
+        user.SetPasswordHash(new PasswordHasher().HashPassword(user, "openmodular"));
+
         user.Activate();
 
         AddInsert(user);

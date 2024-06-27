@@ -8,7 +8,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.ToTable($"{UAPConstants.ModuleCode}_User");
+        builder.ToTable($"{UAPConstants.ModuleCode}_{nameof(User)}");
 
         builder.Property(x => x.Username).IsRequired();
         builder.Property(x => x.Email).IsRequired();

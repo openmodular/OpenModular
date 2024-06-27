@@ -1,6 +1,7 @@
 ﻿using OpenModular.DDD.Core.Domain.Entities;
 using OpenModular.Module.UAP.Core.Domain.Users.Events;
 using OpenModular.Module.UAP.Core.Domain.Users.Rules;
+using System.Text.Json.Serialization;
 
 namespace OpenModular.Module.UAP.Core.Domain.Users;
 
@@ -12,51 +13,59 @@ public class User : AggregateRoot<UserId>
     /// <summary>
     /// 用户名
     /// </summary>
-    public string Username { get; }
+    [JsonInclude]
+    public string Username { get; private set; }
 
     /// <summary>
     /// 密码哈希值
     /// </summary>
-    public string PasswordHash { get; set; }
+    [JsonInclude]
+    public string PasswordHash { get; private set; }
 
     /// <summary>
     /// 邮箱
     /// </summary>
+    [JsonInclude]
     public string Email { get; private set; }
 
     /// <summary>
     /// 手机号
     /// </summary>
-    public string Phone { get; }
+    [JsonInclude]
+    public string Phone { get; private set; }
 
     /// <summary>
     /// 用户状态
     /// </summary>
-    public UserStatus Status { get; set; }
+    public UserStatus Status { get; private set; }
 
     /// <summary>
     /// 已锁定
     /// </summary>
-    public bool Locked { get; set; }
+    public bool Locked { get; private set; }
 
     /// <summary>
     /// 激活时间
     /// </summary>
+    [JsonInclude]
     public DateTimeOffset? ActivatedTime { get; private set; }
 
     /// <summary>
     /// 创建人标识
     /// </summary>
-    public UserId CreatedBy { get; }
+    [JsonInclude]
+    public UserId CreatedBy { get; private set; }
 
     /// <summary>
     /// 创建时间
     /// </summary>
-    public DateTimeOffset CreatedAt { get; }
+    [JsonInclude]
+    public DateTimeOffset CreatedAt { get; private set; }
 
     /// <summary>
     /// 更新时间
     /// </summary>
+    [JsonInclude]
     public DateTimeOffset? UpdatedAt { get; private set; }
 
     public User()
@@ -116,5 +125,10 @@ public class User : AggregateRoot<UserId>
     {
         Email = email;
         UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void SetPasswordHash(string passwordHash)
+    {
+        PasswordHash = passwordHash;
     }
 }

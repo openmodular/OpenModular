@@ -6,11 +6,13 @@ public class DepartmentId : TypedIdValueBase
 {
     public DepartmentId()
     {
-        
     }
 
-    public DepartmentId(Guid id):base(id)
+    public DepartmentId(string id) : base(id)
     {
-        
+    }
+
+    public DepartmentId(Guid id) : base(id)
+    {
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OpenModular.DDD.Core.Domain.Entities;
 using OpenModular.Module.Abstractions;
 
 namespace OpenModular.Persistence;
@@ -27,5 +28,19 @@ public abstract class OpenModularDbContext<TDbContext>(DbContextOptions<TDbConte
             default:
                 throw new NotSupportedException($"The database({Database.ProviderName}) not supported");
         }
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        var assembly = this.GetType().Assembly;
+
+        var typeIds = assembly.GetTypes()
+            .Where(type => typeof(TypedIdValueBase).IsAssignableFrom(type));
+        foreach (var typeId in typeIds)
+        {
+            modelBuilder.Ignore(typeId);
+        }
+
+        modelBuilder.ApplyConfigurationsFromAssembly(assembly);
     }
 }

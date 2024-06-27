@@ -21,7 +21,7 @@ public class Organization : AggregateRoot<OrganizationId>
     /// <summary>
     /// 说明
     /// </summary>
-    public string? Description { get; }
+    public string Description { get; }
 
     /// <summary>
     /// 创建人标识
@@ -37,6 +37,11 @@ public class Organization : AggregateRoot<OrganizationId>
     /// 更新时间
     /// </summary>
     public DateTimeOffset? UpdatedAt { get; private set; }
+
+    public Organization()
+    {
+        
+    }
 
     private Organization(string name, string code, string? description, UserId createdBy)
     {

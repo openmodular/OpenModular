@@ -26,7 +26,7 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity
     /// </summary>
     /// <param name="predicate">过滤条件</param>
     /// <param name="cancellationToken">取消令牌</param>
-    Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
+    Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 根据指定 <paramref name="predicate"/> 获取单个实体信息
@@ -64,7 +64,7 @@ public interface IRepository<TEntity, in TKey> : IRepository<TEntity> where TEnt
     /// <param name="id">实体标识</param>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns></returns>
-    Task<TEntity?> FindAsync(TKey id, CancellationToken cancellationToken = default);
+    Task<TEntity> FindAsync(TKey id, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 根据  <paramref name="id"/> 获取实体信息

@@ -32,11 +32,20 @@ public class DataSeedingBuilder
         Build(DataSeedingConstants.DbFileName, DataSeedingConstants.DbPassword);
     }
 
+    /// <summary>
+    /// 生成预置数据库文件
+    /// </summary>
+    /// <param name="dbFileName">数据库文件名称</param>
     public void Build(string dbFileName)
     {
         Build(dbFileName, DataSeedingConstants.DbPassword);
     }
 
+    /// <summary>
+    /// 生成预置数据库文件
+    /// </summary>
+    /// <param name="dbFileName">数据库文件名称</param>
+    /// <param name="dbPassword">数据库密码</param>
     public void Build(string dbFileName, string dbPassword)
     {
         using var db = new LiteDatabase(new ConnectionString
