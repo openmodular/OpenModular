@@ -18,7 +18,11 @@ internal class RenameOrganizationEndpoint : EndpointAbstract
     public async Task<ApiResponse> Execute([FromBody] RenameOrganizationRequest request,
         [FromServices] IMediator mediator)
     {
-        var command = new RenameOrganizationCommand(request.OrganizationId, request.Name);
+        var command = new RenameOrganizationCommand
+        {
+            OrganizationId = request.OrganizationId,
+            Name = request.Name
+        };
         await mediator.Send(command);
         return ApiResponse.Success();
     }

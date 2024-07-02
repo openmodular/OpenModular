@@ -11,24 +11,24 @@ namespace OpenModular.Module.UAP.Core.Domain.Departments;
 public class Department : AggregateRoot<DepartmentId>
 {
     /// <summary>
-    /// 所属部门编号
+    /// 所属组织编号
     /// </summary>
-    public OrganizationId OrganizationId { get; }
+    public OrganizationId OrganizationId { get; private set; }
 
     /// <summary>
     /// 部门名称
     /// </summary>
-    public string Name { get; }
+    public string Name { get; private set; }
 
     /// <summary>
     /// 父级部门
     /// </summary>
-    public DepartmentId ParentId { get; }
+    public DepartmentId ParentId { get; private set; }
 
     /// <summary>
     /// 部门编码
     /// </summary>
-    public string Code { get; }
+    public string Code { get; private set; }
 
     /// <summary>
     /// 排序
@@ -92,6 +92,19 @@ public class Department : AggregateRoot<DepartmentId>
     public void SetOrder(int order)
     {
         Order = order < 0 ? 0 : order;
+
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    /// <summary>
+    /// 重命名
+    /// </summary>
+    /// <param name="name"></param>
+    public void Rename(string name)
+    {
+        Check.NotNullOrWhiteSpace(name, nameof(name));
+
+        Name = name;
 
         UpdatedAt = DateTime.UtcNow;
     }

@@ -6,7 +6,7 @@ namespace OpenModular.Module.UAP.Core.Application.Users.CreateUser;
 /// <summary>
 /// 创建用户命令
 /// </summary>
-public record CreateUserCommand : CommandBase<UserId>
+public class CreateUserCommand : CommandBase<UserId>
 {
     /// <summary>
     /// 用户名

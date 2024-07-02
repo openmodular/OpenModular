@@ -15,5 +15,7 @@ public class UAPDbContext(DbContextOptions<UAPDbContext> dbContextOptions, UAPMo
 
     public DbSet<User> Users { get; set; }
 
+    public DbSet<UserDepartment> UserDepartments { get; set; }
+
     public DbSet<DataSeedingHistory> DataSeedingHistories { get; set; }
 }

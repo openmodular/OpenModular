@@ -2,7 +2,13 @@
 
 namespace OpenModular.Module.UAP.Api.Endpoints.Organizations.GetOrganizationTree;
 
-public record GetOrganizationTreeRequest
+/// <summary>
+/// 获取组织树请求
+/// </summary>
+public class GetOrganizationTreeRequest
 {
-    public OrganizationId OrganizationId { get; set; }
+    /// <summary>
+    /// 组织编号
+    /// </summary>
+    public required OrganizationId OrganizationId { get; set; }
 }

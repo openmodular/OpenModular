@@ -1,15 +1,11 @@
 ﻿namespace OpenModular.DDD.Core.Application.Command;
 
-public abstract record CommandBase(Guid CommandId) : ICommand
+public abstract class CommandBase : ICommand
 {
-    protected CommandBase() : this(Guid.NewGuid())
-    {
-    }
+    public Guid CommandId { get; } = Guid.NewGuid();
 }
 
-public abstract record CommandBase<TResult>(Guid CommandId) : ICommand<TResult>
+public abstract class CommandBase<TResult> : ICommand<TResult>
 {
-    protected CommandBase() : this(Guid.NewGuid())
-    {
-    }
+    public Guid CommandId { get; } = Guid.NewGuid();
 }

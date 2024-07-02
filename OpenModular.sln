@@ -59,11 +59,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Host.Console", "src\Host\Ho
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UAP.DataSeeding", "modules\UAP\UAP.DataSeeding\UAP.DataSeeding.csproj", "{5199A470-DC97-497C-A102-96FFAECDCBF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence.DataSeeding", "src\Persistence\Persistence.DataSeeding\Persistence.DataSeeding.csproj", "{66D0EA2E-B0F1-408E-BFFD-97CED28D2A22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence.DataSeeding", "src\Persistence\Persistence.DataSeeding\Persistence.DataSeeding.csproj", "{66D0EA2E-B0F1-408E-BFFD-97CED28D2A22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataSeedingBuilder", "modules\DataSeedingBuilder\DataSeedingBuilder.csproj", "{449DF1BD-86CB-42B9-93EE-D6C734FC6F8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataSeedingBuilder", "modules\DataSeedingBuilder\DataSeedingBuilder.csproj", "{449DF1BD-86CB-42B9-93EE-D6C734FC6F8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence.DataSeeding.Builder", "src\Persistence\Persistence.DataSeeding.Builder\Persistence.DataSeeding.Builder.csproj", "{F2EA4955-D3D3-4DCD-805D-753655987FD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence.DataSeeding.Builder", "src\Persistence\Persistence.DataSeeding.Builder\Persistence.DataSeeding.Builder.csproj", "{F2EA4955-D3D3-4DCD-805D-753655987FD9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05_Identity", "05_Identity", "{8EEF4366-63CA-4F97-AD01-E8C241B08266}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -178,6 +180,7 @@ Global
 		{66D0EA2E-B0F1-408E-BFFD-97CED28D2A22} = {6EC48D53-ED86-4666-B9E9-78C1A1F9954F}
 		{449DF1BD-86CB-42B9-93EE-D6C734FC6F8B} = {EBF0B1A7-52B1-4509-8434-D5FE725D0E3B}
 		{F2EA4955-D3D3-4DCD-805D-753655987FD9} = {6EC48D53-ED86-4666-B9E9-78C1A1F9954F}
+		{8EEF4366-63CA-4F97-AD01-E8C241B08266} = {CC4199D8-1A33-4800-87A2-CD40DDBD59E6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0676A22C-8B52-4353-B06A-ABAB3B243ED2}

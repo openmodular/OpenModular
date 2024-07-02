@@ -27,5 +27,15 @@ public enum UAPErrorCode
     /// <summary>
     /// 邮箱格式不正确
     /// </summary>
-    User_EmailFormatNotValid
+    User_EmailFormatNotValid,
+
+    /// <summary>
+    /// 部门已存在
+    /// </summary>
+    Department_NameExists,
+
+    /// <summary>
+    /// 父部门不存在
+    /// </summary>
+    Department_ParentNotFound,
 }

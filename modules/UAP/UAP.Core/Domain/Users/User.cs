@@ -73,7 +73,7 @@ public class User : AggregateRoot<UserId>
 
     }
 
-    private User(string username, string email, string phone, UserId createdBy) : base(new UserId())
+    private User(UserId userid, string username, string email, string phone, UserId createdBy) : base(userid)
     {
         Check.NotNullOrWhiteSpace(username, nameof(username));
         Check.NotNullOrWhiteSpace(phone, nameof(phone));
@@ -101,8 +101,23 @@ public class User : AggregateRoot<UserId>
     /// <returns></returns>
     public static User Create(string username, string email, string phone, UserId createdBy)
     {
-        return new User(username, email, phone, createdBy);
+        return new User(new UserId(), username, email, phone, createdBy);
     }
+
+    /// <summary>
+    /// 创建用户
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="username"></param>
+    /// <param name="email"></param>
+    /// <param name="phone"></param>
+    /// <param name="createdBy"></param>
+    /// <returns></returns>
+    public static User Create(UserId userId, string username, string email, string phone, UserId createdBy)
+    {
+        return new User(userId, username, email, phone, createdBy);
+    }
+
 
     /// <summary>
     /// 激活
@@ -121,7 +136,7 @@ public class User : AggregateRoot<UserId>
     /// 更改邮箱
     /// </summary>
     /// <param name="email"></param>
-    public void ChangeEmail(string email)
+    public void SetEmail(string email)
     {
         Email = email;
         UpdatedAt = DateTime.UtcNow;
@@ -130,5 +145,6 @@ public class User : AggregateRoot<UserId>
     public void SetPasswordHash(string passwordHash)
     {
         PasswordHash = passwordHash;
+        UpdatedAt = DateTime.UtcNow;
     }
 }

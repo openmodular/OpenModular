@@ -56,5 +56,5 @@ public abstract class Entity<TKey> : Entity, IEntity<TKey>
         Id = id;
     }
 
-    public TKey Id { get; set; }
+    public TKey Id { get; }
 }

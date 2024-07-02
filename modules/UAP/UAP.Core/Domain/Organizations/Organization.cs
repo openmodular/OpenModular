@@ -40,10 +40,10 @@ public class Organization : AggregateRoot<OrganizationId>
 
     public Organization()
     {
-        
+
     }
 
-    private Organization(string name, string code, string? description, UserId createdBy)
+    private Organization(string name, string code, string description, UserId createdBy) : base(new OrganizationId())
     {
         Check.NotNullOrWhiteSpace(name, nameof(name));
         Check.NotNullOrWhiteSpace(code, nameof(code));
@@ -54,6 +54,11 @@ public class Organization : AggregateRoot<OrganizationId>
 
         CreatedBy = createdBy;
         CreatedAt = DateTime.UtcNow;
+    }
+
+    public static Organization Create(string name, string code, string description, UserId createdBy)
+    {
+        return new Organization(name, code, description, createdBy);
     }
 
     public void Rename(string name)
