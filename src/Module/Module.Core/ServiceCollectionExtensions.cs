@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Mapster;
+using Microsoft.Extensions.DependencyInjection;
 using OpenModular.Common.Utils;
 using OpenModular.Module.Abstractions;
 
@@ -57,6 +58,8 @@ public static class ServiceCollectionExtensions
     {
         foreach (var module in _configuratorCollection!)
         {
+            TypeAdapterConfig.GlobalSettings.Scan(module.GetType().Assembly);
+
             module.PreConfigureService(context);
         }
 

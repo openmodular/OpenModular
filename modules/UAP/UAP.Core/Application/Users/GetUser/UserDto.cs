@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenModular.DDD.Core.Application.Dto;
 
-namespace OpenModular.Module.UAP.Core.Application.Users.GetUser
-{
-    public class UserDto
-    {
-    }
-}
+namespace OpenModular.Module.UAP.Core.Application.Users.GetUser;
+
+public partial class UserDto : IDto;

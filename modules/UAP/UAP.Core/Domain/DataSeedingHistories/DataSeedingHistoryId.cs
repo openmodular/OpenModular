@@ -2,7 +2,7 @@
 
 namespace OpenModular.Module.UAP.Core.Domain.DataSeedingHistories;
 
-public class DataSeedingHistoryId : TypedIdValueBase
+public sealed class DataSeedingHistoryId : TypedIdValueBase
 {
     public DataSeedingHistoryId()
     {

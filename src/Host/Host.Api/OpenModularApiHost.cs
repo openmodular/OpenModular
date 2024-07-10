@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using OpenModular.Common.Utils;
 using OpenModular.Host.Abstractions;
 using OpenModular.Host.Api.Middlewares;
 using OpenModular.Module.Api;
@@ -43,6 +44,10 @@ public class OpenModularApiHost : IOpenModularHost
     {
         var moduleConfigureContext = new ModuleConfigureContext(_services, _builder.Environment, _builder.Configuration);
 
+        _services.AddCommonUtils();
+
+        _services.AddOutputCache();
+
         _services.AddModuleApiPreConfigureService(moduleConfigureContext);
 
         _services.AddOpenModularOpenApi();
@@ -65,9 +70,11 @@ public class OpenModularApiHost : IOpenModularHost
 
         app.ExecuteDataSeeding();
 
+        app.UseMiddleware<ExceptionHandleMiddleware>();
+
         app.UseOpenModularEndpoints();
 
-        app.UseMiddleware<ExceptionHandleMiddleware>();
+        app.UseOutputCache();
 
         app.UseOpenApi();
 

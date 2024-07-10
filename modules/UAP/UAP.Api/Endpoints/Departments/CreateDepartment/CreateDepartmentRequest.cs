@@ -1,31 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations;
-using OpenModular.Module.UAP.Core.Domain.Departments;
-using OpenModular.Module.UAP.Core.Domain.Organizations;
-
-namespace OpenModular.Module.UAP.Api.Endpoints.Departments.CreateDepartment;
+﻿namespace OpenModular.Module.UAP.Api.Endpoints.Departments.CreateDepartment;
 
 /// <summary>
-/// 创建部门请求
+/// Create Department Request
 /// </summary>
 public class CreateDepartmentRequest
 {
     /// <summary>
-    /// 组织编号
+    /// Organization Id
     /// </summary>
-    public required OrganizationId OrganizationId { get; init; }
+    public required Guid OrganizationId { get; init; }
 
     /// <summary>
-    /// 部门名称
+    /// Department Name
     /// </summary>
     public required string Name { get; init; }
 
     /// <summary>
-    /// 父级部门
+    /// Parent Department Id
     /// </summary>
-    public DepartmentId ParentId { get; init; }
+    public Guid ParentId { get; init; }
 
     /// <summary>
-    /// 排序
+    /// Department Order
     /// </summary>
     public int Order { get; init; }
 }

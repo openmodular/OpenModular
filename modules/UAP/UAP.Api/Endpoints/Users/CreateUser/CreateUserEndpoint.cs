@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Routing;
 using OpenModular.Module.Api;
 using OpenModular.Module.UAP.Api;
 using OpenModular.Module.UAP.Core.Application.Users.CreateUser;
+using OpenModular.Module.UAP.Core.Domain.Users;
 
 namespace OpenModular.Module.UAP.API.Endpoints.Users.CreateUser;
 
@@ -22,10 +23,10 @@ internal class CreateUserEndpoint : EndpointAbstract
         group.MapPost("users", Execute).WithTags(EndpointTags.User);
     }
 
-    public async Task<ApiResponse<Guid>> Execute([FromBody] CreateUserRequest request, [FromServices] IMediator mediator)
+    public async Task<ApiResponse<UserId>> Execute([FromBody] CreateUserRequest request, [FromServices] IMediator mediator)
     {
         var command = request.Adapt<CreateUserCommand>();
         var userId = await mediator.Send(command);
-        return ApiResponse.Success(userId.Value);
+        return ApiResponse.Success(userId);
     }
 }

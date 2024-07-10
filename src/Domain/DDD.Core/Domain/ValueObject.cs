@@ -8,9 +8,9 @@ namespace OpenModular.DDD.Core.Domain;
 /// </summary>
 public abstract class ValueObject : IEquatable<ValueObject>
 {
-    private List<PropertyInfo>? _properties;
+    private List<PropertyInfo> _properties;
 
-    private List<FieldInfo>? _fields;
+    private List<FieldInfo> _fields;
 
     public static bool operator ==(ValueObject obj1, ValueObject obj2)
     {
@@ -32,12 +32,12 @@ public abstract class ValueObject : IEquatable<ValueObject>
         return !(obj1 == obj2);
     }
 
-    public bool Equals(ValueObject? obj)
+    public bool Equals(ValueObject obj)
     {
         return Equals(obj as object);
     }
 
-    public override bool Equals(object? obj)
+    public override bool Equals(object obj)
     {
         if (obj == null || GetType() != obj.GetType())
         {
@@ -104,7 +104,7 @@ public abstract class ValueObject : IEquatable<ValueObject>
         return this._fields;
     }
 
-    private int HashValue(int seed, object? value)
+    private int HashValue(int seed, object value)
     {
         var currentHash = value?.GetHashCode() ?? 0;
 

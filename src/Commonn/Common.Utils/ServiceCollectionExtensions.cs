@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using Mapster;
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using OpenModular.Common.Utils.DependencyInjection;
 
@@ -13,6 +14,8 @@ public static class ServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddCommonUtils(this IServiceCollection services)
     {
+        services.AddMapster();
+
         services.AddFromAssembly(Assembly.GetExecutingAssembly());
 
         return services;

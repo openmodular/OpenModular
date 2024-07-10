@@ -12,7 +12,7 @@ internal class RenameOrganizationEndpoint : EndpointAbstract
 {
     public override void RouteMap(RouteGroupBuilder group, IEndpointRouteBuilder app)
     {
-        group.MapPost("organizations", Execute).WithTags(EndpointTags.User);
+        group.MapPost("organizations/rename", Execute).WithTags(EndpointTags.User);
     }
 
     public async Task<ApiResponse> Execute([FromBody] RenameOrganizationRequest request,

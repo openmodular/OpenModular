@@ -65,7 +65,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataSeedingBuilder", "modul
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence.DataSeeding.Builder", "src\Persistence\Persistence.DataSeeding.Builder\Persistence.DataSeeding.Builder.csproj", "{F2EA4955-D3D3-4DCD-805D-753655987FD9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05_Identity", "05_Identity", "{8EEF4366-63CA-4F97-AD01-E8C241B08266}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05_SourceGenerator", "05_SourceGenerator", "{8EEF4366-63CA-4F97-AD01-E8C241B08266}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceGenerator", "src\SourceGenerator\SourceGenerator\SourceGenerator.csproj", "{5C760E8D-8575-45B7-BBF7-9707764F24B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -149,6 +151,10 @@ Global
 		{F2EA4955-D3D3-4DCD-805D-753655987FD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2EA4955-D3D3-4DCD-805D-753655987FD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2EA4955-D3D3-4DCD-805D-753655987FD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C760E8D-8575-45B7-BBF7-9707764F24B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C760E8D-8575-45B7-BBF7-9707764F24B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C760E8D-8575-45B7-BBF7-9707764F24B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C760E8D-8575-45B7-BBF7-9707764F24B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -181,6 +187,7 @@ Global
 		{449DF1BD-86CB-42B9-93EE-D6C734FC6F8B} = {EBF0B1A7-52B1-4509-8434-D5FE725D0E3B}
 		{F2EA4955-D3D3-4DCD-805D-753655987FD9} = {6EC48D53-ED86-4666-B9E9-78C1A1F9954F}
 		{8EEF4366-63CA-4F97-AD01-E8C241B08266} = {CC4199D8-1A33-4800-87A2-CD40DDBD59E6}
+		{5C760E8D-8575-45B7-BBF7-9707764F24B1} = {8EEF4366-63CA-4F97-AD01-E8C241B08266}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0676A22C-8B52-4353-B06A-ABAB3B243ED2}

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SourceGenerator": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "..\\..\\..\\modules\\UAP\\UAP.Core\\UAP.Core.csproj"
+    }
+  }
+}

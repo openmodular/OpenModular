@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Module\Module.Api\Module.Api.csproj" />
-    <ProjectReference Include="..\UAP.Core\UAP.Core.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\src\Module\Module.Api\Module.Api.csproj" />
+		<ProjectReference Include="..\UAP.Core\UAP.Core.csproj" />
+	</ItemGroup>
 </Project>

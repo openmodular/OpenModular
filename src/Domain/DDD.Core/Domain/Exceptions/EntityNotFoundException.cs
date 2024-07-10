@@ -12,12 +12,12 @@ public class EntityNotFoundException : ExceptionBase
     /// <summary>
     /// 实体类型
     /// </summary>
-    public Type? EntityType { get; set; }
+    public Type EntityType { get; set; }
 
     /// <summary>
     /// 实体的唯一序号
     /// </summary>
-    public object? Id { get; set; }
+    public object Id { get; set; }
 
     /// <summary>
     /// 创建一个新的 <see cref="EntityNotFoundException"/> 对象
@@ -41,7 +41,7 @@ public class EntityNotFoundException : ExceptionBase
     /// </summary>
     /// <param name="entityType">实体类型</param>
     /// <param name="id">实体标识</param>
-    public EntityNotFoundException(Type entityType, object? id) : this(entityType, id, null)
+    public EntityNotFoundException(Type entityType, object id) : this(entityType, id, null)
     {
 
     }
@@ -52,7 +52,7 @@ public class EntityNotFoundException : ExceptionBase
     /// <param name="entityType">实体类型</param>
     /// <param name="id">实体标识</param>
     /// <param name="innerException">内部异常</param>
-    public EntityNotFoundException(Type entityType, object? id, Exception? innerException)
+    public EntityNotFoundException(Type entityType, object id, Exception innerException)
         : base(
             id == null
                 ? $"There is no such an entity given id. Entity type: {entityType.FullName}"
@@ -77,7 +77,7 @@ public class EntityNotFoundException : ExceptionBase
     /// </summary>
     /// <param name="message">Exception message</param>
     /// <param name="innerException">Inner exception</param>
-    public EntityNotFoundException(string message, Exception? innerException) : base(message, innerException)
+    public EntityNotFoundException(string message, Exception innerException) : base(message, innerException)
     {
 
     }

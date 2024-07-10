@@ -38,7 +38,7 @@ namespace OpenModular.Host.Api
         {
             var moduleApiCollection = app.Services.GetRequiredService<IModuleApiCollection>();
 
-            app.MapOpenApi();
+            app.MapOpenApi().CacheOutput();
 
             if (app.Environment.IsDevelopment())
             {
@@ -48,7 +48,6 @@ namespace OpenModular.Host.Api
                     {
                         options.SwaggerEndpoint($"/openapi/{moduleApi.Module.Code.ToLower()}.json", "v1");
                     });
-
                 }
             }
 

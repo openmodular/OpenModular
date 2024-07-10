@@ -2,7 +2,7 @@
 
 namespace OpenModular.Module.UAP.Core.Domain.Organizations;
 
-public class OrganizationId : TypedIdValueBase
+public sealed class OrganizationId : TypedIdValueBase
 {
     public OrganizationId()
     {
