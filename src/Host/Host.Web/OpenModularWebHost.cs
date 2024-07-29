@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using OpenModular.Common.Utils;
 using OpenModular.Host.Abstractions;
 using OpenModular.Host.Web.Middlewares;
+using OpenModular.Host.Web.OpenApi;
 using OpenModular.Host.Web.Options;
 using OpenModular.Module.Core;
 using OpenModular.Module.Web;
@@ -18,14 +18,19 @@ public class OpenModularWebHost : IOpenModularHost
 {
     private readonly WebApplicationBuilder _builder;
     private readonly IServiceCollection _services;
+    private readonly WebHostOptions _hostOptions;
 
     public OpenModularWebHost(string[] args)
     {
         _builder = WebApplication.CreateBuilder(args);
 
+        _hostOptions = new WebHostOptions();
+
+        LoadOptions();
+
         UseSerilog();
 
-        _builder.WebHost.UseUrls("");
+        _builder.WebHost.UseUrls(_hostOptions.Urls);
 
         _services = _builder.Services;
 
@@ -46,13 +51,11 @@ public class OpenModularWebHost : IOpenModularHost
     /// <summary>
     /// 启动~
     /// </summary>
-    public async Task RunAsync()
+    public Task RunAsync()
     {
         ConfigureService();
 
-        var app = Configure();
-
-        await app.RunAsync();
+        return ConfigureAsync();
     }
 
     private void ConfigureService()
@@ -63,15 +66,15 @@ public class OpenModularWebHost : IOpenModularHost
 
         _services.AddOutputCache();
 
-        _services.AddControllersWithViews();
-
         _services.AddModuleWebPreConfigureService(moduleConfigureContext);
+
+        _services.AddOpenModularMvc();
 
         _services.AddOpenModularOpenApi();
 
         _services.AddOpenModularMediatR();
 
-        _services.AddOpenModularCors();
+        _services.AddOpenModularCors(_hostOptions);
 
         _services.AddPersistence(_builder.Configuration);
 
@@ -82,7 +85,7 @@ public class OpenModularWebHost : IOpenModularHost
         _services.AddOpenModularMiddlewares();
     }
 
-    private WebApplication Configure()
+    private async Task ConfigureAsync()
     {
         var app = _builder.Build();
 
@@ -94,11 +97,11 @@ public class OpenModularWebHost : IOpenModularHost
 
         app.UseOutputCache();
 
-        app.UseOpenApi();
+        app.UseOpenModularOpenApi();
 
         app.UseMiddleware<UnitOfWorkMiddleware>();
 
-        return app;
+        await app.RunAsync();
     }
 
     /// <summary>
@@ -120,7 +123,7 @@ public class OpenModularWebHost : IOpenModularHost
     /// 加载宿主配置项
     /// </summary>
     /// <returns></returns>
-    private WebHostOptions LoadOptions()
+    private void LoadOptions()
     {
         var configBuilder = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
@@ -133,13 +136,9 @@ public class OpenModularWebHost : IOpenModularHost
         }
 
         var config = configBuilder.Build();
+        config.GetSection(WebHostOptions.Position).Bind(_hostOptions);
 
-        var hostOptions = new WebHostOptions();
-        config.GetSection("Host").Bind(hostOptions);
-
-        if (hostOptions.Urls.IsNull())
-            hostOptions.Urls = "http://*:6220";
-
-        return hostOptions;
+        if (_hostOptions.Urls.IsNull())
+            _hostOptions.Urls = "http://*:6220";
     }
 }

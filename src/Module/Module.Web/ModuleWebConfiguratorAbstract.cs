@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenModular.Module.Abstractions;
 
@@ -15,6 +16,10 @@ public abstract class ModuleWebConfiguratorAbstract : IModuleWebConfigurator
     }
 
     public virtual void PostConfigureService(IModuleConfiguratorContext context)
+    {
+    }
+
+    public void ConfigureMvc(IMvcBuilder mvcBuilder)
     {
     }
 

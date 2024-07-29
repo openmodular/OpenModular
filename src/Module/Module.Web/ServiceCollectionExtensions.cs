@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using OpenModular.Common.Utils;
 using OpenModular.Module.Core;
+using System.Reflection;
 
 namespace OpenModular.Module.Web;
 
@@ -41,6 +42,26 @@ public static class ServiceCollectionExtensions
 
         var collection = services.GetModuleWebCollection();
         collection.Add(new ModuleWebDescriptor(moduleWeb));
+
+        return services;
+    }
+
+    /// <summary>
+    /// 添加MVC功能
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddOpenModularMvc(this IServiceCollection services)
+    {
+        var builder = services.AddControllersWithViews();
+
+        var descriptors = services.GetModuleWebCollection();
+
+        foreach (var descriptor in descriptors)
+        {
+            var des = descriptor as ModuleWebDescriptor;
+            des?.Configurator?.ConfigureMvc(builder);
+        }
 
         return services;
     }
