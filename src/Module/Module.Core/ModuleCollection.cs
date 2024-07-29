@@ -2,4 +2,4 @@
 
 namespace OpenModular.Module.Core;
 
-internal class ModuleCollection : List<IModule>, IModuleCollection;
+internal class ModuleCollection : List<IModuleDescriptor>, IModuleCollection;

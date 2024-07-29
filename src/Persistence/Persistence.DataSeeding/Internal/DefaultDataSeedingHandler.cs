@@ -25,7 +25,7 @@ internal class DefaultDataSeedingHandler<TDbContext> : IDataSeedingHandler where
         _filters = filters;
         _serviceProvider = serviceProvider;
 
-        _moduleCode = dbContext.Module.Code;
+        _moduleCode = dbContext.ModuleCode;
         
         dbContext.Dispose();
     }

@@ -29,7 +29,7 @@ public static class Check
     /// <exception cref="ArgumentException"></exception>
     public static string NotNullOrWhiteSpace(string value, string parameterName, int maxLength = int.MaxValue, int minLength = 0)
     {
-        if (value.IsNullOrWhiteSpace())
+        if (value.IsNull())
         {
             throw new ArgumentException($"{parameterName} can not be null, empty or white space!", parameterName);
         }

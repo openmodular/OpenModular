@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using OpenModular.Common.Utils;
 using OpenModular.Module.Abstractions;
 
@@ -7,33 +8,31 @@ namespace OpenModular.Module.Core;
 
 public static class ServiceCollectionExtensions
 {
-    private static List<IModuleConfigurator> _configuratorCollection = new();
-
     /// <summary>
     /// 添加模块化服务
     /// </summary>
     /// <param name="services"></param>
     public static IServiceCollection AddModuleCoreService(this IServiceCollection services)
     {
-        services.AddSingleton<IModuleCollection>(new ModuleCollection());
+        var modules = new ModuleCollection();
+
+        services.TryAddSingleton<IModuleCollection>(modules);
 
         return services;
     }
 
     /// <summary>
-    /// 添加模块
+    /// 注册模块核心功能
     /// </summary>
     /// <param name="services"></param>
     /// <param name="module"></param>
     /// <returns></returns>
-    public static IServiceCollection AddModule(this IServiceCollection services, IModule module)
+    public static IServiceCollection RegisterModuleCore(this IServiceCollection services, IModule module)
     {
-        services.AddSingleton(module.GetType(), module);
+        var descriptor = new ModuleDescriptor(module);
 
-        var moduleCollection = services.GetModuleCollection();
-        moduleCollection.Add(module);
-
-        LoadModuleConfigurator(module);
+        var collection = services.GetModuleCollection();
+        collection.Add(descriptor);
 
         return services;
     }
@@ -56,11 +55,15 @@ public static class ServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddModulePreService(this IServiceCollection services, ModuleConfigureContext context)
     {
-        foreach (var module in _configuratorCollection!)
+        var collection = services.GetModuleCollection();
+        foreach (var descriptor in collection!)
         {
-            TypeAdapterConfig.GlobalSettings.Scan(module.GetType().Assembly);
+            TypeAdapterConfig.GlobalSettings.Scan(descriptor.Module.GetType().Assembly);
 
-            module.PreConfigureService(context);
+            context.Services.AddFromAssembly(descriptor.Module.GetType().Assembly);
+
+            var des = descriptor as ModuleDescriptor;
+            des?.Configurator?.PreConfigureService(context);
         }
 
         return services;
@@ -74,11 +77,11 @@ public static class ServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddModuleService(this IServiceCollection services, ModuleConfigureContext context)
     {
-        foreach (var module in _configuratorCollection!)
+        var collection = services.GetModuleCollection();
+        foreach (var descriptor in collection!)
         {
-            context.Services.AddFromAssembly(module.GetType().Assembly);
-
-            module.ConfigureService(context);
+            var des = descriptor as ModuleDescriptor;
+            des?.Configurator?.ConfigureService(context);
         }
 
         return services;
@@ -92,32 +95,14 @@ public static class ServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddModulePostService(this IServiceCollection services, ModuleConfigureContext context)
     {
-        foreach (var module in _configuratorCollection!)
-        {
-            module.PostConfigureService(context);
-        }
+        var collection = services.GetModuleCollection();
 
-        _configuratorCollection = null;
+        foreach (var descriptor in collection!)
+        {
+            var des = descriptor as ModuleDescriptor;
+            des?.Configurator?.PostConfigureService(context);
+        }
 
         return services;
-    }
-
-    /// <summary>
-    /// 加载模块配置器
-    /// </summary>
-    /// <param name="module"></param>
-    private static void LoadModuleConfigurator(IModule module)
-    {
-        var coreAssembly = module.GetType().Assembly;
-
-        var moduleConfiguratorType = coreAssembly.GetTypes().FirstOrDefault(m =>
-            typeof(IModuleConfigurator).IsAssignableFrom(m) && !m.IsInterface && !m.IsAbstract);
-
-        if (moduleConfiguratorType != null)
-        {
-            var configurator = (IModuleConfigurator)Activator.CreateInstance(moduleConfiguratorType)!;
-
-            _configuratorCollection!.Add(configurator);
-        }
     }
 }

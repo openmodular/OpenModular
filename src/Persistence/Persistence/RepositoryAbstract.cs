@@ -193,7 +193,7 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IUnitOfWork unitOfWor
     /// <returns></returns>
     protected async Task<Common.Utils.Paging.PagedResult<T>> ToPagedAsync<T>(IQueryable<T> query, Pagination pagination)
     {
-        if (pagination.OrderBy.NotNullAndWhiteSpace())
+        if (pagination.OrderBy.NotNull())
         {
             query = query.OrderBy(pagination.OrderBy);
         }

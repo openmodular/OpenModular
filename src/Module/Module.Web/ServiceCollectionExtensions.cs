@@ -1,0 +1,107 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+using OpenModular.Common.Utils;
+using OpenModular.Module.Core;
+
+namespace OpenModular.Module.Web;
+
+public static class ServiceCollectionExtensions
+{
+    /// <summary>
+    /// 添加模块化Web服务
+    /// </summary>
+    /// <param name="services"></param>
+    public static IServiceCollection AddModuleWebService(this IServiceCollection services)
+    {
+        services.AddModuleCoreService();
+
+        services.AddSingleton<IModuleWebCollection>(new ModuleWebCollection());
+
+        return services;
+    }
+
+    /// <summary>
+    /// 获取 IModuleWebCollection
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
+    public static IModuleWebCollection GetModuleWebCollection(this IServiceCollection services)
+    {
+        return (IModuleWebCollection)services.First(m => m.ServiceType == typeof(IModuleWebCollection)).ImplementationInstance!;
+    }
+
+    /// <summary>
+    /// 注册模块Web
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="moduleWeb"></param>
+    /// <returns></returns>
+    public static IServiceCollection RegisterModuleWeb(this IServiceCollection services, IModuleWeb moduleWeb)
+    {
+        services.RegisterModuleCore(moduleWeb.Module);
+
+        var collection = services.GetModuleWebCollection();
+        collection.Add(new ModuleWebDescriptor(moduleWeb));
+
+        return services;
+    }
+
+    /// <summary>
+    /// 处理模块Web的前置服务注入
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddModuleWebPreConfigureService(this IServiceCollection services, ModuleConfigureContext context)
+    {
+        services.AddModulePreService(context);
+
+        var collection = services.GetModuleWebCollection();
+        foreach (var descriptor in collection!)
+        {
+            context.Services.AddFromAssembly(descriptor.ModuleWeb.GetType().Assembly);
+            var des = descriptor as ModuleWebDescriptor;
+            des?.Configurator?.PreConfigureService(context);
+        }
+
+        return services;
+    }
+
+    /// <summary>
+    /// 处理模块Web的服务
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddModuleWebConfigureService(this IServiceCollection services, ModuleConfigureContext context)
+    {
+        services.AddModuleService(context);
+
+        var collection = services.GetModuleWebCollection();
+        foreach (var descriptor in collection!)
+        {
+            var des = descriptor as ModuleWebDescriptor;
+            des?.Configurator?.ConfigureService(context);
+        }
+
+        return services;
+    }
+
+    /// <summary>
+    /// 处理模块Web的后置服务
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddModuleWebPostConfigureService(this IServiceCollection services, ModuleConfigureContext context)
+    {
+        services.AddModulePostService(context);
+        var collection = services.GetModuleWebCollection();
+        foreach (var descriptor in collection!)
+        {
+            var des = descriptor as ModuleWebDescriptor;
+            des?.Configurator?.PostConfigureService(context);
+        }
+
+        return services;
+    }
+}

@@ -15,7 +15,7 @@ public static class StringExtensions
     /// <returns></returns>
     public static byte ToByte(this string s)
     {
-        if (s.IsNullOrWhiteSpace())
+        if (s.IsNull())
             return 0;
 
         byte.TryParse(s, out byte result);
@@ -29,7 +29,7 @@ public static class StringExtensions
     /// <returns></returns>
     public static char ToChar(this string s)
     {
-        if (s.IsNullOrWhiteSpace())
+        if (s.IsNull())
             return default;
 
         char.TryParse(s, out char result);
@@ -43,7 +43,7 @@ public static class StringExtensions
     /// <returns></returns>
     public static short ToShort(this string s)
     {
-        if (s.IsNullOrWhiteSpace())
+        if (s.IsNull())
             return 0;
 
         short.TryParse(s, out short result);
@@ -51,21 +51,21 @@ public static class StringExtensions
     }
 
     /// <summary>
-    /// 判断字符串是否为Null、空
+    /// 判断字符串是否为Null、空，等同于string.IsNullOrWhiteSpace
     /// </summary>
     /// <param name="s"></param>
     /// <returns></returns>
-    public static bool IsNullOrWhiteSpace(this string? s)
+    public static bool IsNull(this string s)
     {
         return string.IsNullOrWhiteSpace(s);
     }
 
     /// <summary>
-    /// 判断字符串是否不为Null、空
+    /// 判断字符串是否不为Null、空，等同于string.IsNullOrWhiteSpace
     /// </summary>
     /// <param name="s"></param>
     /// <returns></returns>
-    public static bool NotNullAndWhiteSpace(this string? s)
+    public static bool NotNull(this string s)
     {
         return !string.IsNullOrWhiteSpace(s);
     }

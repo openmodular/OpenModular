@@ -8,20 +8,30 @@ namespace OpenModular.Module.Core;
 /// <summary>
 /// 用于模块中添加特有服务的上下文
 /// </summary>
-public class ModuleConfigureContext(IServiceCollection services, IHostEnvironment environment, IConfiguration configuration) : IModuleConfiguratorContext
+public class ModuleConfigureContext : IModuleConfiguratorContext
 {
+    /// <summary>
+    /// 用于模块中添加特有服务的上下文
+    /// </summary>
+    public ModuleConfigureContext(IServiceCollection services, IHostEnvironment environment, IConfiguration configuration)
+    {
+        Services = services;
+        Environment = environment;
+        Configuration = configuration;
+    }
+
     /// <summary>
     /// 服务集合
     /// </summary>
-    public IServiceCollection Services { get; } = services;
+    public IServiceCollection Services { get; }
 
     /// <summary>
     /// 环境变量
     /// </summary>
-    public IHostEnvironment Environment { get; } = environment;
+    public IHostEnvironment Environment { get; }
 
     /// <summary>
     /// 配置对象
     /// </summary>
-    public IConfiguration Configuration { get; } = configuration;
+    public IConfiguration Configuration { get; }
 }

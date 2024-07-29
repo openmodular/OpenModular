@@ -1,12 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OpenModular.DDD.Core.Domain.Entities;
-using OpenModular.Module.Abstractions;
 
 namespace OpenModular.Persistence;
 
-public abstract class OpenModularDbContext<TDbContext>(DbContextOptions<TDbContext> dbContextOptions, IModule module) : DbContext(dbContextOptions) where TDbContext : DbContext
+public abstract class OpenModularDbContext<TDbContext> : DbContext where TDbContext : DbContext
 {
-    public IModule Module { get; set; } = module;
+    public string ModuleCode { get; }
+
+    protected OpenModularDbContext(DbContextOptions<TDbContext> dbContextOptions, string ModuleCode) : base(dbContextOptions)
+    {
+        this.ModuleCode = ModuleCode;
+    }
 
     /// <summary>
     /// 获取数据库类型
