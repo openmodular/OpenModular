@@ -32,17 +32,18 @@ public static class OpenApiExtensions
     /// <returns></returns>
     public static WebApplication UseOpenModularOpenApi(this WebApplication app)
     {
-        var moduleWebCollection = app.Services.GetRequiredService<IModuleWebCollection>();
-
-        app.MapOpenApi().CacheOutput();
-
         if (app.Environment.IsDevelopment())
         {
+            app.MapOpenApi().CacheOutput();
+
+            var moduleWebCollection = app.Services.GetRequiredService<IModuleWebCollection>();
+
             foreach (var descriptor in moduleWebCollection)
             {
                 app.UseSwaggerUI(options =>
                 {
-                    options.SwaggerEndpoint($"/openapi/{descriptor.ModuleWeb.Module.Code.ToLower()}.json", "v1");
+                    var moduleCode = descriptor.ModuleWeb.Module.Code;
+                    options.SwaggerEndpoint($"/openapi/{moduleCode.ToLower()}.json", moduleCode);
                 });
             }
         }

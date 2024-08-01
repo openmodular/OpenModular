@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using OpenModular.Common.Utils;
 using OpenModular.Host.Abstractions;
 using OpenModular.Host.Web.Middlewares;
@@ -62,26 +65,48 @@ public class OpenModularWebHost : IOpenModularHost
     {
         var moduleConfigureContext = new ModuleConfigureContext(_services, _builder.Environment, _builder.Configuration);
 
+        //添加公共服务
         _services.AddCommonUtils();
 
+        //添加输出缓存服务
         _services.AddOutputCache();
 
+        //添加模块前置服务
         _services.AddModuleWebPreConfigureService(moduleConfigureContext);
 
+        //添加MVC服务
         _services.AddOpenModularMvc();
 
+        //添加OpenAPI服务
         _services.AddOpenModularOpenApi();
 
+        //添加MediatR服务
         _services.AddOpenModularMediatR();
 
+        //添加CORS服务
         _services.AddOpenModularCors(_hostOptions);
 
+        //解决Multipart body length limit 134217728 exceeded
+        _services.Configure<FormOptions>(x =>
+        {
+            x.ValueLengthLimit = int.MaxValue;
+            x.MultipartBodyLengthLimit = int.MaxValue;
+        });
+
+
+        //添加HttpClient相关
+        _services.AddHttpClient();
+
+        //添加数据持久化服务
         _services.AddPersistence(_builder.Configuration);
 
+        //添加模块服务
         _services.AddModuleWebConfigureService(moduleConfigureContext);
 
+        //添加模块后置服务
         _services.AddModuleWebPostConfigureService(moduleConfigureContext);
 
+        //添加中间件服务
         _services.AddOpenModularMiddlewares();
     }
 
@@ -89,17 +114,65 @@ public class OpenModularWebHost : IOpenModularHost
     {
         var app = _builder.Build();
 
+        //执行数据库迁移
         app.ExecuteDbMigration();
 
+        //执行数据种子
         app.ExecuteDataSeeding();
 
+        //异常处理
         app.UseMiddleware<ExceptionHandleMiddleware>();
 
-        app.UseOutputCache();
+        //基地址
+        app.UsePathBase(_hostOptions);
 
+        //设置默认页
+        app.UseDefaultDir(_hostOptions);
+
+        //设置默认页
+        app.UseDefaultPage(_hostOptions);
+
+        //反向代理
+        if (_hostOptions.Proxy)
+        {
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+        }
+
+        //HTTP跳转HTTPS
+        app.UseHttpsRedirection();
+
+        //路由
+        app.UseRouting();
+
+        //CORS
+        app.UseCors("Default");
+
+        //认证
+        app.UseAuthentication();
+
+        //授权
+        app.UseAuthorization();
+
+        //OpenAPI
         app.UseOpenModularOpenApi();
 
+        //工作单元
         app.UseMiddleware<UnitOfWorkMiddleware>();
+
+        //输出缓存
+        app.UseOutputCache();
+
+        //配置端点
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
+
+        //启用Banner图
+        app.UseBanner(app.Lifetime, _hostOptions);
 
         await app.RunAsync();
     }

@@ -6,8 +6,6 @@ namespace OpenModular.Host.Web;
 
 internal static class ServiceCollectionExtensions
 {
- 
-
     /// <summary>
     /// 添加CORS
     /// </summary>

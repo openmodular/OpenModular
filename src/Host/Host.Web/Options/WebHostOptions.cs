@@ -26,4 +26,14 @@ public class WebHostOptions
     /// 是否启用代理
     /// </summary>
     public bool Proxy { get; set; }
+
+    /// <summary>
+    /// 默认目录
+    /// </summary>
+    public string DefaultDir { get; set; } = "web";
+
+    /// <summary>
+    /// 默认页面
+    /// </summary>
+    public string DefaultPage { get; set; } = "index.html";
 }

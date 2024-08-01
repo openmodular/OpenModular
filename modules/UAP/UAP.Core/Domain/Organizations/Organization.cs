@@ -1,4 +1,5 @@
-﻿using OpenModular.DDD.Core.Domain.Entities;
+﻿using System.Text.Json.Serialization;
+using OpenModular.DDD.Core.Domain.Entities;
 using OpenModular.Module.UAP.Core.Domain.Users;
 
 namespace OpenModular.Module.UAP.Core.Domain.Organizations;
@@ -16,12 +17,13 @@ public class Organization : AggregateRoot<OrganizationId>
     /// <summary>
     /// 组织编码
     /// </summary>
-    public string Code { get; }
+    public string Code { get; private set; }
 
     /// <summary>
     /// 说明
     /// </summary>
-    public string Description { get; }
+    [JsonInclude]
+    public string Description { get; private set; }
 
     /// <summary>
     /// 创建人标识
@@ -36,6 +38,7 @@ public class Organization : AggregateRoot<OrganizationId>
     /// <summary>
     /// 更新时间
     /// </summary>
+    [JsonInclude]
     public DateTimeOffset? UpdatedAt { get; private set; }
 
     public Organization()
@@ -43,7 +46,8 @@ public class Organization : AggregateRoot<OrganizationId>
 
     }
 
-    private Organization(string name, string code, string description, UserId createdBy) : base(new OrganizationId())
+    [JsonConstructor]
+    private Organization(OrganizationId id, string name, string code, string description, UserId createdBy) : base(id)
     {
         Check.NotNullOrWhiteSpace(name, nameof(name));
         Check.NotNullOrWhiteSpace(code, nameof(code));
@@ -58,7 +62,7 @@ public class Organization : AggregateRoot<OrganizationId>
 
     public static Organization Create(string name, string code, string description, UserId createdBy)
     {
-        return new Organization(name, code, description, createdBy);
+        return new Organization(new OrganizationId(), name, code, description, createdBy);
     }
 
     public void Rename(string name)

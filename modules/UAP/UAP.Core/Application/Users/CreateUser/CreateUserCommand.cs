@@ -32,4 +32,34 @@ public class CreateUserCommand : CommandBase<UserId>
     /// 确认密码
     /// </summary>
     public string ConfirmPassword { get; set; }
+
+    /// <summary>
+    /// 电话
+    /// </summary>
+    public string Tel { get; set; }
+
+    /// <summary>
+    /// 真实姓名
+    /// </summary>
+    public string RealName { get; set; }
+
+    /// <summary>
+    /// 昵称
+    /// </summary>
+    public string NickName { get; set; }
+
+    /// <summary>
+    /// 头像
+    /// </summary>
+    public string Avatar { get; set; }
+
+    /// <summary>
+    /// 性别，0、未知；1、男；2、女
+    /// </summary>
+    public int Gender { get; set; }
+
+    /// <summary>
+    /// 创建人
+    /// </summary>
+    public UserId CreatedBy { get; set; }
 }

@@ -8,10 +8,10 @@ internal class CreateUserCommandHandler(IUserRepository repository, IPasswordHas
 {
     public async Task<UserId> Handle(CreateUserCommand commond, CancellationToken cancellationToken)
     {
-        var exists = await repository.FindAsync(m => m.Username == commond.Username || m.Email == commond.Email || m.Phone == commond.Phone, cancellationToken);
+        var exists = await repository.FindAsync(m => m.UserName == commond.Username || m.Email == commond.Email || m.Phone == commond.Phone, cancellationToken);
         if (exists != null)
         {
-            if (exists.Username == commond.Username)
+            if (exists.UserName == commond.Username)
                 throw new UAPBusinessException(UAPErrorCode.User_UsernameExists);
             if (exists.Email == commond.Email)
                 throw new UAPBusinessException(UAPErrorCode.User_UsernameExists);
@@ -19,7 +19,7 @@ internal class CreateUserCommandHandler(IUserRepository repository, IPasswordHas
                 throw new UAPBusinessException(UAPErrorCode.User_PhoneExists);
         }
 
-        var user = User.Create(commond.Username, commond.Email, commond.Phone, null);
+        var user = User.Create(commond.Username, commond.Email, commond.Phone, commond.CreatedBy);
 
         user.SetPasswordHash(passwordHasher.HashPassword(user, commond.Password));
 

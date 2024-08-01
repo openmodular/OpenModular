@@ -2,9 +2,9 @@
 
 namespace OpenModular.Module.UAP.Core.Application.Users.GetUser;
 
-internal class GetUserQueryHandler : IQueryHandler<GetUserQuery, UserDto>
+internal class UserGetQueryHandler : IQueryHandler<UserGetQuery, UserDto>
 {
-    public Task<UserDto> Handle(GetUserQuery query, CancellationToken cancellationToken)
+    public Task<UserDto> Handle(UserGetQuery query, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

@@ -1,4 +1,5 @@
-﻿using OpenModular.DDD.Core.Domain.Entities;
+﻿using System.Text.Json.Serialization;
+using OpenModular.DDD.Core.Domain.Entities;
 using OpenModular.Module.UAP.Core.Domain.Departments.Events;
 using OpenModular.Module.UAP.Core.Domain.Organizations;
 using OpenModular.Module.UAP.Core.Domain.Users;
@@ -55,6 +56,7 @@ public class Department : AggregateRoot<DepartmentId>
         //for mapper or serializable
     }
 
+    [JsonConstructor]
     private Department(OrganizationId organizationId, string name, DepartmentId parentId, string code, UserId createdBy) : base(new DepartmentId())
     {
         Check.NotNullOrWhiteSpace(name, nameof(name));

@@ -1,4 +1,5 @@
-﻿using OpenModular.DDD.Core.Domain.Events;
+﻿using System.Text.Json.Serialization;
+using OpenModular.DDD.Core.Domain.Events;
 using OpenModular.Module.Abstractions.Exceptions;
 
 namespace OpenModular.DDD.Core.Domain.Entities;
@@ -56,5 +57,6 @@ public abstract class Entity<TKey> : Entity, IEntity<TKey>
         Id = id;
     }
 
+    [JsonInclude]
     public TKey Id { get; }
 }

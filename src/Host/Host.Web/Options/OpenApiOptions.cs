@@ -5,5 +5,7 @@
 /// </summary>
 public class OpenApiOptions
 {
+    public const string Position = "OpenApi";
 
+    public bool Enable { get; set; }
 }
