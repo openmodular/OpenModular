@@ -1,7 +1,8 @@
-﻿using OpenModular.DDD.Core.Domain.Entities;
+﻿namespace OpenModular.DDD.Core.Domain.Entities.TypeIds;
 
-namespace OpenModular.Module.UAP.Core.Domain.Users;
-
+/// <summary>
+/// 用户标识
+/// </summary>
 public sealed class UserId : TypedIdValueBase
 {
     public UserId()

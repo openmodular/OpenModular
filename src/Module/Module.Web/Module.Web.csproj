@@ -5,6 +5,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Authentication\Authentication.Abstractions\Authentication.Abstractions.csproj" />
+		<ProjectReference Include="..\..\Domain\DDD.Core\DDD.Core.csproj" />
 		<ProjectReference Include="..\Module.Core\Module.Core.csproj" />
 	</ItemGroup>
 

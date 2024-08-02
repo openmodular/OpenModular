@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using OpenModular.DDD.Core.Domain.Entities;
+using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 using OpenModular.Module.UAP.Core.Domain.Departments.Events;
 using OpenModular.Module.UAP.Core.Domain.Organizations;
 using OpenModular.Module.UAP.Core.Domain.Users;

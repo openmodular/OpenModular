@@ -1,4 +1,5 @@
 ﻿using OpenModular.DDD.Core.Application.Command;
+using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 using OpenModular.Module.UAP.Core.Domain.Users;
 using OpenModular.Module.UAP.Core.Infrastructure;
 

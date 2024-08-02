@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 using OpenModular.Module.UAP.Core.Domain.Organizations;
-using OpenModular.Module.UAP.Core.Domain.Users;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure.Persistence.Configurations;
 
@@ -21,7 +21,7 @@ public class OrganizationConfiguration : IEntityTypeConfiguration<Organization>
             v => new OrganizationId(v));
 
         builder.Property(x => x.CreatedBy).ValueGeneratedNever().HasConversion(
-            v => v.ToString(),
-            v => new UserId(v));
+            v => v != null ? v.ToString() : string.Empty,
+            v => v.IsNull() ? null : new UserId(v));
     }
 }

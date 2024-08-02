@@ -2,6 +2,7 @@
 using OpenModular.Module.UAP.Core.Domain.Users.Events;
 using OpenModular.Module.UAP.Core.Domain.Users.Rules;
 using System.Text.Json.Serialization;
+using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 
 namespace OpenModular.Module.UAP.Core.Domain.Users;
 
@@ -102,7 +103,7 @@ public class User : AggregateRoot<UserId>, ISoftDelete
     /// This constructor only for Json Serialize and Deserialize
     /// </summary>
     [JsonConstructor]
-    private User(UserId id, string username, string email, string phone, UserId createdBy) : base(id)
+    public User(UserId id, string username, string email, string phone, UserId createdBy) : base(id)
     {
         UserName = username;
         Email = email;

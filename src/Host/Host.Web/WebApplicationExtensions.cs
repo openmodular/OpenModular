@@ -124,9 +124,9 @@ public static class WebApplicationExtensions
                         Console.WriteLine(line);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    Console.WriteLine("banner.txt文件无效");
+                    Console.WriteLine($"banner.txt read failed,the error message is {ex.Message}");
                 }
             }
             else
@@ -144,23 +144,43 @@ public static class WebApplicationExtensions
     /// </summary>
     private static void ConsoleBanner(WebHostOptions options)
     {
+        var version = typeof(WebHostOptions).Assembly.GetName().Version;
+
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine();
-        Console.WriteLine(@" ***************************************************************************************************************");
-        Console.Write(@" *                                      ");
+        Console.WriteLine(@" *********************************************************************************************************************");
+        Console.WriteLine(@" *                                                                                                                   *");
+        Console.WriteLine(@" *                                                                                                                   *");
+        Console.WriteLine(@" *      /$$$$$$                                /$$      /$$                 /$$           /$$                        *");
+        Console.WriteLine(@" *     /$$__  $$                              | $$$    /$$$                | $$          | $$                        *");
+        Console.WriteLine(@" *    | $$  \ $$  /$$$$$$   /$$$$$$  /$$$$$$$ | $$$$  /$$$$  /$$$$$$   /$$$$$$$ /$$   /$$| $$  /$$$$$$   /$$$$$$     *");
+        Console.WriteLine(@" *    | $$  | $$ /$$__  $$ /$$__  $$| $$__  $$| $$ $$/$$ $$ /$$__  $$ /$$__  $$| $$  | $$| $$ |____  $$ /$$__  $$    *");
+        Console.WriteLine(@" *    | $$  | $$| $$  \ $$| $$$$$$$$| $$  \ $$| $$  $$$| $$| $$  \ $$| $$  | $$| $$  | $$| $$  /$$$$$$$| $$  \__/    *");
+        Console.WriteLine(@" *    | $$  | $$| $$  | $$| $$_____/| $$  | $$| $$\  $ | $$| $$  | $$| $$  | $$| $$  | $$| $$ /$$__  $$| $$          *");
+        Console.WriteLine(@" *    |  $$$$$$/| $$$$$$$/|  $$$$$$$| $$  | $$| $$ \/  | $$|  $$$$$$/|  $$$$$$$|  $$$$$$/| $$|  $$$$$$$| $$          *");
+        Console.WriteLine(@" *     \______/ | $$____/  \_______/|__/  |__/|__/     |__/ \______/  \_______/ \______/ |__/ \_______/|__/          *");
+        Console.WriteLine(@" *              | $$                                                                                                 *");
+        Console.WriteLine(@" *              | $$                                                                                                 *");
+        Console.WriteLine(@" *              |__/                                                                                                 *");
+        Console.WriteLine(@" *                                                                                                                   *");
+        Console.Write(@" *                                                 ");
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.Write(@"Startup successful, welcome to OpenModular ~");
+        Console.Write($"v{version}");
         Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine(@"                                             *");
-        Console.WriteLine(@" *                                                                                                             *");
-        Console.Write(@" *                                          ");
+        Console.WriteLine(@"                                                          *");
+        Console.Write(@" *                                 ");
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.Write(@"URL：" + options.Urls);
+        Console.Write(@"Startup successful, welcome to OpenModular");
         Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine(@"                                                 *");
-        Console.WriteLine(@" *                                                                                                             *");
-        Console.WriteLine(@" *                                                                                                             *");
-        Console.WriteLine(@" ***************************************************************************************************************");
+        Console.WriteLine(@"                                        *");
+        Console.Write(@" *                           ");
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.Write(@"You can access the system through this link " + options.Urls);
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine(@"                               *");
+        Console.WriteLine(@" *                                                                                                                   *");
+        Console.WriteLine(@" *                                                                                                                   *");
+        Console.WriteLine(@" *********************************************************************************************************************");
         Console.WriteLine();
     }
 }

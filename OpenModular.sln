@@ -61,13 +61,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05_SourceGenerator", "05_So
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceGenerator", "src\SourceGenerator\SourceGenerator\SourceGenerator.csproj", "{5C760E8D-8575-45B7-BBF7-9707764F24B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAP.Web", "modules\UAP\UAP.Web\UAP.Web.csproj", "{E7D83254-346D-4423-9576-ACD59EF0F6C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UAP.Web", "modules\UAP\UAP.Web\UAP.Web.csproj", "{E7D83254-346D-4423-9576-ACD59EF0F6C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Web", "src\Module\Module.Web\Module.Web.csproj", "{3BDC0CBF-E24C-4C13-A454-6653DC6FB9A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Web", "src\Module\Module.Web\Module.Web.csproj", "{3BDC0CBF-E24C-4C13-A454-6653DC6FB9A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Host.Web", "src\Host\Host.Web\Host.Web.csproj", "{BC48A674-D8B9-4686-B1FF-F5264C4AB486}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Host.Web", "src\Host\Host.Web\Host.Web.csproj", "{BC48A674-D8B9-4686-B1FF-F5264C4AB486}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebHost", "modules\WebHost\WebHost.csproj", "{A8EBCFF7-F7EC-41B7-9A9B-0879ED844CFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHost", "modules\WebHost\WebHost.csproj", "{A8EBCFF7-F7EC-41B7-9A9B-0879ED844CFC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06_Authentication", "06_Authentication", "{B1EE70D0-0B87-47DE-B83B-04931CCC9328}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Abstractions", "src\Authentication\Authentication.Abstractions\Authentication.Abstractions.csproj", "{200E8F97-3107-41D0-8498-7C3B8466A6F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.JwtBearer", "src\Authentication\Authentication.JwtBearer\Authentication.JwtBearer.csproj", "{EAEF495B-F72E-458C-97C8-87A8AEE1039F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -155,6 +161,14 @@ Global
 		{A8EBCFF7-F7EC-41B7-9A9B-0879ED844CFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8EBCFF7-F7EC-41B7-9A9B-0879ED844CFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8EBCFF7-F7EC-41B7-9A9B-0879ED844CFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{200E8F97-3107-41D0-8498-7C3B8466A6F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{200E8F97-3107-41D0-8498-7C3B8466A6F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{200E8F97-3107-41D0-8498-7C3B8466A6F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{200E8F97-3107-41D0-8498-7C3B8466A6F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAEF495B-F72E-458C-97C8-87A8AEE1039F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAEF495B-F72E-458C-97C8-87A8AEE1039F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAEF495B-F72E-458C-97C8-87A8AEE1039F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAEF495B-F72E-458C-97C8-87A8AEE1039F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -188,6 +202,9 @@ Global
 		{3BDC0CBF-E24C-4C13-A454-6653DC6FB9A5} = {2DDBA6AE-85DE-45FA-8FFD-FBD1DEC2456E}
 		{BC48A674-D8B9-4686-B1FF-F5264C4AB486} = {EC6D4806-157E-4862-8E5F-41570C069394}
 		{A8EBCFF7-F7EC-41B7-9A9B-0879ED844CFC} = {EBF0B1A7-52B1-4509-8434-D5FE725D0E3B}
+		{B1EE70D0-0B87-47DE-B83B-04931CCC9328} = {CC4199D8-1A33-4800-87A2-CD40DDBD59E6}
+		{200E8F97-3107-41D0-8498-7C3B8466A6F4} = {B1EE70D0-0B87-47DE-B83B-04931CCC9328}
+		{EAEF495B-F72E-458C-97C8-87A8AEE1039F} = {B1EE70D0-0B87-47DE-B83B-04931CCC9328}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0676A22C-8B52-4353-B06A-ABAB3B243ED2}

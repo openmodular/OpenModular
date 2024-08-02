@@ -53,6 +53,7 @@ public static class ServiceCollectionExtensions
 
     private static void AddSQLite<TDbContext>(this IServiceCollection services, string connectionString, string migrationsAssemblyPrefix) where TDbContext : OpenModularDbContext<TDbContext>
     {
+
         services.AddDbContextPool<TDbContext>(builder =>
         {
             //将数据库相对路径转换为绝对路径

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using OpenModular.Module.UAP.Core.Domain.Departments;
 using OpenModular.Module.UAP.Core.Domain.Organizations;
-using OpenModular.Module.UAP.Core.Domain.Users;
+using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure.Persistence.Configurations;
 
@@ -31,7 +31,7 @@ public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
             v => new OrganizationId(v));
 
         builder.Property(x => x.CreatedBy).ValueGeneratedNever().HasConversion(
-            v => v.ToString(),
-            v => new UserId(v));
+            v => v != null ? v.ToString() : string.Empty,
+            v => v.IsNull() ? null : new UserId(v));
     }
 }

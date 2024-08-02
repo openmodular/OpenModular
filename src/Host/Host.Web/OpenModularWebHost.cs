@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Hosting;
 using OpenModular.Common.Utils;
 using OpenModular.Host.Abstractions;
 using OpenModular.Host.Web.Middlewares;
@@ -100,6 +100,8 @@ public class OpenModularWebHost : IOpenModularHost
         //添加数据持久化服务
         _services.AddPersistence(_builder.Configuration);
 
+        _services.AddDatabaseDeveloperPageExceptionFilter();
+
         //添加模块服务
         _services.AddModuleWebConfigureService(moduleConfigureContext);
 
@@ -121,7 +123,14 @@ public class OpenModularWebHost : IOpenModularHost
         app.ExecuteDataSeeding();
 
         //异常处理
-        app.UseMiddleware<ExceptionHandleMiddleware>();
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        else
+        {
+            app.UseMiddleware<ExceptionHandleMiddleware>();
+        }
 
         //基地址
         app.UsePathBase(_hostOptions);
