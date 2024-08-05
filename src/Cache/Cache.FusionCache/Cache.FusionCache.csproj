@@ -10,4 +10,8 @@
     <PackageReference Include="ZiggyCreatures.FusionCache" Version="1.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Cache.Abstractions\Cache.Abstractions.csproj" />
+  </ItemGroup>
+
 </Project>
