@@ -1,4 +1,5 @@
 ﻿using OpenModular.DDD.Core.Application.Command;
+using OpenModular.Module.UAP.Core.Conventions;
 using OpenModular.Module.UAP.Core.Domain.Departments;
 using OpenModular.Module.UAP.Core.Domain.Organizations;
 

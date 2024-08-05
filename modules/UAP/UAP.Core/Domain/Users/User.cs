@@ -9,7 +9,7 @@ namespace OpenModular.Module.UAP.Core.Domain.Users;
 /// <summary>
 /// 用户
 /// </summary>
-public class User : AggregateRoot<UserId>, ISoftDelete
+public class User : AggregateRoot<UserId>
 {
     /// <summary>
     /// 用户名
@@ -92,8 +92,6 @@ public class User : AggregateRoot<UserId>, ISoftDelete
     /// </summary>
     [JsonInclude]
     public DateTimeOffset? UpdatedAt { get; private set; }
-
-    public bool IsDeleted { get; private set; }
 
     public User()
     {

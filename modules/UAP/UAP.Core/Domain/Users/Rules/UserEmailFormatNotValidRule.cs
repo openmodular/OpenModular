@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using OpenModular.Common.Utils;
+using OpenModular.Module.UAP.Core.Conventions;
 
 namespace OpenModular.Module.UAP.Core.Domain.Users.Rules;
 

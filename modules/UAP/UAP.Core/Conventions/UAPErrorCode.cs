@@ -1,6 +1,6 @@
 ﻿using OpenModular.Module.Abstractions.DataAnnotations;
 
-namespace OpenModular.Module.UAP.Core;
+namespace OpenModular.Module.UAP.Core.Conventions;
 
 /// <summary>
 /// UAP错误码
@@ -38,4 +38,20 @@ public enum UAPErrorCode
     /// 父部门不存在
     /// </summary>
     Department_ParentNotFound,
+    /// <summary>
+    /// 密码错误
+    /// </summary>
+    Auth_PasswordError,
+    /// <summary>
+    /// 用户已删除
+    /// </summary>
+    Auth_UserDeleted,
+    /// <summary>
+    /// 用户已禁用
+    /// </summary>
+    Auth_UserDisabled,
+    /// <summary>
+    /// 密码不匹配
+    /// </summary>
+    Auth_PasswordMismatch
 }

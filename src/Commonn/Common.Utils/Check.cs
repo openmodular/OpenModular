@@ -5,20 +5,6 @@ namespace OpenModular;
 public static class Check
 {
     /// <summary>
-    /// 检测对象是否为空
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="parameterName">参数名</param>
-    /// <exception cref="ArgumentNullException"></exception>
-    public static T NotNull<T>(T value, string parameterName)
-    {
-        if (value == null)
-            throw new ArgumentNullException(parameterName);
-
-        return value;
-    }
-
-    /// <summary>
     /// 字符串不为 null, 空或者空白
     /// </summary>
     /// <param name="value"></param>
