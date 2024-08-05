@@ -71,9 +71,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHost", "modules\WebHost\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06_Authentication", "06_Authentication", "{B1EE70D0-0B87-47DE-B83B-04931CCC9328}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Abstractions", "src\Authentication\Authentication.Abstractions\Authentication.Abstractions.csproj", "{200E8F97-3107-41D0-8498-7C3B8466A6F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Abstractions", "src\Authentication\Authentication.Abstractions\Authentication.Abstractions.csproj", "{200E8F97-3107-41D0-8498-7C3B8466A6F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.JwtBearer", "src\Authentication\Authentication.JwtBearer\Authentication.JwtBearer.csproj", "{EAEF495B-F72E-458C-97C8-87A8AEE1039F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.JwtBearer", "src\Authentication\Authentication.JwtBearer\Authentication.JwtBearer.csproj", "{EAEF495B-F72E-458C-97C8-87A8AEE1039F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "07_Authorization", "07_Authorization", "{CA0BBB40-B900-4A9E-976E-27527EE8096D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorization", "src\Authorization\Authorization\Authorization.csproj", "{BF06D6B5-A2B7-4F8B-BDD8-1D6BC4488472}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -169,6 +173,10 @@ Global
 		{EAEF495B-F72E-458C-97C8-87A8AEE1039F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAEF495B-F72E-458C-97C8-87A8AEE1039F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAEF495B-F72E-458C-97C8-87A8AEE1039F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF06D6B5-A2B7-4F8B-BDD8-1D6BC4488472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF06D6B5-A2B7-4F8B-BDD8-1D6BC4488472}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF06D6B5-A2B7-4F8B-BDD8-1D6BC4488472}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF06D6B5-A2B7-4F8B-BDD8-1D6BC4488472}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -205,6 +213,8 @@ Global
 		{B1EE70D0-0B87-47DE-B83B-04931CCC9328} = {CC4199D8-1A33-4800-87A2-CD40DDBD59E6}
 		{200E8F97-3107-41D0-8498-7C3B8466A6F4} = {B1EE70D0-0B87-47DE-B83B-04931CCC9328}
 		{EAEF495B-F72E-458C-97C8-87A8AEE1039F} = {B1EE70D0-0B87-47DE-B83B-04931CCC9328}
+		{CA0BBB40-B900-4A9E-976E-27527EE8096D} = {CC4199D8-1A33-4800-87A2-CD40DDBD59E6}
+		{BF06D6B5-A2B7-4F8B-BDD8-1D6BC4488472} = {CA0BBB40-B900-4A9E-976E-27527EE8096D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0676A22C-8B52-4353-B06A-ABAB3B243ED2}

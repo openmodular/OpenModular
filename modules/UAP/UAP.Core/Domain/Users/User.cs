@@ -14,6 +14,7 @@ public class User : AggregateRoot<UserId>, ISoftDelete
     /// <summary>
     /// 用户名
     /// </summary>
+    [JsonInclude]
     public string UserName { get; }
 
     /// <summary>

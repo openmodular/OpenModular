@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -95,6 +96,25 @@ public static class WebApplicationExtensions
         {
             var rewriteOptions = new RewriteOptions().AddRedirect("^$", options.DefaultDir);
             app.UseRewriter(rewriteOptions);
+        }
+
+        return app;
+    }
+
+    /// <summary>
+    /// 使用代理
+    /// </summary>
+    /// <param name="app"></param>
+    /// <param name="options"></param>
+    /// <returns></returns>
+    public static IApplicationBuilder UseProxy(this IApplicationBuilder app, WebHostOptions options)
+    {
+        if (options.Proxy)
+        {
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
         }
 
         return app;

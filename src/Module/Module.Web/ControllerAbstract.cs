@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OpenModular.Authentication.Abstractions;
+using OpenModular.Authorization;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 
 namespace OpenModular.Module.Web;
@@ -9,6 +11,7 @@ namespace OpenModular.Module.Web;
 /// </summary>
 [ApiController]
 [Route("api/[area]/[controller]/[action]")]
+[Authorize(Policy = OpenModularAuthorizationRequirement.Name)]
 public abstract class ControllerAbstract : ControllerBase
 {
     /// <summary>

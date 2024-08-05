@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.0-rc.1.24401.4" />
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0-rc.1.24401.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.0-preview.6.24328.4" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0-preview.6.24328.4" />
 		<PackageReference Include="Serilog.AspNetCore" Version="8.0.2-dev-00338" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.6.2" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Authentication\Authentication.JwtBearer\Authentication.JwtBearer.csproj" />
 		<ProjectReference Include="..\..\Domain\DDD.Core\DDD.Core.csproj" />
 		<ProjectReference Include="..\..\Module\Module.Web\Module.Web.csproj" />
 		<ProjectReference Include="..\..\Persistence\Persistence.DataSeeding\Persistence.DataSeeding.csproj" />

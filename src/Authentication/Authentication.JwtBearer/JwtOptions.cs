@@ -5,6 +5,8 @@
 /// </summary>
 public class JwtOptions
 {
+    public const string Position = "Auth:Jwt";
+
     /// <summary>
     /// 加密密钥
     /// </summary>

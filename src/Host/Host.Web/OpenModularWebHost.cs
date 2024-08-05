@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OpenModular.Authentication.JwtBearer;
+using OpenModular.Authorization;
 using OpenModular.Common.Utils;
 using OpenModular.Host.Abstractions;
 using OpenModular.Host.Web.Middlewares;
@@ -93,9 +94,14 @@ public class OpenModularWebHost : IOpenModularHost
             x.MultipartBodyLengthLimit = int.MaxValue;
         });
 
-
         //添加HttpClient相关
         _services.AddHttpClient();
+
+        //添加JWT认证
+        _services.AddJwtBearer(_builder.Configuration);
+
+        //添加授权服务
+        _services.AddOpenModularAuthorization();
 
         //添加数据持久化服务
         _services.AddPersistence(_builder.Configuration);
@@ -141,14 +147,8 @@ public class OpenModularWebHost : IOpenModularHost
         //设置默认页
         app.UseDefaultPage(_hostOptions);
 
-        //反向代理
-        if (_hostOptions.Proxy)
-        {
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
-        }
+        //代理
+        app.UseProxy(_hostOptions);
 
         //HTTP跳转HTTPS
         app.UseHttpsRedirection();
