@@ -60,8 +60,8 @@ public class Department : AggregateRoot<DepartmentId>
     [JsonConstructor]
     private Department(OrganizationId organizationId, string name, DepartmentId parentId, string code, UserId createdBy) : base(new DepartmentId())
     {
-        Check.NotNullOrWhiteSpace(name, nameof(name));
-        Check.NotNullOrWhiteSpace(code, nameof(code));
+        Check.NotNull(name, nameof(name));
+        Check.NotNull(code, nameof(code));
 
         OrganizationId = organizationId;
         Name = name;
@@ -105,7 +105,7 @@ public class Department : AggregateRoot<DepartmentId>
     /// <param name="name"></param>
     public void Rename(string name)
     {
-        Check.NotNullOrWhiteSpace(name, nameof(name));
+        Check.NotNull(name, nameof(name));
 
         Name = name;
 

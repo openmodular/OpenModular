@@ -8,8 +8,8 @@ internal record UserEmailFormatNotValidRule(string Email) : UAPBusinessRule(UAPE
 {
     public override bool IsBroken()
     {
-        Check.NotNullOrWhiteSpace(Email, nameof(Email));
+        Check.NotNull(Email, nameof(Email));
 
-        return !new Regex(RegexExpressionConst.Email).IsMatch(Email);
+        return !new Regex(RegexExpressionConstants.Email).IsMatch(Email);
     }
 }

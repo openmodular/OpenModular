@@ -9,9 +9,9 @@ internal class LoginCommandHandler(IUserRepository userRepository, IPasswordHash
 {
     public override async Task<LoginDto> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        Check.NotNullOrWhiteSpace(request.UserName, nameof(request.UserName));
-        Check.NotNullOrWhiteSpace(request.Password, nameof(request.Password));
-        Check.NotNullOrWhiteSpace(request.VerifyCode, nameof(request.VerifyCode));
+        Check.NotNull(request.UserName, nameof(request.UserName));
+        Check.NotNull(request.Password, nameof(request.Password));
+        Check.NotNull(request.VerifyCode, nameof(request.VerifyCode));
 
         var user = await userRepository.GetAsync(m => m.UserName == request.UserName, cancellationToken);
 

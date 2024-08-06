@@ -1,11 +1,13 @@
-﻿namespace OpenModular.Authentication.JwtBearer;
+﻿using OpenModular.Common.Utils;
+
+namespace OpenModular.Authentication.JwtBearer;
 
 /// <summary>
 /// Jwt配置项
 /// </summary>
 public class JwtOptions
 {
-    public const string Position = "Auth:Jwt";
+    public const string Position = $"{OpenModularConstants.Name}:Auth:Jwt";
 
     /// <summary>
     /// 加密密钥

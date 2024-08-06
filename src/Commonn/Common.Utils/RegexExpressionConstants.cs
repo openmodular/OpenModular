@@ -3,7 +3,7 @@
 /// <summary>
 /// 提供常用的正则表达式
 /// </summary>
-public sealed class RegexExpressionConst
+public sealed class RegexExpressionConstants
 {
     /// <summary>
     /// 邮箱

@@ -112,8 +112,8 @@ public class User : AggregateRoot<UserId>
 
     private User(string username, string email, string phone, UserStatus status, UserId createdBy) : base(new UserId())
     {
-        Check.NotNullOrWhiteSpace(username, nameof(username));
-        Check.NotNullOrWhiteSpace(phone, nameof(phone));
+        Check.NotNull(username, nameof(username));
+        Check.NotNull(phone, nameof(phone));
 
         CheckRule(new UserEmailFormatNotValidRule(email));
 

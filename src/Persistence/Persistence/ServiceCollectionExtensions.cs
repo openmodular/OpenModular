@@ -25,7 +25,8 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddOpenModularDbContext<TDbContext>(this IServiceCollection services) where TDbContext : OpenModularDbContext<TDbContext>
     {
-        var options = services.BuildServiceProvider().GetRequiredService<IOptions<DbOptions>>().Value;
+        using var sp = services.BuildServiceProvider();
+        var options = sp.GetRequiredService<IOptions<DbOptions>>().Value;
 
         var moduleCoreAssembly = typeof(TDbContext).Assembly;
         var moduleCoreAssemblyName = moduleCoreAssembly.GetName().Name!;

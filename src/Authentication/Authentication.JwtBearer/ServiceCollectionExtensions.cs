@@ -27,9 +27,9 @@ public static class ServiceCollectionExtensions
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                var jwtOptions = services.BuildServiceProvider().GetRequiredService<IOptions<JwtOptions>>();
+                var serviceProvider = services.BuildServiceProvider();
+                var jwtOptions = serviceProvider.GetRequiredService<IOptions<JwtOptions>>().Value;
 
-                //配置令牌验证参数
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
@@ -37,9 +37,9 @@ public static class ServiceCollectionExtensions
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     ClockSkew = TimeSpan.Zero,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Value.Key)),
-                    ValidIssuer = jwtOptions.Value.Issuer,
-                    ValidAudience = jwtOptions.Value.Audience
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key)),
+                    ValidIssuer = jwtOptions.Issuer,
+                    ValidAudience = jwtOptions.Audience
                 };
             });
 

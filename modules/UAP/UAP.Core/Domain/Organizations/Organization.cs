@@ -50,8 +50,8 @@ public class Organization : AggregateRoot<OrganizationId>
     [JsonConstructor]
     private Organization(OrganizationId id, string name, string code, string description, UserId createdBy) : base(id)
     {
-        Check.NotNullOrWhiteSpace(name, nameof(name));
-        Check.NotNullOrWhiteSpace(code, nameof(code));
+        Check.NotNull(name, nameof(name));
+        Check.NotNull(code, nameof(code));
 
         Name = name;
         Code = code;

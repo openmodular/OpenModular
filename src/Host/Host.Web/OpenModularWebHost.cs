@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenModular.Authentication.JwtBearer;
 using OpenModular.Authorization;
+using OpenModular.Cache.Core;
 using OpenModular.Common.Utils;
 using OpenModular.Host.Abstractions;
 using OpenModular.Host.Web.Middlewares;
@@ -106,6 +107,9 @@ public class OpenModularWebHost : IOpenModularHost
         //添加数据持久化服务
         _services.AddPersistence(_builder.Configuration);
 
+        //添加缓存服务
+        _services.AddOpenModularCache(_builder.Configuration);
+
         _services.AddDatabaseDeveloperPageExceptionFilter();
 
         //添加模块服务
@@ -195,7 +199,7 @@ public class OpenModularWebHost : IOpenModularHost
         {
             loggerConfiguration
                 .ReadFrom
-                .Configuration(hostingContext.Configuration)
+                .Configuration(hostingContext.Configuration.GetSection(OpenModularConstants.Name))
                 .Enrich
                 .FromLogContext();
         });

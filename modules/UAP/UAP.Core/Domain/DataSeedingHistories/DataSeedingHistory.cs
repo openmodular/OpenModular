@@ -15,7 +15,7 @@ public class DataSeedingHistory : AggregateRoot<DataSeedingHistoryId>
 
     private DataSeedingHistory(string moduleCode, int version) : base(new DataSeedingHistoryId())
     {
-        Check.NotNullOrWhiteSpace(moduleCode, nameof(moduleCode));
+        Check.NotNull(moduleCode, nameof(moduleCode));
 
         ModuleCode = moduleCode;
         Version = version;

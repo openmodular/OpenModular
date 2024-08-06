@@ -1,11 +1,13 @@
-﻿namespace OpenModular.Host.Web.Options;
+﻿using OpenModular.Common.Utils;
+
+namespace OpenModular.Host.Web.Options;
 
 /// <summary>
 /// Web主机配置
 /// </summary>
 public class WebHostOptions
 {
-    public const string Position = "Host";
+    public const string Position = $"{OpenModularConstants.Name}:Host";
 
     /// <summary>
     /// 绑定的地址(默认：http://*:6220)

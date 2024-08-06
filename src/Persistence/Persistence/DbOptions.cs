@@ -1,11 +1,13 @@
-﻿namespace OpenModular.Persistence;
+﻿using OpenModular.Common.Utils;
+
+namespace OpenModular.Persistence;
 
 /// <summary>
 /// 数据库配置项
 /// </summary>
 public class DbOptions
 {
-    public const string Position = "OpenModular:Db";
+    public const string Position = $"{OpenModularConstants.Name}:Db";
 
     /// <summary>
     /// 数据库提供器

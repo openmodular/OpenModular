@@ -1,9 +1,12 @@
 ﻿using OpenModular.Common.Utils.DependencyInjection;
+using OpenModular.Common.Utils.Helpers;
+using OpenModular.Module.UAP.Core.Conventions;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using ZiggyCreatures.Caching.Fusion;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure;
 
@@ -13,14 +16,12 @@ internal class DefaultLoginVerifyCodeService : ILoginVerifyCodeService, ISinglet
     private readonly Color[] _colors = new[] { Color.Black, Color.Red, Color.Blue, Color.Green, Color.Orange, Color.Brown, Color.Brown, Color.DarkBlue };
 
     private readonly StringHelper _stringHelper;
-    private readonly ICacheProvider _cacheHandler;
-    private readonly AdminCacheKeys _cacheKeys;
+    private readonly UAPCacheProvider _cache;
 
-    public DefaultLoginVerifyCodeService(StringHelper stringHelper, ICacheProvider cacheHandler,  AdminCacheKeys cacheKeys)
+    public DefaultLoginVerifyCodeService(StringHelper stringHelper, UAPCacheProvider cache)
     {
         _stringHelper = stringHelper;
-        _cacheHandler = cacheHandler;
-        _cacheKeys = cacheKeys;
+        _cache = cache;
     }
 
     public async Task<LoginVerifyCode> Create()
@@ -31,7 +32,8 @@ internal class DefaultLoginVerifyCodeService : ILoginVerifyCodeService, ISinglet
 
         var id = Guid.NewGuid().ToString();
 
-        await _cacheHandler.Set(_cacheKeys.VerifyCode(id), code, 5);
+
+        await _cache.SetAsync(UAPCacheKeys.VerifyCode(id), code, new FusionCacheEntryOptions(new TimeSpan(5)));
 
         return new LoginVerifyCode(id, "data:image/png;base64," + Convert.ToBase64String(bytes));
     }
@@ -41,14 +43,11 @@ internal class DefaultLoginVerifyCodeService : ILoginVerifyCodeService, ISinglet
         if (id.IsNull() || code.IsNull())
             return false;
 
-        var cacheCode = await _cacheHandler.Get(_cacheKeys.VerifyCode(id));
-        if (cacheCode.IsNull())
-            return false;
+        var cacheCode = await _cache.TryGetAsync<string>(UAPCacheKeys.VerifyCode(id));
+        if (cacheCode.HasValue && cacheCode.Value.Equals(code))
+            return true;
 
-        if (!cacheCode.Equals(code))
-            return false;
-
-        return true;
+        return false;
     }
 
     /// <summary>

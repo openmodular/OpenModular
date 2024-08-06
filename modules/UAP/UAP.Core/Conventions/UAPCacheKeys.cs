@@ -1,12 +1,18 @@
-﻿using OpenModular.Cache.Abstractions;
-using OpenModular.DDD.Core.Domain.Entities.TypeIds;
+﻿using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 
 namespace OpenModular.Module.UAP.Core.Conventions;
 
 /// <summary>
 /// 统一认证平台缓存键
 /// </summary>
-public class UAPCacheKeys() : CacheKeysAbstract(UAPConstants.ModuleCode)
+public sealed class UAPCacheKeys
 {
-    public string User(UserId userId) => $"User:{userId}";
+    /// <summary>
+    /// 验证码缓存键
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public static string VerifyCode(string id) => $"VerifyCode:{id}";
+
+    public static string User(UserId userId) => $"User:{userId}";
 }
