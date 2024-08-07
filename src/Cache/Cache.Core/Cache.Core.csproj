@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.0-preview.6.24328.4" />
-    <PackageReference Include="ZiggyCreatures.FusionCache.Serialization.SystemTextJson" Version="1.3.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis"  />
+		<PackageReference Include="ZiggyCreatures.FusionCache.Serialization.SystemTextJson"  />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Module\Module.Core\Module.Core.csproj" />
-    <ProjectReference Include="..\Cache.Abstractions\Cache.Abstractions.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Module\Module.Core\Module.Core.csproj" />
+		<ProjectReference Include="..\Cache.Abstractions\Cache.Abstractions.csproj" />
+	</ItemGroup>
 
 </Project>

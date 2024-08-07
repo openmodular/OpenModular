@@ -22,7 +22,7 @@ public class JwtCredentialBuilder : ICredentialBuilder
         _logger = logger;
     }
 
-    public async Task<ICredential> Build(List<Claim> claims)
+    public Task<ICredential> Build(List<Claim> claims)
     {
         var options = _options.CurrentValue;
 
@@ -43,6 +43,6 @@ public class JwtCredentialBuilder : ICredentialBuilder
             RefreshToken = Guid.NewGuid().ToString().Replace("-", "")
         };
 
-        return jwtCredential;
+        return Task.FromResult<ICredential>(jwtCredential);
     }
 }

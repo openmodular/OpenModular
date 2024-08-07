@@ -56,7 +56,7 @@ internal static class GeneratorExecutionContextExtensions
     /// <param name="context"></param>
     /// <param name="className"></param>
     /// <returns></returns>
-    public static ClassDeclarationSyntax? GetClassDeclaration(this GeneratorExecutionContext context, string className)
+    public static ClassDeclarationSyntax GetClassDeclaration(this GeneratorExecutionContext context, string className)
     {
         foreach (var syntaxTree in context.Compilation.SyntaxTrees)
         {
