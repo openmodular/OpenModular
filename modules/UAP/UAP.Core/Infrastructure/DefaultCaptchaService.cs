@@ -6,11 +6,10 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using ZiggyCreatures.Caching.Fusion;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure;
 
-internal class DefaultLoginVerifyCodeService : ILoginVerifyCodeService, ISingletonDependency
+internal class DefaultCaptchaService : ICaptchaService, ISingletonDependency
 {
     //颜色列表，用于验证码、噪线、噪点 
     private readonly Color[] _colors = new[] { Color.Black, Color.Red, Color.Blue, Color.Green, Color.Orange, Color.Brown, Color.Brown, Color.DarkBlue };
@@ -18,13 +17,13 @@ internal class DefaultLoginVerifyCodeService : ILoginVerifyCodeService, ISinglet
     private readonly StringHelper _stringHelper;
     private readonly UAPCacheProvider _cache;
 
-    public DefaultLoginVerifyCodeService(StringHelper stringHelper, UAPCacheProvider cache)
+    public DefaultCaptchaService(StringHelper stringHelper, UAPCacheProvider cache)
     {
         _stringHelper = stringHelper;
         _cache = cache;
     }
 
-    public async Task<LoginVerifyCode> Create()
+    public async Task<LoginVerifyCode> Create(string ip)
     {
         var code = _stringHelper.GenerateRandomNumber();
 
@@ -32,8 +31,7 @@ internal class DefaultLoginVerifyCodeService : ILoginVerifyCodeService, ISinglet
 
         var id = Guid.NewGuid().ToString();
 
-
-        await _cache.SetAsync(UAPCacheKeys.VerifyCode(id), code, new FusionCacheEntryOptions(new TimeSpan(5)));
+        await _cache.SetAsync(UAPCacheKeys.Captcha(id), code, TimeSpan.FromMinutes(5));
 
         return new LoginVerifyCode(id, "data:image/png;base64," + Convert.ToBase64String(bytes));
     }
@@ -43,7 +41,7 @@ internal class DefaultLoginVerifyCodeService : ILoginVerifyCodeService, ISinglet
         if (id.IsNull() || code.IsNull())
             return false;
 
-        var cacheCode = await _cache.TryGetAsync<string>(UAPCacheKeys.VerifyCode(id));
+        var cacheCode = await _cache.TryGetAsync<string>(UAPCacheKeys.Captcha(id));
         if (cacheCode.HasValue && cacheCode.Value.Equals(code))
             return true;
 

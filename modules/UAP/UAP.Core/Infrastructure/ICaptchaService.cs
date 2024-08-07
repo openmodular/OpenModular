@@ -1,15 +1,16 @@
 ﻿namespace OpenModular.Module.UAP.Core.Infrastructure;
 
 /// <summary>
-/// 登录验证码服务
+/// 验证码服务
 /// </summary>
-public interface ILoginVerifyCodeService
+public interface ICaptchaService
 {
     /// <summary>
     /// 创建
     /// </summary>
+    /// <param name="ip">IP地址</param>
     /// <returns></returns>
-    Task<LoginVerifyCode> Create();
+    Task<LoginVerifyCode> Create(string ip);
 
     /// <summary>
     /// 校验

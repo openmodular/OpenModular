@@ -12,7 +12,7 @@ public sealed class UAPCacheKeys
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public static string VerifyCode(string id) => $"VerifyCode:{id}";
+    public static string Captcha(string id) => $"VerifyCode:{id}";
 
     public static string User(UserId userId) => $"User:{userId}";
 }

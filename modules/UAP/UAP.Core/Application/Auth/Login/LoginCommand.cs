@@ -20,5 +20,5 @@ public class LoginCommand : CommandBase<LoginDto>
     /// <summary>
     /// 验证码
     /// </summary>
-    public string VerifyCode { get; set; }
+    public string Captcha { get; set; }
 }

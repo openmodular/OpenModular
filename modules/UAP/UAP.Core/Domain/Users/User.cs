@@ -184,7 +184,7 @@ public class User : AggregateRoot<UserId>
     /// </summary>
     public void Delete()
     {
-        IsDeleted = true;
+        Status = UserStatus.Deleted;
         UpdatedAt = DateTimeOffset.Now;
 
         AddDomainEvent(new UserDeletedDomainEvent(this));

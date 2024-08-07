@@ -11,7 +11,7 @@ internal class LoginCommandHandler(IUserRepository userRepository, IPasswordHash
     {
         Check.NotNull(request.UserName, nameof(request.UserName));
         Check.NotNull(request.Password, nameof(request.Password));
-        Check.NotNull(request.VerifyCode, nameof(request.VerifyCode));
+        Check.NotNull(request.Captcha, nameof(request.Captcha));
 
         var user = await userRepository.GetAsync(m => m.UserName == request.UserName, cancellationToken);
 
