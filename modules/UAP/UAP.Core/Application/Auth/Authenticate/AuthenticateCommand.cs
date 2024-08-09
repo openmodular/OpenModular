@@ -1,11 +1,11 @@
 ﻿using OpenModular.DDD.Core.Application.Command;
 
-namespace OpenModular.Module.UAP.Core.Application.Auth.Login;
+namespace OpenModular.Module.UAP.Core.Application.Auth.Authenticate;
 
 /// <summary>
 /// 登录命令
 /// </summary>
-public class LoginCommand : CommandBase<LoginDto>
+public class AuthenticateCommand : CommandBase<AuthenticateDto>
 {
     /// <summary>
     /// 用户名

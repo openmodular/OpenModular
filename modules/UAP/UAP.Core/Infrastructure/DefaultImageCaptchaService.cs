@@ -9,7 +9,7 @@ using SixLabors.ImageSharp.Processing;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure;
 
-internal class DefaultCaptchaService : ICaptchaService, ISingletonDependency
+internal class DefaultImageCaptchaService : IImageCaptchaService, ISingletonDependency
 {
     //颜色列表，用于验证码、噪线、噪点 
     private readonly Color[] _colors = new[] { Color.Black, Color.Red, Color.Blue, Color.Green, Color.Orange, Color.Brown, Color.Brown, Color.DarkBlue };
@@ -17,13 +17,13 @@ internal class DefaultCaptchaService : ICaptchaService, ISingletonDependency
     private readonly StringHelper _stringHelper;
     private readonly UAPCacheProvider _cache;
 
-    public DefaultCaptchaService(StringHelper stringHelper, UAPCacheProvider cache)
+    public DefaultImageCaptchaService(StringHelper stringHelper, UAPCacheProvider cache)
     {
         _stringHelper = stringHelper;
         _cache = cache;
     }
 
-    public async Task<LoginVerifyCode> Create(string ip)
+    public async Task<ImageCaptcha> CreateAsync()
     {
         var code = _stringHelper.GenerateRandomNumber();
 
@@ -33,10 +33,10 @@ internal class DefaultCaptchaService : ICaptchaService, ISingletonDependency
 
         await _cache.SetAsync(UAPCacheKeys.Captcha(id), code, TimeSpan.FromMinutes(5));
 
-        return new LoginVerifyCode(id, "data:image/png;base64," + Convert.ToBase64String(bytes));
+        return new ImageCaptcha(id, "data:image/png;base64," + Convert.ToBase64String(bytes));
     }
 
-    public async Task<bool> Verify(string id, string code)
+    public async Task<bool> VerifyAsync(string id, string code)
     {
         if (id.IsNull() || code.IsNull())
             return false;

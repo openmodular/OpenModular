@@ -3,11 +3,11 @@ using OpenModular.Module.UAP.Core.Conventions;
 using OpenModular.Module.UAP.Core.Domain.Users;
 using OpenModular.Module.UAP.Core.Infrastructure;
 
-namespace OpenModular.Module.UAP.Core.Application.Auth.Login;
+namespace OpenModular.Module.UAP.Core.Application.Auth.Authenticate;
 
-internal class LoginCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher) : CommandHandler<LoginCommand, LoginDto>
+internal class AuthenticateCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher) : CommandHandler<AuthenticateCommand, AuthenticateDto>
 {
-    public override async Task<LoginDto> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public override async Task<AuthenticateDto> Handle(AuthenticateCommand request, CancellationToken cancellationToken)
     {
         Check.NotNull(request.UserName, nameof(request.UserName));
         Check.NotNull(request.Password, nameof(request.Password));
@@ -29,6 +29,6 @@ internal class LoginCommandHandler(IUserRepository userRepository, IPasswordHash
                 throw new UAPBusinessException(UAPErrorCode.Auth_UserDisabled);
         }
 
-        return new LoginDto();
+        return new AuthenticateDto();
     }
 }
