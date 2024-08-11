@@ -25,7 +25,7 @@ public static class ServiceCollectionExtensions
         using var sp = services.BuildServiceProvider();
         var options = sp.GetRequiredService<IOptions<CacheOptions>>().Value;
 
-        if (options.Disabled)
+        if (options.Custom)
             return services;
 
         var modules = services.GetModuleCollection();
@@ -68,5 +68,10 @@ public static class ServiceCollectionExtensions
         }
 
         return services;
+    }
+
+    public static IServiceCollection AddCacheProvider(this IServiceCollection services)
+    {
+
     }
 }

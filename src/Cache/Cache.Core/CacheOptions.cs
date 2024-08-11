@@ -10,9 +10,9 @@ public class CacheOptions
     public const string Position = $"{OpenModularConstants.Name}:Cache";
 
     /// <summary>
-    /// 禁用缓存，当需要自定义缓存配置逻辑时，需要将该配置设置为true
+    /// 自定义缓存配置，当需要自定义缓存配置逻辑时，需要将该配置设置为true
     /// </summary>
-    public bool Disabled { get; set; }
+    public bool Custom { get; set; }
 
     /// <summary>
     /// 缓存模式
