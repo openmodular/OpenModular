@@ -27,7 +27,7 @@ public sealed class AuthenticationSource
     /// </summary>
     /// <param name="schema"></param>
     /// <returns></returns>
-    public static AuthenticationSource Create(string schema)
+    public static AuthenticationSource GetOrCreate(string schema)
     {
         var source = new AuthenticationSource(schema);
         _sources.Add(source);
@@ -35,27 +35,37 @@ public sealed class AuthenticationSource
     }
 
     /// <summary>
+    /// 获取指定认证源
+    /// </summary>
+    /// <param name="schema"></param>
+    /// <returns></returns>
+    public static AuthenticationSource Find(string schema)
+    {
+        return _sources.FirstOrDefault(s => s.Schema == schema);
+    }
+
+    /// <summary>
     /// 本地账户
     /// </summary>
-    public static AuthenticationSource Local = Create("Local");
+    public static AuthenticationSource Local = GetOrCreate("Local");
 
     /// <summary>
     /// AD账户
     /// </summary>
-    public static AuthenticationSource ActiveDirectory = Create("ActiveDirectory");
+    public static AuthenticationSource ActiveDirectory = GetOrCreate("ActiveDirectory");
 
     /// <summary>
     /// 企业微信
     /// </summary>
-    public static AuthenticationSource WeCom = Create("WeCom");
+    public static AuthenticationSource WeCom = GetOrCreate("WeCom");
 
     /// <summary>
     /// 钉钉
     /// </summary>
-    public static AuthenticationSource DingTalk = Create("DingTalk");
+    public static AuthenticationSource DingTalk = GetOrCreate("DingTalk");
 
     /// <summary>
     /// 飞书
     /// </summary>
-    public static AuthenticationSource FeiShu = Create("FeiShu");
+    public static AuthenticationSource FeiShu = GetOrCreate("FeiShu");
 }

@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using OpenModular.Common.Utils;
+﻿using OpenModular.Common.Utils;
 using OpenModular.Module.Core;
-using System.Reflection;
+using OpenModular.Module.Web;
 
-namespace OpenModular.Module.Web;
+// ReSharper disable once CheckNamespace
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {

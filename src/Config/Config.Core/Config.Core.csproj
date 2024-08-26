@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\..\Cache\Cache.Abstractions\Cache.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Module\Module.Core\Module.Core.csproj" />
     <ProjectReference Include="..\Config.Abstractions\Config.Abstractions.csproj" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
-﻿using OpenModular.Module.Abstractions;
+﻿using OpenModular.Config.Abstractions;
+using OpenModular.Module.Abstractions;
 
 namespace OpenModular.Module.Core;
 
@@ -12,6 +13,8 @@ internal class ModuleDescriptor : IModuleDescriptor
     }
 
     public IModule Module { get; }
+
+    public IConfigDescriptor Config { get; set; }
 
     public IModuleConfigurator Configurator { get; set; }
 

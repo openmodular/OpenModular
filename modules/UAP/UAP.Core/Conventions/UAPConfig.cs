@@ -1,10 +1,16 @@
-﻿namespace OpenModular.Module.UAP.Core.Conventions;
+﻿using OpenModular.Config.Abstractions;
+
+namespace OpenModular.Module.UAP.Core.Conventions;
 
 /// <summary>
 /// UAP配置
 /// </summary>
-public class UAPConfig
+public class UAPConfig : ConfigAbstract
 {
+    public UAPConfig() : base(UAPConstants.ModuleCode)
+    {
+    }
+
     /// <summary>
     /// 认证配置
     /// </summary>

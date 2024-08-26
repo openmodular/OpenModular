@@ -1,10 +1,10 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+using OpenModular.Persistence;
+using OpenModular.Persistence.DataSeeding;
 using OpenModular.Persistence.DataSeeding.Internal;
 
-namespace OpenModular.Persistence.DataSeeding;
+// ReSharper disable once CheckNamespace
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
@@ -25,7 +25,7 @@ public static class ServiceCollectionExtensions
         services.TryAddScoped<IDataSeedingExecutor, DefaultDataSeedingExecutor>();
 
         services.TryAddScoped<IDataSeedingHandler, DefaultDataSeedingHandler<TDbContext>>();
-        
+
         return services;
     }
 }

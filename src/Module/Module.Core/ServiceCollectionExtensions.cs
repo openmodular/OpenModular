@@ -1,10 +1,11 @@
 ﻿using Mapster;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using OpenModular.Common.Utils;
 using OpenModular.Module.Abstractions;
+using OpenModular.Module.Core;
 
-namespace OpenModular.Module.Core;
+// ReSharper disable once CheckNamespace
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
@@ -36,17 +37,7 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
-
-    /// <summary>
-    /// 获取模块集合
-    /// </summary>
-    /// <param name="services"></param>
-    /// <returns></returns>
-    public static IModuleCollection GetModuleCollection(this IServiceCollection services)
-    {
-        return (IModuleCollection)services.First(m => m.ServiceType == typeof(IModuleCollection)).ImplementationInstance!;
-    }
-
+    
     /// <summary>
     /// 添加模块前置服务
     /// </summary>

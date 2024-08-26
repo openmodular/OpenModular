@@ -1,9 +1,9 @@
 ﻿using Mapster;
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
 using OpenModular.Common.Utils.DependencyInjection;
 
-namespace OpenModular.Common.Utils;
+// ReSharper disable once CheckNamespace
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {

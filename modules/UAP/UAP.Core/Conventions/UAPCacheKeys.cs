@@ -15,4 +15,6 @@ public sealed class UAPCacheKeys
     public static string Captcha(string id) => $"VerifyCode:{id}";
 
     public static string User(UserId userId) => $"User:{userId}";
+
+    public static string Config(string moduleCode) => $"Config:{moduleCode}";
 }

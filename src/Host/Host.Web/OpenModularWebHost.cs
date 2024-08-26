@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OpenModular.Authentication.JwtBearer;
-using OpenModular.Authorization;
 using OpenModular.Cache.Core;
 using OpenModular.Common.Utils;
 using OpenModular.Host.Abstractions;
@@ -14,7 +12,6 @@ using OpenModular.Host.Web.OpenApi;
 using OpenModular.Host.Web.Options;
 using OpenModular.Module.Core;
 using OpenModular.Module.Web;
-using OpenModular.Persistence;
 using Serilog;
 
 namespace OpenModular.Host.Web;

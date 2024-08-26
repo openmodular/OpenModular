@@ -8,14 +8,9 @@ namespace OpenModular.Cache.Abstractions;
 public interface ICacheProvider : IDisposable
 {
     /// <summary>
-    /// 缓存提供器类型
+    /// 模块编码
     /// </summary>
-    CacheProviderType Type { get; }
-
-    /// <summary>
-    /// 缓存提供器名称
-    /// </summary>
-    string Name { get; }
+    string ModuleCode { get; }
 
     /// <summary>
     /// A FusionCache instance

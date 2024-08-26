@@ -1,14 +1,15 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using OpenModular.DDD.Core.Domain.Repositories;
 using Microsoft.Data.Sqlite;
 using OpenModular.DDD.Core.Uow;
+using OpenModular.Persistence;
 
-namespace OpenModular.Persistence;
+// ReSharper disable once CheckNamespace
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {

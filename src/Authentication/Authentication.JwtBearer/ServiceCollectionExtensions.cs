@@ -2,11 +2,12 @@
 using OpenModular.Authentication.Abstractions;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using OpenModular.Authentication.JwtBearer;
 
-namespace OpenModular.Authentication.JwtBearer;
+// ReSharper disable once CheckNamespace
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {

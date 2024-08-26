@@ -1,14 +1,43 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection.Extensions;
 using OpenModular.Config.Abstractions;
+using OpenModular.Config.Core;
+using OpenModular.Module.Core;
 
-namespace OpenModular.Config.Core;   
+// ReSharper disable once CheckNamespace
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddOpenModularConfig(this IServiceCollection services, Action<ConfigOptions> configure)
+    /// <summary>
+    /// 添加OpenModular配置服务
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddOpenModularConfig(this IServiceCollection services)
     {
-        services.Configure(configure);
-        services.AddSingleton<IConfigProvider, ConfigProvider>();
+        var modules = services.GetModuleCollection();
+
+        foreach (var module in modules)
+        {
+            var configType = module.Module.GetType().Assembly.GetTypes().FirstOrDefault(t => t.IsAssignableTo(typeof(IConfig)));
+
+            if (configType == null)
+            {
+                continue;
+            }
+
+            var descriptor = new ConfigDescriptor(module.Module.Code, configType);
+
+            module.SetConfigDescriptor(descriptor);
+
+            services.TryAddTransient(configType, sp =>
+            {
+                var provider = sp.GetRequiredService<IConfigProvider>();
+
+                return provider.GetAsync(configType);
+            });
+        }
+
         return services;
     }
 }

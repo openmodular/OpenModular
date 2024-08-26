@@ -3,8 +3,9 @@ using OpenModular.Authentication.Abstractions;
 using OpenModular.Common.Utils.DependencyInjection;
 using OpenModular.Module.UAP.Core.Conventions;
 using OpenModular.Module.UAP.Core.Domain.Users;
+using OpenModular.Module.UAP.Core.Infrastructure;
 
-namespace OpenModular.Module.UAP.Core.Infrastructure.Authentication;
+namespace OpenModular.Module.UAP.Core.Application.Auth.Authenticate;
 
 /// <summary>
 /// 本地密码认证身份处理器实现
@@ -49,7 +50,7 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
 
         if (_config.Authentication.ImageCaptcha.IsEnabled)
         {
-            if (identity.CaptchaId.IsNull() || identity.Captcha.IsNull()|| !await _imageCaptchaService.VerifyAsync(identity.CaptchaId, identity.Captcha))
+            if (identity.CaptchaId.IsNull() || identity.Captcha.IsNull() || !await _imageCaptchaService.VerifyAsync(identity.CaptchaId, identity.Captcha))
             {
                 context.Status = AuthenticationStatus.InvalidImageCaptcha;
                 context.Message = _localizer["Authentication failed, invalid image captcha"];
@@ -80,7 +81,7 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
 }
 
 /// <summary>
-/// 密码身份
+/// 账密身份
 /// </summary>
 public class PasswordIdentity
 {

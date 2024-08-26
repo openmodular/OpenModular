@@ -9,6 +9,8 @@ namespace OpenModular.Module.UAP.Core.Infrastructure.Persistence;
 
 public class UAPDbContext(DbContextOptions<UAPDbContext> dbContextOptions) : OpenModularDbContext<UAPDbContext>(dbContextOptions, UAPConstants.ModuleCode)
 {
+    public DbSet<Domain.Configs.Config> Configs { get; set; }
+
     public DbSet<Organization> Organizations { get; set; }
 
     public DbSet<Department> Departments { get; set; }

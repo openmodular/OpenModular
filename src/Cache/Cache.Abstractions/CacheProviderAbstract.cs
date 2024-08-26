@@ -4,16 +4,13 @@ namespace OpenModular.Cache.Abstractions;
 
 public abstract class CacheProviderAbstract : ICacheProvider
 {
-    protected CacheProviderAbstract(CacheProviderType type, string name, IFusionCacheProvider cacheProvider)
+    protected CacheProviderAbstract( string name, IFusionCacheProvider cacheProvider)
     {
-        Type = type;
-        Name = name;
+        ModuleCode = name;
         FusionCache = cacheProvider.GetCache(name);
     }
 
-    public CacheProviderType Type { get; }
-
-    public string Name { get; }
+    public string ModuleCode { get; }
 
     public IFusionCache FusionCache { get; }
 

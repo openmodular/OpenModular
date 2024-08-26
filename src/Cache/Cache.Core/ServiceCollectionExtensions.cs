@@ -34,7 +34,7 @@ public static class ServiceCollectionExtensions
         {
             // 查找缓存提供器的实现
             var providerType = module.Module.GetType().Assembly.GetTypes()
-                .FirstOrDefault(t => t.Name == $"{module.Module.Code}CacheProvider");
+                .FirstOrDefault(t => t.IsAssignableTo(typeof(ICacheProvider)));
 
             if (providerType == null)
                 continue;
@@ -68,10 +68,5 @@ public static class ServiceCollectionExtensions
         }
 
         return services;
-    }
-
-    public static IServiceCollection AddCacheProvider(this IServiceCollection services)
-    {
-
     }
 }
