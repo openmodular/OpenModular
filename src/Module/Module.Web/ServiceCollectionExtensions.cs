@@ -1,5 +1,4 @@
-﻿using OpenModular.Common.Utils;
-using OpenModular.Module.Core;
+﻿using OpenModular.Module.Core;
 using OpenModular.Module.Web;
 
 // ReSharper disable once CheckNamespace
@@ -79,7 +78,12 @@ public static class ServiceCollectionExtensions
         var collection = services.GetModuleWebCollection();
         foreach (var descriptor in collection!)
         {
-            context.Services.AddFromAssembly(descriptor.ModuleWeb.GetType().Assembly);
+            var assembly = descriptor.ModuleWeb.GetType().Assembly;
+
+            services.AddAutoMapper(assembly);
+
+            context.Services.AddServicesFromAssembly(assembly);
+
             var des = descriptor as ModuleWebDescriptor;
             des?.Configurator?.PreConfigureService(context);
         }

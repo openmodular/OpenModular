@@ -88,11 +88,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{FB9EBEF5
 		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "09_Config", "09_Config", "{6CCBEFBC-2973-4E34-AEDF-C8B57FAA8364}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "09_Configuration", "09_Configuration", "{6CCBEFBC-2973-4E34-AEDF-C8B57FAA8364}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Config.Abstractions", "src\Config\Config.Abstractions\Config.Abstractions.csproj", "{1AB14C34-2350-4890-9E04-8E3AC8F3ADEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuration.Abstractions", "src\Configuration\Configuration.Abstractions\Configuration.Abstractions.csproj", "{1AB14C34-2350-4890-9E04-8E3AC8F3ADEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Config.Core", "src\Config\Config.Core\Config.Core.csproj", "{C030467B-973B-4F24-9974-6CEC20460D7E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuration.Core", "src\Configuration\Configuration.Core\Configuration.Core.csproj", "{C030467B-973B-4F24-9974-6CEC20460D7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

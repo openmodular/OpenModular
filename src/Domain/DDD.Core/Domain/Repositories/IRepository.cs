@@ -9,6 +9,12 @@ public interface IRepository;
 public interface IRepository<TEntity> : IRepository where TEntity : IEntity
 {
     /// <summary>
+    /// 获取查询条件
+    /// </summary>
+    /// <returns></returns>
+    IQueryable<TEntity> GetQueryable();
+
+    /// <summary>
     /// 根据指定的 <paramref name="predicate"/> 获取查询列表
     /// </summary>
     /// <param name="predicate">过滤条件</param>

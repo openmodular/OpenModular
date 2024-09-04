@@ -2,7 +2,6 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using OpenModular.Authentication.Abstractions;
 
@@ -13,18 +12,18 @@ namespace OpenModular.Authentication.JwtBearer;
 /// </summary>
 public class JwtCredentialBuilder : ICredentialBuilder
 {
-    private readonly IOptionsMonitor<JwtOptions> _options;
     private readonly ILogger<JwtCredentialBuilder> _logger;
+    private readonly IJwtOptionsProvider _optionsProvider;
 
-    public JwtCredentialBuilder(IOptionsMonitor<JwtOptions> options, ILogger<JwtCredentialBuilder> logger)
+    public JwtCredentialBuilder(ILogger<JwtCredentialBuilder> logger, IJwtOptionsProvider optionsProvider)
     {
-        _options = options;
         _logger = logger;
+        _optionsProvider = optionsProvider;
     }
 
-    public Task<ICredential> Build(List<Claim> claims)
+    public async Task<ICredential> Build(List<Claim> claims)
     {
-        var options = _options.CurrentValue;
+        var options = await _optionsProvider.GetAsync();
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Key));
         var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -43,6 +42,6 @@ public class JwtCredentialBuilder : ICredentialBuilder
             RefreshToken = Guid.NewGuid().ToString().Replace("-", "")
         };
 
-        return Task.FromResult<ICredential>(jwtCredential);
+        return jwtCredential;
     }
 }

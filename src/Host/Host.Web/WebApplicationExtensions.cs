@@ -119,8 +119,7 @@ public static class WebApplicationExtensions
 
         return app;
     }
-
-
+    
     /// <summary>
     /// 启用Banner图
     /// </summary>
@@ -157,8 +156,7 @@ public static class WebApplicationExtensions
 
         return app;
     }
-
-
+    
     /// <summary>
     /// 启动后打印Banner图案
     /// </summary>

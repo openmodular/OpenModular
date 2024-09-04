@@ -1,11 +1,11 @@
-﻿using Mapster;
+﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
-using OpenModular.Module.UAP.Core.Application.Users.CreateUser;
-using OpenModular.Module.UAP.Core.Application.Users.GetUser;
+using OpenModular.Module.UAP.Core.Application.Users.Create;
+using OpenModular.Module.UAP.Core.Application.Users.Get;
 using OpenModular.Module.UAP.Web.Models.Users;
 using OpenModular.Module.Web;
 
@@ -15,10 +15,12 @@ namespace OpenModular.Module.UAP.Web.Controllers;
 public class UserController : ModuleController
 {
     private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
 
-    public UserController(IMediator mediator)
+    public UserController(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
+        _mapper = mapper;
     }
 
     /// <summary>
@@ -29,11 +31,11 @@ public class UserController : ModuleController
     [HttpPost]
     public async Task<APIResponse<UserId>> Create(UserCreateRequest request)
     {
-        var command = request.Adapt<CreateUserCommand>();
+        var command = _mapper.Map<UserCreateCommand>(request);
         command.CreatedBy = UserId;
 
         var userId = await _mediator.Send(command);
-        
+
         return APIResponse.Success(userId);
     }
 

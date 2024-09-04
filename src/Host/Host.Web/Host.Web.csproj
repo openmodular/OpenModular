@@ -10,6 +10,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Authentication\Authentication.JwtBearer\Authentication.JwtBearer.csproj" />
 		<ProjectReference Include="..\..\Cache\Cache.Core\Cache.Core.csproj" />
+		<ProjectReference Include="..\..\Configuration\Configuration.Core\Configuration.Core.csproj" />
 		<ProjectReference Include="..\..\Domain\DDD.Core\DDD.Core.csproj" />
 		<ProjectReference Include="..\..\Module\Module.Web\Module.Web.csproj" />
 		<ProjectReference Include="..\..\Persistence\Persistence.DataSeeding\Persistence.DataSeeding.csproj" />

@@ -1,4 +1,8 @@
-﻿using OpenModular.Host.Web.Options;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using OpenModular.Common.Utils.Extensions;
+using OpenModular.Host.Web.Options;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;
@@ -49,6 +53,32 @@ internal static class ServiceCollectionExtensions
                 cfg.RegisterServicesFromAssembly(descriptor.ModuleWeb.GetType().Assembly);
                 cfg.RegisterServicesFromAssembly(descriptor.ModuleWeb.Module.GetType().Assembly);
             }
+        });
+
+        return services;
+    }
+
+    /// <summary>
+    /// 添加多语言服务
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuration"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddOpenModularLocalization(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddLocalization(opt => opt.ResourcesPath = "Resources");
+
+        services.Configure<LangOptions>(configuration.GetSection(LangOptions.Position));
+
+        services.Configure<RequestLocalizationOptions>(options =>
+        {
+            var langOptions = services.BuildServiceProvider().GetRequiredService<IOptions<LangOptions>>().Value;
+
+            var supportedCultures = langOptions.Supported.IsNullOrEmpty() ? ["zh-CN", "en-US"] : langOptions.Supported;
+            var defaultCulture = langOptions.DefaultLang.IsNull() ? supportedCultures[0] : langOptions.DefaultLang;
+
+            options.SetDefaultCulture(defaultCulture)
+                .AddSupportedCultures(supportedCultures);
         });
 
         return services;

@@ -15,7 +15,28 @@ namespace OpenModular.Module.UAP.Migrations.Sqlite.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.0-preview.6.24328.4");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.0-preview.7.24405.3");
+
+            modelBuilder.Entity("OpenModular.Module.UAP.Core.Domain.Configs.Config", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ModuleCode")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UAP_Config", (string)null);
+                });
 
             modelBuilder.Entity("OpenModular.Module.UAP.Core.Domain.DataSeedingHistories.DataSeedingHistory", b =>
                 {
@@ -119,9 +140,6 @@ namespace OpenModular.Module.UAP.Migrations.Sqlite.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Gender")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsDeleted")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("Locked")

@@ -1,7 +1,6 @@
-﻿using OpenModular.Module.Abstractions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using OpenModular.Module.Abstractions;
 using OpenModular.Module.UAP.Core.Infrastructure.Persistence;
-using OpenModular.Persistence;
-using OpenModular.Persistence.DataSeeding;
 
 namespace OpenModular.Module.UAP.Core;
 

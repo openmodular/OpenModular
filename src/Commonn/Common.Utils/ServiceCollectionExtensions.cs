@@ -1,5 +1,4 @@
-﻿using Mapster;
-using System.Reflection;
+﻿using System.Reflection;
 using OpenModular.Common.Utils.DependencyInjection;
 
 // ReSharper disable once CheckNamespace
@@ -14,9 +13,7 @@ public static class ServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddCommonUtils(this IServiceCollection services)
     {
-        services.AddMapster();
-
-        services.AddFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddServicesFromAssembly(Assembly.GetExecutingAssembly());
 
         return services;
     }
@@ -27,7 +24,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services"></param>
     /// <param name="assembly"></param>
     /// <returns></returns>
-    public static IServiceCollection AddFromAssembly(this IServiceCollection services, Assembly assembly)
+    public static IServiceCollection AddServicesFromAssembly(this IServiceCollection services, Assembly assembly)
     {
         if (assembly == null)
             return services;

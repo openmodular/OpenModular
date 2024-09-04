@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
-		<PackageReference Include="Mapster" />
-		<PackageReference Include="Mapster.DependencyInjection" />
+		<PackageReference Include="AutoMapper" />
 		<PackageReference Include="MediatR" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
 		<PackageReference Include="Microsoft.Extensions.Options" />

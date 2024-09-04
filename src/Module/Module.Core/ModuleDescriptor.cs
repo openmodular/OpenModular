@@ -1,4 +1,4 @@
-﻿using OpenModular.Config.Abstractions;
+﻿using OpenModular.Configuration.Abstractions;
 using OpenModular.Module.Abstractions;
 
 namespace OpenModular.Module.Core;

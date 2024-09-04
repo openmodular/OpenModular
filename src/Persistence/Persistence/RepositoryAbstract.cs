@@ -24,6 +24,11 @@ public class RepositoryAbstract<TEntity, TDbContext> : IRepository<TEntity> wher
         Db = DbContext.Set<TEntity>();
     }
 
+    public IQueryable<TEntity> GetQueryable()
+    {
+        return Db.AsNoTracking();
+    }
+
     public List<TEntity> GetList(Expression<Func<TEntity, bool>> predicate)
     {
         return Db.Where(predicate).ToList();

@@ -6,6 +6,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Commonn\Common.Utils\Common.Utils.csproj" />
-    <ProjectReference Include="..\..\Config\Config.Abstractions\Config.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Configuration\Configuration.Abstractions\Configuration.Abstractions.csproj" />
   </ItemGroup>
 </Project>

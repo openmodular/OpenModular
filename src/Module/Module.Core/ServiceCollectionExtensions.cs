@@ -1,7 +1,6 @@
-﻿using Mapster;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using OpenModular.Common.Utils;
+﻿using Microsoft.Extensions.DependencyInjection.Extensions;
 using OpenModular.Module.Abstractions;
+using OpenModular.Module.Abstractions.Localization;
 using OpenModular.Module.Core;
 
 // ReSharper disable once CheckNamespace
@@ -37,7 +36,7 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
-    
+
     /// <summary>
     /// 添加模块前置服务
     /// </summary>
@@ -49,9 +48,21 @@ public static class ServiceCollectionExtensions
         var collection = services.GetModuleCollection();
         foreach (var descriptor in collection!)
         {
-            TypeAdapterConfig.GlobalSettings.Scan(descriptor.Module.GetType().Assembly);
+            var assembly = descriptor.Module.GetType().Assembly;
 
-            context.Services.AddFromAssembly(descriptor.Module.GetType().Assembly);
+            //对象映射
+            services.AddAutoMapper(assembly);
+
+            //服务注入
+            context.Services.AddServicesFromAssembly(assembly);
+
+            //多语言
+            var localizerType = assembly.GetTypes().FirstOrDefault(m => m.IsAssignableTo(typeof(IModuleLocalizer)));
+            if (localizerType != null)
+            {
+                context.Services.TryAddTransient(localizerType);
+                context.Services.TryAddKeyedTransient(typeof(IModuleLocalizer), descriptor.Module.Code, localizerType);
+            }
 
             var des = descriptor as ModuleDescriptor;
             des?.Configurator?.PreConfigureService(context);

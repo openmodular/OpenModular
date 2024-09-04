@@ -10,7 +10,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\src\Authentication\Authentication.Abstractions\Authentication.Abstractions.csproj" />
 		<ProjectReference Include="..\..\..\src\Cache\Cache.Abstractions\Cache.Abstractions.csproj" />
-		<ProjectReference Include="..\..\..\src\Config\Config.Abstractions\Config.Abstractions.csproj" />
+		<ProjectReference Include="..\..\..\src\Configuration\Configuration.Abstractions\Configuration.Abstractions.csproj" />
 		<ProjectReference Include="..\..\..\src\Domain\DDD.Core\DDD.Core.csproj" />
 		<ProjectReference Include="..\..\..\src\Module\Module.Abstractions\Module.Abstractions.csproj" />
 		<ProjectReference Include="..\..\..\src\Persistence\Persistence.DataSeeding\Persistence.DataSeeding.csproj" />

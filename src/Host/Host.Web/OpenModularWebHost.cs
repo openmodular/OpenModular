@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Localization;
 using OpenModular.Cache.Core;
 using OpenModular.Common.Utils;
 using OpenModular.Host.Abstractions;
@@ -64,8 +65,14 @@ public class OpenModularWebHost : IOpenModularHost
     {
         var moduleConfigureContext = new ModuleConfigureContext(_services, _builder.Environment, _builder.Configuration);
 
+        //添加多语言支持
+        _services.AddOpenModularLocalization(_builder.Configuration);
+
         //添加公共服务
         _services.AddCommonUtils();
+
+        //添加领域驱动服务
+        _services.AddDDD();
 
         //添加输出缓存服务
         _services.AddOutputCache();
@@ -96,7 +103,7 @@ public class OpenModularWebHost : IOpenModularHost
         _services.AddHttpClient();
 
         //添加JWT认证
-        _services.AddJwtBearer(_builder.Configuration);
+        _services.AddJwtBearer();
 
         //添加授权服务
         _services.AddOpenModularAuthorization();
@@ -106,6 +113,9 @@ public class OpenModularWebHost : IOpenModularHost
 
         //添加缓存服务
         _services.AddOpenModularCache(_builder.Configuration);
+        
+        //添加配置服务
+        _services.AddOpenModularConfig();
 
         _services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -160,6 +170,9 @@ public class OpenModularWebHost : IOpenModularHost
         //CORS
         app.UseCors("Default");
 
+        //多语言
+        app.UseRequestLocalization();
+
         //认证
         app.UseAuthentication();
 
@@ -183,6 +196,8 @@ public class OpenModularWebHost : IOpenModularHost
 
         //启用Banner图
         app.UseBanner(app.Lifetime, _hostOptions);
+
+        GlobalServiceProvider.SetServiceProvider(app.Services);
 
         await app.RunAsync();
     }
