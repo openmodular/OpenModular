@@ -95,7 +95,7 @@ public class User : AggregateRoot<UserId>
 
     public User()
     {
-
+        //for ef
     }
 
     /// <summary>

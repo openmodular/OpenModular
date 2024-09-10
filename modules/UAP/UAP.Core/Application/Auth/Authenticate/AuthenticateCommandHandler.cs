@@ -1,24 +1,20 @@
-﻿using OpenModular.DDD.Core.Application.Command;
+﻿using OpenModular.Authentication.Abstractions;
+using OpenModular.DDD.Core.Application.Command;
 using OpenModular.Module.UAP.Core.Conventions;
 using OpenModular.Module.UAP.Core.Domain.Users;
-using OpenModular.Module.UAP.Core.Infrastructure;
 
 namespace OpenModular.Module.UAP.Core.Application.Auth.Authenticate;
 
-internal class AuthenticateCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher) : CommandHandler<AuthenticateCommand, AuthenticateDto>
+internal class AuthenticateCommandHandler(IEnumerable<IAuthenticationIdentityHandler<User>> identityHandlers) : CommandHandler<AuthenticateCommand, AuthenticateDto>
 {
     public override async Task<AuthenticateDto> Handle(AuthenticateCommand request, CancellationToken cancellationToken)
     {
-        Check.NotNull(request.UserName, nameof(request.UserName));
-        Check.NotNull(request.Password, nameof(request.Password));
-        Check.NotNull(request.Captcha, nameof(request.Captcha));
+        Check.NotNull(request.IdentityJson, nameof(request.IdentityJson));
 
-        var user = await userRepository.GetAsync(m => m.UserName == request.UserName, cancellationToken);
-
-        var passwordHash = passwordHasher.HashPassword(user, request.Password);
-        if (passwordHasher.VerifyHashedPassword(user, passwordHash, user.PasswordHash))
+        var identityHandler = identityHandlers.FirstOrDefault(x => x.Mode == request.Mode && x.Source == request.Source);
+        if (identityHandler == null)
         {
-            throw new UAPBusinessException(UAPErrorCode.Auth_PasswordError);
+            throw new UAPBusinessException(UAPErrorCode.Auth_InvalidAuthenticationMode);
         }
 
         switch (user.Status)

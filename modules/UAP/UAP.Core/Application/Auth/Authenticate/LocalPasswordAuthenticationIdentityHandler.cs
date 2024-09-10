@@ -13,6 +13,7 @@ namespace OpenModular.Module.UAP.Core.Application.Auth.Authenticate;
 internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdentityHandler<User>, ITransientDependency
 {
     public AuthenticationMode Mode => AuthenticationMode.Password;
+
     public AuthenticationSource Source => AuthenticationSource.Local;
 
     private readonly IUserRepository _userRepository;
@@ -74,8 +75,6 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
             return;
         }
 
-        //TODO:双因素认证
-
         context.User = user;
     }
 }
@@ -104,9 +103,4 @@ public class PasswordIdentity
     /// 图形验证码
     /// </summary>
     public string Captcha { get; set; }
-
-    /// <summary>
-    /// 双因素验证码
-    /// </summary>
-    public string TwoFactorCaptcha { get; set; }
 }

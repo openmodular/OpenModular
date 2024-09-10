@@ -48,24 +48,4 @@ public sealed class AuthenticationSource
     /// 本地账户
     /// </summary>
     public static AuthenticationSource Local = GetOrCreate("Local");
-
-    /// <summary>
-    /// AD账户
-    /// </summary>
-    public static AuthenticationSource ActiveDirectory = GetOrCreate("ActiveDirectory");
-
-    /// <summary>
-    /// 企业微信
-    /// </summary>
-    public static AuthenticationSource WeCom = GetOrCreate("WeCom");
-
-    /// <summary>
-    /// 钉钉
-    /// </summary>
-    public static AuthenticationSource DingTalk = GetOrCreate("DingTalk");
-
-    /// <summary>
-    /// 飞书
-    /// </summary>
-    public static AuthenticationSource FeiShu = GetOrCreate("FeiShu");
 }

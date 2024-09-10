@@ -1,24 +1,25 @@
-﻿using OpenModular.DDD.Core.Application.Command;
+﻿using OpenModular.Authentication.Abstractions;
+using OpenModular.DDD.Core.Application.Command;
 
 namespace OpenModular.Module.UAP.Core.Application.Auth.Authenticate;
 
 /// <summary>
-/// 登录命令
+/// 认证命令
 /// </summary>
 public class AuthenticateCommand : CommandBase<AuthenticateDto>
 {
     /// <summary>
-    /// 用户名
+    /// 认证模式
     /// </summary>
-    public string UserName { get; set; }
+    public AuthenticationMode Mode { get; set; }
 
     /// <summary>
-    /// 密码
+    /// 认证源
     /// </summary>
-    public string Password { get; set; }
+    public AuthenticationSource Source { get; set; }
 
     /// <summary>
-    /// 验证码
+    /// 身份信息
     /// </summary>
-    public string Captcha { get; set; }
+    public string IdentityJson { get; set; }
 }
