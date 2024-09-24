@@ -19,7 +19,27 @@ public class AuthenticateCommand : CommandBase<AuthenticateDto>
     public AuthenticationSource Source { get; set; }
 
     /// <summary>
-    /// 身份信息
+    /// 身份载体
     /// </summary>
-    public string IdentityJson { get; set; }
+    public string Payload { get; set; }
+
+    /// <summary>
+    /// 认证终端
+    /// </summary>
+    public AuthenticationTerminal Terminal { get; set; }
+
+    /// <summary>
+    /// IPv4地址
+    /// </summary>
+    public string IPv4 { get; set; }
+
+    /// <summary>
+    /// IPv6地址
+    /// </summary>
+    public string IPv6 { get; set; }
+
+    /// <summary>
+    /// MAC地址
+    /// </summary>
+    public string Mac { get; set; }
 }

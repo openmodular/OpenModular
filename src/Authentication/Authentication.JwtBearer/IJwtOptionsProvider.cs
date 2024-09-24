@@ -2,5 +2,5 @@
 
 public interface IJwtOptionsProvider
 {
-    Task<JwtOptions> GetAsync();
+    JwtOptions Get();
 }

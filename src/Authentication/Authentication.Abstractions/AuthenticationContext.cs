@@ -1,10 +1,9 @@
-﻿using OpenModular.Authentication.Abstractions;
-using OpenModular.DDD.Core.Domain.Entities.TypeIds;
-using OpenModular.Module.UAP.Core.Application.Users.Get;
+﻿namespace OpenModular.Authentication.Abstractions;
 
-namespace OpenModular.Module.UAP.Core.Application.Auth.Authenticate;
-
-public class AuthenticateDto
+/// <summary>
+/// 认证上下文
+/// </summary>
+public class AuthenticationContext<TUser> where TUser : class
 {
     /// <summary>
     /// 认证模式
@@ -22,19 +21,34 @@ public class AuthenticateDto
     public bool Success => Status == AuthenticationStatus.Success;
 
     /// <summary>
-    /// 租户编号
+    /// 认证终端
     /// </summary>
-    public TenantId TenantId { get; set; }
+    public AuthenticationTerminal Terminal { get; set; }
 
     /// <summary>
-    /// 用户信息
+    /// IPv4地址
     /// </summary>
-    public UserDto User { get; set; }
+    public string IPv4 { get; set; }
+
+    /// <summary>
+    /// IPv6地址
+    /// </summary>
+    public string IPv6 { get; set; }
+
+    /// <summary>
+    /// MAC地址
+    /// </summary>
+    public string Mac { get; set; }
 
     /// <summary>
     /// 认证时间
     /// </summary>
-    public DateTimeOffset AuthenticateTime { get; set; }
+    public DateTimeOffset AuthenticateTime { get; } = DateTimeOffset.UtcNow;
+
+    /// <summary>
+    /// 用户信息
+    /// </summary>
+    public TUser User { get; set; }
 
     /// <summary>
     /// 认证状态

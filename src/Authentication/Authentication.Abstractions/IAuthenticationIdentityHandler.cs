@@ -16,10 +16,10 @@ public interface IAuthenticationIdentityHandler<TUser> where TUser : class
     AuthenticationSource Source { get; }
 
     /// <summary>
-    /// 处理
+    /// 解析身份信息
     /// </summary>
-    /// <param name="identityJson">身份标识JSON格式字符串</param>
+    /// <param name="payload">身份载体(JSON格式字符串)</param>
     /// <param name="context"></param>
     /// <returns></returns>
-    Task HandleAsync(string identityJson, IAuthenticationContext<TUser> context);
+    Task HandleAsync(string payload, AuthenticationContext<TUser> context);
 }

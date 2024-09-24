@@ -34,7 +34,7 @@ public abstract class CommandHandler<TCommand> : CommandHandlerBase, ICommandHan
 /// </summary>
 /// <typeparam name="TCommand"></typeparam>
 /// <typeparam name="TResult"></typeparam>
-public abstract class CommandHandler<TCommand, TResult> : CommandHandlerBase, ICommandHandler<TCommand, TResult> where TCommand : ICommand<TResult>, IRequest<TResult>
+public abstract class CommandHandler<TCommand, TResult> : CommandHandlerBase, ICommandHandler<TCommand, TResult> where TCommand : ICommand<TResult>
 {
     public abstract Task<TResult> Handle(TCommand request, CancellationToken cancellationToken);
 }

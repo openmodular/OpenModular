@@ -10,7 +10,7 @@ namespace OpenModular.Authentication.JwtBearer;
 /// <summary>
 /// JWT凭证生成器
 /// </summary>
-public class JwtCredentialBuilder : ICredentialBuilder
+public class JwtCredentialBuilder
 {
     private readonly ILogger<JwtCredentialBuilder> _logger;
     private readonly IJwtOptionsProvider _optionsProvider;
@@ -21,9 +21,9 @@ public class JwtCredentialBuilder : ICredentialBuilder
         _optionsProvider = optionsProvider;
     }
 
-    public async Task<ICredential> Build(List<Claim> claims)
+    public JwtCredential Build(List<Claim> claims)
     {
-        var options = await _optionsProvider.GetAsync();
+        var options = _optionsProvider.Get();
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Key));
         var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -31,7 +31,7 @@ public class JwtCredentialBuilder : ICredentialBuilder
         var jwtSecurityToken = new JwtSecurityToken(options.Issuer, options.Audience, claims, DateTime.Now, DateTime.Now.AddMinutes(options.Expires), signingCredentials);
         var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
-        _logger.LogDebug("build access_token：{token}", token);
+        _logger.LogInformation("build access_token：{token}", token);
 
         var jwtCredential = new JwtCredential
         {

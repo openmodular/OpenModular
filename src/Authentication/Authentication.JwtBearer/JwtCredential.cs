@@ -1,12 +1,10 @@
-﻿using OpenModular.Authentication.Abstractions;
-
-namespace OpenModular.Authentication.JwtBearer;
+﻿namespace OpenModular.Authentication.JwtBearer;
 
 /// <summary>
 /// JWT返回模型
 /// </summary>
 [Serializable]
-public class JwtCredential : ICredential
+public class JwtCredential
 {
     /// <summary>
     /// 账户编号

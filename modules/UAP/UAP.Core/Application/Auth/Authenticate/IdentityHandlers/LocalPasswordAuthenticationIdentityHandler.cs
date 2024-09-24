@@ -1,11 +1,12 @@
 ﻿using System.Text.Json;
 using OpenModular.Authentication.Abstractions;
 using OpenModular.Common.Utils.DependencyInjection;
+using OpenModular.Common.Utils.Extensions;
 using OpenModular.Module.UAP.Core.Conventions;
 using OpenModular.Module.UAP.Core.Domain.Users;
 using OpenModular.Module.UAP.Core.Infrastructure;
 
-namespace OpenModular.Module.UAP.Core.Application.Auth.Authenticate;
+namespace OpenModular.Module.UAP.Core.Application.Auth.Authenticate.IdentityHandlers;
 
 /// <summary>
 /// 本地密码认证身份处理器实现
@@ -31,9 +32,9 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
         _config = config;
     }
 
-    public async Task HandleAsync(string identityJson, IAuthenticationContext<User> context)
+    public async Task HandleAsync(string payload, AuthenticationContext<User> context)
     {
-        if (identityJson.IsNull())
+        if (payload.IsNull())
         {
             context.Status = AuthenticationStatus.InvalidIdentity;
             context.Message = _localizer["Authentication failed, invalid authentication identity"];
@@ -41,7 +42,7 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
             return;
         }
 
-        var identity = JsonSerializer.Deserialize<PasswordIdentity>(identityJson);
+        var identity = payload.ToModel<PasswordIdentity>();
         if (identity == null || identity.UserName.IsNull() || identity.Password.IsNull())
         {
             context.Status = AuthenticationStatus.InvalidIdentity;
@@ -59,7 +60,7 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
             }
         }
 
-        var user = await _userRepository.GetAsync(m => m.Status != UserStatus.Deleted && m.UserName == identity.UserName);
+        var user = await _userRepository.FindAsync(m => m.Status != UserStatus.Deleted && m.UserName == identity.UserName);
         if (user == null)
         {
             context.Status = AuthenticationStatus.UserNotFound;

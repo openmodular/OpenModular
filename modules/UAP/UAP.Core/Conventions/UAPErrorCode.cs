@@ -53,5 +53,9 @@ public enum UAPErrorCode
     /// <summary>
     /// 密码不匹配
     /// </summary>
-    Auth_PasswordMismatch
+    Auth_PasswordMismatch,
+    /// <summary>
+    /// 不支持的认证模式
+    /// </summary>
+    Auth_NotSupportMode,
 }

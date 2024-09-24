@@ -8,7 +8,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\src\Authentication\Authentication.Abstractions\Authentication.Abstractions.csproj" />
+		<ProjectReference Include="..\..\..\src\Authentication\Authentication.JwtBearer\Authentication.JwtBearer.csproj" />
 		<ProjectReference Include="..\..\..\src\Cache\Cache.Abstractions\Cache.Abstractions.csproj" />
 		<ProjectReference Include="..\..\..\src\Configuration\Configuration.Abstractions\Configuration.Abstractions.csproj" />
 		<ProjectReference Include="..\..\..\src\Domain\DDD.Core\DDD.Core.csproj" />

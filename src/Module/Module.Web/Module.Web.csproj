@@ -7,6 +7,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Authentication\Authentication.Abstractions\Authentication.Abstractions.csproj" />
 		<ProjectReference Include="..\..\Authorization\Authorization\Authorization.csproj" />
+		<ProjectReference Include="..\..\Commonn\Common.Web\Common.Web.csproj" />
 		<ProjectReference Include="..\..\Domain\DDD.Core\DDD.Core.csproj" />
 		<ProjectReference Include="..\Module.Core\Module.Core.csproj" />
 	</ItemGroup>

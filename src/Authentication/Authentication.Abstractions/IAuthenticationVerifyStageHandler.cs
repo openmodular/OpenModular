@@ -1,14 +1,18 @@
 ﻿namespace OpenModular.Authentication.Abstractions;
 
 /// <summary>
-/// 认证校验处理器
+/// 认证校验阶段处理器
 /// </summary>
-public interface IAuthenticationVerifyHandler<TUser> where TUser : class
+public interface IAuthenticationVerifyStageHandler<TUser> where TUser : class
 {
     /// <summary>
-    /// 处理
+    /// 阶段唯一名称
     /// </summary>
-    /// <typeparam name="TUser"></typeparam>
+    string Name { get; }
+
+    /// <summary>
+    /// 校验处理
+    /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
     Task HandleAsync(AuthenticationContext<TUser> context);

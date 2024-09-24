@@ -6,6 +6,8 @@ namespace OpenModular.Module.UAP.Core.Application.Users.Get;
 
 public class UserDto : IDto
 {
+    public UserId Id { get; set; }
+
     /// <summary>
     /// 用户名
     /// </summary>

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using OpenModular.Authentication.Abstractions;
 using OpenModular.Authentication.JwtBearer;
 
 // ReSharper disable once CheckNamespace
@@ -16,7 +15,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddJwtBearer(this IServiceCollection services)
     {
         //添加凭证构造器
-        services.AddScoped<ICredentialBuilder, JwtCredentialBuilder>();
+        services.AddScoped<JwtCredentialBuilder>();
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

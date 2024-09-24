@@ -48,4 +48,63 @@ public sealed class AuthenticationSource
     /// 本地账户
     /// </summary>
     public static AuthenticationSource Local = GetOrCreate("Local");
+
+    /// <summary>
+    /// AD账户
+    /// </summary>
+    public static AuthenticationSource ActiveDirectory = GetOrCreate("ActiveDirectory");
+
+    /// <summary>
+    /// 企业微信
+    /// </summary>
+    public static AuthenticationSource WeCom = GetOrCreate("WeCom");
+
+    /// <summary>
+    /// 钉钉
+    /// </summary>
+    public static AuthenticationSource DingTalk = GetOrCreate("DingTalk");
+
+    /// <summary>
+    /// 飞书
+    /// </summary>
+    public static AuthenticationSource FeiShu = GetOrCreate("FeiShu");
+
+    // 重载 == 运算符
+    public static bool operator ==(AuthenticationSource left, AuthenticationSource right)
+    {
+        if (ReferenceEquals(left, right))
+        {
+            return true;
+        }
+
+        if (left is null || right is null)
+        {
+            return false;
+        }
+
+        return left.Schema == right.Schema;
+    }
+
+    // 重载 != 运算符
+    public static bool operator !=(AuthenticationSource left, AuthenticationSource right)
+    {
+        return !(left == right);
+    }
+
+    // 重写 Equals 方法
+    public override bool Equals(object obj)
+    {
+        if (obj is AuthenticationSource other)
+        {
+            return this == other;
+        }
+
+        return false;
+    }
+
+    // 重写 GetHashCode 方法
+    public override int GetHashCode()
+    {
+        return Schema.GetHashCode();
+    }
 }

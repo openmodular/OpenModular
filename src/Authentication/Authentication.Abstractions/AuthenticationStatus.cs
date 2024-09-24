@@ -9,7 +9,7 @@ public enum AuthenticationStatus
     /// 成功
     /// </summary>
     Success,
-    
+
     /// <summary>
     /// 无效的认证身份
     /// </summary>
@@ -31,14 +31,14 @@ public enum AuthenticationStatus
     IncorrectPassword,
 
     /// <summary>
-    /// 账户被锁定
+    /// 用户被锁定
     /// </summary>
-    AccountLocked,
+    UserLocked,
 
     /// <summary>
-    /// 账户被禁用
+    /// 用户被禁用
     /// </summary>
-    AccountDisabled,
+    UserDisabled,
 
     /// <summary>
     /// 认证模式无效
@@ -58,5 +58,9 @@ public enum AuthenticationStatus
     /// <summary>
     /// 认证超时
     /// </summary>
-    Timeout
+    Timeout,
+    /// <summary>
+    /// 认证环节找不到
+    /// </summary>
+    VerifyStageNotFound
 }
