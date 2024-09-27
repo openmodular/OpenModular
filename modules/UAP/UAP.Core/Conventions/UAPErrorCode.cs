@@ -28,6 +28,22 @@ public enum UAPErrorCode
     /// 邮箱格式不正确
     /// </summary>
     User_EmailFormatNotValid,
+    /// <summary>
+    /// 用户已删除
+    /// </summary>
+    User_Deleted,
+    /// <summary>
+    /// 用户已禁用
+    /// </summary>
+    User_Disabled,
+    /// <summary>
+    /// 用户未激活
+    /// </summary>
+    User_Inactive,
+    /// <summary>
+    /// 用户未验证
+    /// </summary>
+    User_Unverified,
 
     /// <summary>
     /// 部门已存在
@@ -43,14 +59,6 @@ public enum UAPErrorCode
     /// </summary>
     Auth_PasswordError,
     /// <summary>
-    /// 用户已删除
-    /// </summary>
-    Auth_UserDeleted,
-    /// <summary>
-    /// 用户已禁用
-    /// </summary>
-    Auth_UserDisabled,
-    /// <summary>
     /// 密码不匹配
     /// </summary>
     Auth_PasswordMismatch,
@@ -58,4 +66,16 @@ public enum UAPErrorCode
     /// 不支持的认证模式
     /// </summary>
     Auth_NotSupportMode,
+    /// <summary>
+    /// 无效的刷新令牌
+    /// </summary>
+    Auth_InvalidRefreshToken,
+    /// <summary>
+    /// 刷新令牌已过期
+    /// </summary>
+    Auth_RefreshTokenExpired,
+    /// <summary>
+    /// 用户不存在
+    /// </summary>
+    Auth_UserNotFound
 }

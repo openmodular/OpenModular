@@ -71,6 +71,11 @@ public class User : AggregateRoot<UserId>
     public bool Locked { get; private set; }
 
     /// <summary>
+    /// 是否实名认证
+    /// </summary>
+    public bool IsRealNameVerified { get; set; }
+
+    /// <summary>
     /// 激活时间
     /// </summary>
     [JsonInclude]
@@ -92,7 +97,6 @@ public class User : AggregateRoot<UserId>
     /// </summary>
     [JsonInclude]
     public DateTimeOffset? UpdatedAt { get; private set; }
-
     public User()
     {
         //for ef
@@ -134,16 +138,12 @@ public class User : AggregateRoot<UserId>
     /// <param name="username"></param>
     /// <param name="email"></param>
     /// <param name="phone"></param>
+    /// <param name="status"></param>
     /// <param name="createdBy"></param>
     /// <returns></returns>
-    public static User Create(string username, string email, string phone, UserId createdBy)
+    public static User Create(string username, string email, string phone, UserStatus status, UserId createdBy)
     {
-        return new User(username, email, phone, UserStatus.Inactive, createdBy);
-    }
-
-    public static User Register(string username, string email, string phone, UserId createdBy)
-    {
-        return new User(username, email, phone, UserStatus.Unverified, createdBy);
+        return new User(username, email, phone, status, createdBy);
     }
 
     /// <summary>

@@ -14,6 +14,7 @@ public interface IAuthenticationVerifyStageHandler<TUser> where TUser : class
     /// 校验处理
     /// </summary>
     /// <param name="context"></param>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task HandleAsync(AuthenticationContext<TUser> context);
+    Task HandleAsync(AuthenticationContext<TUser> context, CancellationToken cancellationToken);
 }

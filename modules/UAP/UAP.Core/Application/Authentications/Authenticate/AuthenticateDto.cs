@@ -1,8 +1,7 @@
 ﻿using OpenModular.Authentication.Abstractions;
-using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 using OpenModular.Module.UAP.Core.Application.Users.Get;
 
-namespace OpenModular.Module.UAP.Core.Application.Auth.Authenticate;
+namespace OpenModular.Module.UAP.Core.Application.Authentications.Authenticate;
 
 public class AuthenticateDto
 {
@@ -20,11 +19,6 @@ public class AuthenticateDto
     /// 认证成功
     /// </summary>
     public bool Success => Status == AuthenticationStatus.Success;
-
-    /// <summary>
-    /// 租户编号
-    /// </summary>
-    public TenantId TenantId { get; set; }
 
     /// <summary>
     /// 用户信息

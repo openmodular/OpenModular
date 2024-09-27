@@ -1,9 +1,9 @@
 ﻿using OpenModular.Authentication.Abstractions;
 using OpenModular.Common.Utils.DependencyInjection;
-using OpenModular.Module.UAP.Core.Application.Auth.Authenticate.VerifyStageHandlers;
+using OpenModular.Module.UAP.Core.Application.Authentications.Authenticate.VerifyStageHandlers;
 using OpenModular.Module.UAP.Core.Domain.Users;
 
-namespace OpenModular.Module.UAP.Core.Application.Auth.Authenticate;
+namespace OpenModular.Module.UAP.Core.Application.Authentications.Authenticate;
 
 internal class AuthenticationVerifyHandler : IAuthenticationVerifyHandler<User>, ITransientDependency
 {
@@ -16,7 +16,7 @@ internal class AuthenticationVerifyHandler : IAuthenticationVerifyHandler<User>,
         _handlers = handlers;
     }
 
-    public async Task HandleAsync(AuthenticationContext<User> context)
+    public async Task HandleAsync(AuthenticationContext<User> context, CancellationToken cancellationToken)
     {
         foreach (var stage in Stages)
         {
@@ -27,7 +27,7 @@ internal class AuthenticationVerifyHandler : IAuthenticationVerifyHandler<User>,
                 return;
             }
 
-            await handle.HandleAsync(context);
+            await handle.HandleAsync(context, cancellationToken);
 
             if (context.Status != AuthenticationStatus.Success)
             {

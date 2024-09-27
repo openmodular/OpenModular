@@ -21,7 +21,7 @@ internal class UserCreateCommandHandler(IUserRepository repository, IPasswordHas
                 throw new UAPBusinessException(UAPErrorCode.User_PhoneExists);
         }
 
-        var user = User.Create(commond.Username, commond.Email, commond.Phone, commond.CreatedBy);
+        var user = User.Create(commond.Username, commond.Email, commond.Phone, UserStatus.Inactive, commond.CreatedBy);
 
         user.SetPasswordHash(passwordHasher.HashPassword(user, commond.Password));
 

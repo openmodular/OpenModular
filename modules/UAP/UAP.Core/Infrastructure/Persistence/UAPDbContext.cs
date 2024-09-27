@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OpenModular.Module.UAP.Core.Domain.Authentications;
 using OpenModular.Module.UAP.Core.Domain.DataSeedingHistories;
 using OpenModular.Module.UAP.Core.Domain.Departments;
 using OpenModular.Module.UAP.Core.Domain.Organizations;
@@ -20,4 +21,8 @@ public class UAPDbContext(DbContextOptions<UAPDbContext> dbContextOptions) : Ope
     public DbSet<UserDepartment> UserDepartments { get; set; }
 
     public DbSet<DataSeedingHistory> DataSeedingHistories { get; set; }
+
+    public DbSet<AuthenticationRecord> AuthenticationRecords { get; set; }
+
+    public DbSet<AuthenticationToken> AuthenticationTokens { get; set; }
 }

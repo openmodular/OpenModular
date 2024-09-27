@@ -5,7 +5,7 @@ namespace OpenModular.Authentication.JwtBearer;
 /// <summary>
 /// JWT令牌存储器
 /// </summary>
-public interface IJwtTokenStorage
+public interface IJwtSecurityTokenStorage
 {
     /// <summary>
     /// 存储
@@ -13,7 +13,7 @@ public interface IJwtTokenStorage
     /// <param name="model"></param>
     /// <param name="claims"></param>
     /// <returns></returns>
-    Task Save(JwtCredential model, List<Claim> claims);
+    Task Save(JwtSecurityToken model, List<Claim> claims);
 
     /// <summary>
     /// 检测刷新令牌并返回账户编号

@@ -1,13 +1,19 @@
 ﻿using OpenModular.Authentication.Abstractions;
 using OpenModular.DDD.Core.Application.Command;
+using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 
-namespace OpenModular.Module.UAP.Core.Application.Auth.Authenticate;
+namespace OpenModular.Module.UAP.Core.Application.Authentications.Authenticate;
 
 /// <summary>
 /// 认证命令
 /// </summary>
 public class AuthenticateCommand : CommandBase<AuthenticateDto>
 {
+    /// <summary>
+    /// 租户编号
+    /// </summary>
+    public TenantId? TenantId { get; set; }
+
     /// <summary>
     /// 认证模式
     /// </summary>

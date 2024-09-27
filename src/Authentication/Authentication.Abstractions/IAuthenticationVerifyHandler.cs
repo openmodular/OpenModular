@@ -10,6 +10,7 @@ public interface IAuthenticationVerifyHandler<TUser> where TUser : class
     /// </summary>
     /// <typeparam name="TUser"></typeparam>
     /// <param name="context"></param>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task HandleAsync(AuthenticationContext<TUser> context);
+    Task HandleAsync(AuthenticationContext<TUser> context, CancellationToken cancellationToken);
 }

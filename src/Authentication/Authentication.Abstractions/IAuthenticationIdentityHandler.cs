@@ -20,6 +20,7 @@ public interface IAuthenticationIdentityHandler<TUser> where TUser : class
     /// </summary>
     /// <param name="payload">身份载体(JSON格式字符串)</param>
     /// <param name="context"></param>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task HandleAsync(string payload, AuthenticationContext<TUser> context);
+    Task HandleAsync(string payload, AuthenticationContext<TUser> context, CancellationToken cancellationToken);
 }

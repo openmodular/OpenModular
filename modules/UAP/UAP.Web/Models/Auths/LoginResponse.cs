@@ -18,5 +18,5 @@ public class LoginResponse
     /// <summary>
     /// 令牌
     /// </summary>
-    public JwtCredential Jwt { get; set; }
+    public JwtSecurityToken Jwt { get; set; }
 }

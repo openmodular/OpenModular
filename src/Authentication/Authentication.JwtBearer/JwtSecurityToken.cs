@@ -1,16 +1,11 @@
 ﻿namespace OpenModular.Authentication.JwtBearer;
 
 /// <summary>
-/// JWT返回模型
+/// Json Web Security Token
 /// </summary>
 [Serializable]
-public class JwtCredential
+public class JwtSecurityToken
 {
-    /// <summary>
-    /// 账户编号
-    /// </summary>
-    public Guid AccountId { get; set; }
-
     /// <summary>
     /// 访问令牌
     /// </summary>
@@ -22,7 +17,7 @@ public class JwtCredential
     public string RefreshToken { get; set; }
 
     /// <summary>
-    /// 访问令牌有效期
+    /// 访问令牌有效期(单位：秒)
     /// </summary>
     public int ExpiresIn { get; set; }
 

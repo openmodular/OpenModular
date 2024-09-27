@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using OpenModular.Authentication.Abstractions;
-using OpenModular.Module.UAP.Core.Application.Auth.Authenticate;
+using OpenModular.Module.UAP.Core.Application.Authentications.Authenticate;
 using OpenModular.Module.UAP.Core.Application.Configs.PagedQuery;
 using OpenModular.Module.UAP.Core.Application.Departments.Get;
 using OpenModular.Module.UAP.Core.Application.Users.Get;

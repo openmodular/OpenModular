@@ -1,4 +1,5 @@
-﻿using OpenModular.Module.Core;
+﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+using OpenModular.Module.Core;
 using OpenModular.Module.Web;
 
 // ReSharper disable once CheckNamespace
@@ -15,6 +16,8 @@ public static class ServiceCollectionExtensions
         services.AddModuleCoreService();
 
         services.AddSingleton<IModuleWebCollection>(new ModuleWebCollection());
+
+        services.TryAddTransient<ITenantResolver, TenantResolver>();
 
         return services;
     }
