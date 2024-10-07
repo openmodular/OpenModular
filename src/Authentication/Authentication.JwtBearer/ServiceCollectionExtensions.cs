@@ -15,7 +15,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddJwtBearer(this IServiceCollection services)
     {
         //添加凭证构造器
-        services.AddScoped<JwtSecurityTokenBuilder>();
+        services.AddTransient<JwtSecurityTokenBuilder>();
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

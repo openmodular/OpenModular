@@ -2,6 +2,7 @@
 using OpenModular.Module.UAP.Core.Domain.Authentications;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
+using OpenModular.Authentication.Abstractions;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure.Persistence.Configurations;
 
@@ -19,5 +20,9 @@ public class AuthenticationTokenConfiguration : IEntityTypeConfiguration<Authent
         builder.Property(x => x.Id).ValueGeneratedNever().HasConversion(
             v => v.ToString(),
             v => new UserId(v));
+
+        builder.Property(x => x.Client).IsRequired().ValueGeneratedNever().HasConversion(
+            v => v.ToString(),
+            v => AuthenticationClient.GetOrCreate(v));
     }
 }

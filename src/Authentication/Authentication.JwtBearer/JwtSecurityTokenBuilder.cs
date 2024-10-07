@@ -14,13 +14,11 @@ public class JwtSecurityTokenBuilder
 {
     private readonly ILogger<JwtSecurityTokenBuilder> _logger;
     private readonly IJwtOptionsProvider _optionsProvider;
-    private readonly IJwtSecurityTokenStorage _storage;
 
-    public JwtSecurityTokenBuilder(ILogger<JwtSecurityTokenBuilder> logger, IJwtOptionsProvider optionsProvider, IJwtSecurityTokenStorage storage)
+    public JwtSecurityTokenBuilder(ILogger<JwtSecurityTokenBuilder> logger, IJwtOptionsProvider optionsProvider)
     {
         _logger = logger;
         _optionsProvider = optionsProvider;
-        _storage = storage;
     }
 
     public JwtSecurityToken Build(List<Claim> claims)
@@ -44,8 +42,6 @@ public class JwtSecurityTokenBuilder
 
         var refreshToken = Guid.NewGuid().ToString().Replace("-", "");
         jwtCredential.RefreshToken = refreshToken;
-
-        _storage.Save(jwtCredential, claims).Wait();
 
         return jwtCredential;
     }

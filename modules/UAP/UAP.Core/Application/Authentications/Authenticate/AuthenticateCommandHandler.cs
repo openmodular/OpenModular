@@ -40,7 +40,7 @@ internal class AuthenticateCommandHandler : CommandHandler<AuthenticateCommand, 
             IPv4 = request.IPv4,
             IPv6 = request.IPv6,
             Mac = request.Mac,
-            Terminal = request.Terminal
+            Client = request.Client
         };
 
         await identityHandler.HandleAsync(request.Payload, context, cancellationToken);
@@ -55,7 +55,7 @@ internal class AuthenticateCommandHandler : CommandHandler<AuthenticateCommand, 
         try
         {
             var record = AuthenticationRecord.Create(context.Mode, context.Source, context.AuthenticateTime);
-            record.Terminal = context.Terminal;
+            record.Client = context.Client;
             record.IPv4 = context.IPv4;
             record.IPv6 = context.IPv6;
             record.Mac = context.Mac;

@@ -1,45 +1,45 @@
 ﻿namespace OpenModular.Authentication.Abstractions;
 
 /// <summary>
-/// 认证终端
+/// 认证客户端
 /// </summary>
-public class AuthenticationTerminal
+public class AuthenticationClient
 {
-    private static readonly List<AuthenticationTerminal> _clients = new();
+    private static readonly List<AuthenticationClient> _clients = new();
 
-    internal AuthenticationTerminal(string name)
+    internal AuthenticationClient(string name)
     {
         Name = name;
     }
 
     /// <summary>
-    /// 终端名称
+    /// 客户端名称
     /// </summary>
     public string Name { get; }
 
     /// <summary>
-    /// 获取所有认证终端
+    /// 获取所有认证客户端
     /// </summary>
-    public static IEnumerable<AuthenticationTerminal> Clients => _clients;
+    public static IEnumerable<AuthenticationClient> Clients => _clients;
 
     /// <summary>
-    /// 创建一个认证终端
+    /// 创建一个认证客户端
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
-    public static AuthenticationTerminal GetOrCreate(string name)
+    public static AuthenticationClient GetOrCreate(string name)
     {
-        var source = new AuthenticationTerminal(name);
+        var source = new AuthenticationClient(name);
         _clients.Add(source);
         return source;
     }
 
     /// <summary>
-    /// 获取指定认证终端
+    /// 获取指定认证客户端
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
-    public static AuthenticationTerminal Find(string name)
+    public static AuthenticationClient Find(string name)
     {
         return _clients.FirstOrDefault(s => s.Name == name);
     }
@@ -47,10 +47,10 @@ public class AuthenticationTerminal
     /// <summary>
     /// Web端
     /// </summary>
-    public static AuthenticationTerminal Web = GetOrCreate(nameof(Web));
+    public static AuthenticationClient Web = GetOrCreate(nameof(Web));
 
     // 重载 == 运算符
-    public static bool operator ==(AuthenticationTerminal left, AuthenticationTerminal right)
+    public static bool operator ==(AuthenticationClient left, AuthenticationClient right)
     {
         if (ReferenceEquals(left, right))
         {
@@ -66,7 +66,7 @@ public class AuthenticationTerminal
     }
 
     // 重载 != 运算符
-    public static bool operator !=(AuthenticationTerminal left, AuthenticationTerminal right)
+    public static bool operator !=(AuthenticationClient left, AuthenticationClient right)
     {
         return !(left == right);
     }
@@ -74,7 +74,7 @@ public class AuthenticationTerminal
     // 重写 Equals 方法
     public override bool Equals(object obj)
     {
-        if (obj is AuthenticationTerminal other)
+        if (obj is AuthenticationClient other)
         {
             return this == other;
         }

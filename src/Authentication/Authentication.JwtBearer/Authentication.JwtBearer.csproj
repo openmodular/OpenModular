@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Commonn\Common.Utils\Common.Utils.csproj" />
+    <ProjectReference Include="..\..\Domain\DDD.Core\DDD.Core.csproj" />
     <ProjectReference Include="..\Authentication.Abstractions\Authentication.Abstractions.csproj" />
   </ItemGroup>
 

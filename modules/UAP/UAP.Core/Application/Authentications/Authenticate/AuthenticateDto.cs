@@ -26,6 +26,11 @@ public class AuthenticateDto
     public UserDto User { get; set; }
 
     /// <summary>
+    /// 客户端
+    /// </summary>
+    public AuthenticationClient Client { get; set; }
+
+    /// <summary>
     /// 认证时间
     /// </summary>
     public DateTimeOffset AuthenticateTime { get; set; }

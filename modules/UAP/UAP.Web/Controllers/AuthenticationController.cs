@@ -22,13 +22,15 @@ public class AuthenticationController : ModuleController
     private readonly IMapper _mapper;
     private readonly JwtSecurityTokenBuilder _builder;
     private readonly ITenantResolver _tenantResolver;
+    private readonly IJwtSecurityTokenStorage _tokenStorage;
 
-    public AuthenticationController(IMediator mediator, IMapper mapper, JwtSecurityTokenBuilder builder, ITenantResolver tenantResolver)
+    public AuthenticationController(IMediator mediator, IMapper mapper, JwtSecurityTokenBuilder builder, ITenantResolver tenantResolver, IJwtSecurityTokenStorage tokenStorage)
     {
         _mediator = mediator;
         _mapper = mapper;
         _builder = builder;
         _tenantResolver = tenantResolver;
+        _tokenStorage = tokenStorage;
     }
 
     /// <summary>
@@ -57,6 +59,8 @@ public class AuthenticationController : ModuleController
         if (dto.Success)
         {
             response.Jwt = BuildJwtCredential(dto.User, command.TenantId, dto.AuthenticateTime);
+
+            await _tokenStorage.SaveAsync(dto.User.Id, dto.Client, response.Jwt);
         }
 
         return APIResponse.Success(response);
@@ -71,9 +75,11 @@ public class AuthenticationController : ModuleController
     [EndpointDescription("刷新令牌")]
     public async Task<APIResponse<JwtSecurityToken>> RefreshToken(RefreshTokenRequest request)
     {
-        var command = new RefreshTokenCommand { RefreshToken = request.RefreshToken };
+        var command = new RefreshTokenCommand { RefreshToken = request.RefreshToken, Client = AuthenticationClient.Find(request.Client) };
         var user = await _mediator.Send(command);
-        var credential = BuildJwtCredential(user , null, DateTimeOffset.UtcNow);
+        var credential = BuildJwtCredential(user, null, DateTimeOffset.UtcNow);
+
+        await _tokenStorage.SaveAsync(user.Id, command.Client, credential);
 
         return APIResponse.Success(credential);
     }

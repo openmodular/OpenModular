@@ -17,9 +17,9 @@ public class AuthenticationRecordConfiguration : IEntityTypeConfiguration<Authen
             v => v.ToString(),
             v => AuthenticationSource.GetOrCreate(v));
 
-        builder.Property(x => x.Terminal).IsRequired().ValueGeneratedNever().HasConversion(
+        builder.Property(x => x.Client).IsRequired().ValueGeneratedNever().HasConversion(
             v => v.ToString(),
-            v => AuthenticationTerminal.GetOrCreate(v));
+            v => AuthenticationClient.GetOrCreate(v));
 
         builder.Property(x => x.IPv4).HasConversion(
             v => new IpHelper().Ipv4ToInt(v),

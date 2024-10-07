@@ -21,9 +21,9 @@ public class AuthenticationContext<TUser> where TUser : class
     public bool Success => Status == AuthenticationStatus.Success;
 
     /// <summary>
-    /// 认证终端
+    /// 认证客户端
     /// </summary>
-    public AuthenticationTerminal Terminal { get; set; }
+    public AuthenticationClient Client { get; set; }
 
     /// <summary>
     /// IPv4地址

@@ -27,7 +27,7 @@ internal class RefreshTokenCommandHandler : CommandHandler<RefreshTokenCommand, 
     {
         Check.NotNull(request.RefreshToken, nameof(request.RefreshToken));
 
-        var token = await _tokenRepository.FindAsync(m => m.RefreshToken == request.RefreshToken, cancellationToken);
+        var token = await _tokenRepository.FindAsync(m => m.RefreshToken == request.RefreshToken && m.Client == request.Client, cancellationToken);
         if (token == null)
         {
             throw new UAPBusinessException(UAPErrorCode.Auth_InvalidRefreshToken);

@@ -9,4 +9,9 @@ public class RefreshTokenRequest
     /// </summary>
     [Required]
     public string RefreshToken { get; set; }
+
+    /// <summary>
+    /// 终端
+    /// </summary>
+    public string Client { get; set; }
 }

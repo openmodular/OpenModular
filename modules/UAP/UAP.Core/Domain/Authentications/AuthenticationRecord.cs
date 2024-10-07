@@ -20,9 +20,9 @@ public class AuthenticationRecord : AggregateRoot<int>
     public AuthenticationSource Source { get; }
 
     /// <summary>
-    /// 认证终端
+    /// 认证客户端
     /// </summary>
-    public AuthenticationTerminal Terminal { get; set; }
+    public AuthenticationClient Client { get; set; }
 
     /// <summary>
     /// IPv4地址

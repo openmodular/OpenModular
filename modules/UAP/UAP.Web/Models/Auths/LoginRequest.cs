@@ -22,5 +22,5 @@ public class LoginRequest
     /// <summary>
     /// 终端
     /// </summary>
-    public string Terminal { get; set; }
+    public string Client { get; set; }
 }

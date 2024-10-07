@@ -30,9 +30,9 @@ public class AuthenticateCommand : CommandBase<AuthenticateDto>
     public string Payload { get; set; }
 
     /// <summary>
-    /// 认证终端
+    /// 认证客户端
     /// </summary>
-    public AuthenticationTerminal Terminal { get; set; }
+    public AuthenticationClient Client { get; set; }
 
     /// <summary>
     /// IPv4地址
