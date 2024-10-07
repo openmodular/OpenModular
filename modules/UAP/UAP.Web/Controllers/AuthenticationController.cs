@@ -8,6 +8,7 @@ using OpenModular.Authentication.Abstractions;
 using OpenModular.Authentication.JwtBearer;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 using OpenModular.Module.UAP.Core.Application.Authentications.Authenticate;
+using OpenModular.Module.UAP.Core.Application.Authentications.RefreshToken;
 using OpenModular.Module.UAP.Core.Application.Users.Get;
 using OpenModular.Module.UAP.Web.Models.Auths;
 using OpenModular.Module.Web;
@@ -65,12 +66,14 @@ public class AuthenticationController : ModuleController
     /// 刷新令牌
     /// </summary>
     /// <returns></returns>
-    [HttpGet]
+    [HttpPost]
     [AllowAnonymous]
     [EndpointDescription("刷新令牌")]
-    public async Task<APIResponse<JwtSecurityToken>> RefreshToken()
+    public async Task<APIResponse<JwtSecurityToken>> RefreshToken(RefreshTokenRequest request)
     {
-        var credential = BuildJwtCredential(null, null, DateTimeOffset.UtcNow);
+        var command = new RefreshTokenCommand { RefreshToken = request.RefreshToken };
+        var user = await _mediator.Send(command);
+        var credential = BuildJwtCredential(user , null, DateTimeOffset.UtcNow);
 
         return APIResponse.Success(credential);
     }

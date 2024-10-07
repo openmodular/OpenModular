@@ -1,4 +1,5 @@
-﻿using OpenModular.Authentication.JwtBearer;
+﻿using AutoMapper;
+using OpenModular.Authentication.JwtBearer;
 using OpenModular.DDD.Core.Application.Command;
 using OpenModular.Module.UAP.Core.Application.Users.Get;
 using OpenModular.Module.UAP.Core.Conventions;
@@ -12,12 +13,14 @@ internal class RefreshTokenCommandHandler : CommandHandler<RefreshTokenCommand, 
     private readonly IAuthenticationTokenRepository _tokenRepository;
     private readonly IJwtOptionsProvider _jwtOptionsProvider;
     private readonly IUserRepository _userRepository;
+    private readonly IMapper _mapper;
 
-    public RefreshTokenCommandHandler(IAuthenticationTokenRepository tokenRepository, IJwtOptionsProvider jwtOptionsProvider, IUserRepository userRepository)
+    public RefreshTokenCommandHandler(IAuthenticationTokenRepository tokenRepository, IJwtOptionsProvider jwtOptionsProvider, IUserRepository userRepository, IMapper mapper)
     {
         _tokenRepository = tokenRepository;
         _jwtOptionsProvider = jwtOptionsProvider;
         _userRepository = userRepository;
+        _mapper = mapper;
     }
 
     public override async Task<UserDto> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
@@ -55,6 +58,6 @@ internal class RefreshTokenCommandHandler : CommandHandler<RefreshTokenCommand, 
                 throw new UAPBusinessException(UAPErrorCode.User_Unverified);
         }
 
-
+        return _mapper.Map<UserDto>(user);
     }
 }
