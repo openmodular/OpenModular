@@ -11,12 +11,12 @@ public interface ITenantResolver
     /// 解析租户编号
     /// </summary>
     /// <returns></returns>
-    Task<TenantId?> ResolveAsync();
+    Task<TenantId> ResolveAsync();
 }
 
 internal class TenantResolver : ITenantResolver
 {
-    public Task<TenantId?> ResolveAsync()
+    public Task<TenantId> ResolveAsync()
     {
         return Task.FromResult(default(TenantId));
     }

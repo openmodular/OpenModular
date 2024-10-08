@@ -8,7 +8,6 @@ public interface IAuthenticationVerifyHandler<TUser> where TUser : class
     /// <summary>
     /// 处理
     /// </summary>
-    /// <typeparam name="TUser"></typeparam>
     /// <param name="context"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>

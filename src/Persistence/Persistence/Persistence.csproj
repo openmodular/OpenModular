@@ -4,7 +4,7 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
-		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" />
+		<!--<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" />-->
 		<PackageReference Include="System.Linq.Dynamic.Core" />
 	</ItemGroup>
 

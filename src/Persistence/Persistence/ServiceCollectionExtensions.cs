@@ -39,7 +39,7 @@ public static class ServiceCollectionExtensions
                 services.AddSQLite<TDbContext>(options.ConnectionString, migrationsAssemblyPrefix);
                 break;
             case DbProvider.MySql:
-                services.AddMySql<TDbContext>(options.ConnectionString, migrationsAssemblyPrefix);
+                //services.AddMySql<TDbContext>(options.ConnectionString, migrationsAssemblyPrefix);
                 break;
             case DbProvider.PostgreSql:
                 services.AddPostgreSql<TDbContext>(options.ConnectionString, migrationsAssemblyPrefix);
@@ -86,17 +86,17 @@ public static class ServiceCollectionExtensions
         });
     }
 
-    private static void AddMySql<TDbContext>(this IServiceCollection services, string connectionString, string migrationsAssemblyPrefix) where TDbContext : OpenModularDbContext<TDbContext>
-    {
-        services.AddDbContextPool<TDbContext>(builder =>
-        {
-            builder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), x => x.MigrationsAssembly($"{migrationsAssemblyPrefix}.Migrations.MySQL"));
+//    private static void AddMySql<TDbContext>(this IServiceCollection services, string connectionString, string migrationsAssemblyPrefix) where TDbContext : OpenModularDbContext<TDbContext>
+//    {
+//        services.AddDbContextPool<TDbContext>(builder =>
+//        {
+//            builder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), x => x.MigrationsAssembly($"{migrationsAssemblyPrefix}.Migrations.MySQL"));
 
-#if DEBUG
-            builder.LogTo(Console.WriteLine);
-#endif
-        });
-    }
+//#if DEBUG
+//            builder.LogTo(Console.WriteLine);
+//#endif
+//        });
+//    }
 
     private static void AddPostgreSql<TDbContext>(this IServiceCollection services, string connectionString, string migrationsAssemblyPrefix) where TDbContext : OpenModularDbContext<TDbContext>
     {

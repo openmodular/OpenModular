@@ -12,7 +12,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.ToTable($"{UAPConstants.ModuleCode}_{nameof(User)}");
 
         builder.Property(x => x.UserName).IsRequired().HasMaxLength(100);
+        builder.Property(x => x.NormalizedUserName).IsRequired().HasMaxLength(100);
         builder.Property(x => x.Email).IsRequired().HasMaxLength(300);
+        builder.Property(x => x.NormalizedEmail).IsRequired().HasMaxLength(300);
         builder.Property(x => x.Phone).IsRequired().HasMaxLength(50);
         builder.Property(x => x.PasswordHash).IsRequired().HasMaxLength(100);
         builder.Property(x => x.Tel).HasMaxLength(50);

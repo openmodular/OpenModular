@@ -18,6 +18,11 @@ public class User : AggregateRoot<UserId>
     public string UserName { get; }
 
     /// <summary>
+    /// 标准化用户名
+    /// </summary>
+    public string NormalizedUserName { get; }
+
+    /// <summary>
     /// 密码哈希值
     /// </summary>
     [JsonInclude]
@@ -27,6 +32,11 @@ public class User : AggregateRoot<UserId>
     /// 邮箱
     /// </summary>
     public string Email { get; private set; }
+
+    /// <summary>
+    /// 标准化邮箱
+    /// </summary>
+    public string NormalizedEmail { get; private set; }
 
     /// <summary>
     /// 手机号
@@ -97,6 +107,7 @@ public class User : AggregateRoot<UserId>
     /// </summary>
     [JsonInclude]
     public DateTimeOffset? UpdatedAt { get; private set; }
+
     public User()
     {
         //for ef
@@ -106,22 +117,24 @@ public class User : AggregateRoot<UserId>
     /// This constructor only for Json Serialize and Deserialize
     /// </summary>
     [JsonConstructor]
-    public User(UserId id, string username, string email, string phone, UserId createdBy) : base(id)
+    public User(UserId id, string userName, string email, string phone, UserId createdBy) : base(id)
     {
-        UserName = username;
+        UserName = userName;
+        NormalizedUserName = userName.ToUpper();
         Email = email;
+        NormalizedEmail = email.ToUpper();
         Phone = phone;
         CreatedBy = createdBy;
+        Status = UserStatus.Inactive;
     }
 
-    private User(string username, string email, string phone, UserStatus status, UserId createdBy) : base(new UserId())
+    private User(string userName, string email, string phone, UserStatus status, UserId createdBy) : base(new UserId())
     {
-        Check.NotNull(username, nameof(username));
-        Check.NotNull(phone, nameof(phone));
+        Check.NotNull(userName, nameof(userName));
 
         CheckRule(new UserEmailFormatNotValidRule(email));
 
-        UserName = username;
+        UserName = userName;
         Email = email;
         Phone = phone;
 
