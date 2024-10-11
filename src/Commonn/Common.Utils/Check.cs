@@ -32,4 +32,22 @@ public static class Check
 
         return value;
     }
+
+    /// <summary>
+    /// value不为null
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="value"></param>
+    /// <param name="parameterName"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    public static T NotNull<T>(T value, string parameterName) where T : class
+    {
+        if (value == null)
+        {
+            throw new ArgumentException($"{parameterName} can not be null!", parameterName);
+        }
+
+        return value;
+    }
 }
