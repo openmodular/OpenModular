@@ -47,7 +47,10 @@ public class AccountController : ModuleController
     [HttpGet]
     public async Task<APIResponse<AccountDto>> Get([BindRequired] Guid id)
     {
-        var query = new AccountGetQuery(new AccountId(id));
+        var query = new AccountGetQuery
+        {
+            AccountId = new AccountId(id)
+        };
 
         var account = await _mediator.Send(query);
         return APIResponse.Success(account);

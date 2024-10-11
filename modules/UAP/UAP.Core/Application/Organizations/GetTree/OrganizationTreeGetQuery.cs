@@ -3,4 +3,7 @@ using OpenModular.Module.UAP.Core.Domain.Organizations;
 
 namespace OpenModular.Module.UAP.Core.Application.Organizations.GetTree;
 
-internal record OrganizationTreeGetQuery(OrganizationId OrganizationId) : QueryBase<OrganizationTreeDto>;
+internal class OrganizationTreeGetQuery : QueryBase<OrganizationTreeDto>
+{
+    public OrganizationId OrganizationId { get; set; }
+}

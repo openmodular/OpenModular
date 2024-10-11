@@ -3,4 +3,7 @@ using OpenModular.Module.UAP.Core.Domain.Departments;
 
 namespace OpenModular.Module.UAP.Core.Application.Departments.Get;
 
-public record DepartmentGetQuery(DepartmentId DepartmentId) : QueryBase<DepartmentDto>;
+public class DepartmentGetQuery : QueryBase<DepartmentDto>
+{
+    public DepartmentId DepartmentId { get; set; }
+}
