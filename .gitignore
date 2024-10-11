@@ -397,3 +397,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 /publish_local.ps1
+/modules/WebHost/Seeding.data
