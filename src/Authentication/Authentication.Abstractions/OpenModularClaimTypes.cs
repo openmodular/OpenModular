@@ -13,14 +13,14 @@ public class OpenModularClaimTypes
     public const string TENANT_NAME = "tn";
 
     /// <summary>
-    /// 用户编号
+    /// 账户标识
     /// </summary>
-    public const string USER_ID = "id";
+    public const string ACCOUNT_ID = "id";
 
     /// <summary>
     /// 账户名称
     /// </summary>
-    public const string USER_NAME = "an";
+    public const string ACCOUNT_NAME = "an";
 
     /// <summary>
     /// 平台类型

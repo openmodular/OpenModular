@@ -7,7 +7,7 @@ namespace OpenModular.Module.UAP.Core.Domain.Authentications;
 /// <summary>
 /// 用户JWT凭证
 /// </summary>
-public class AuthenticationToken : AggregateRoot<UserId>
+public class AuthenticationToken : AggregateRoot<AccountId>
 {
     /// <summary>
     /// 认证客户端
@@ -34,7 +34,7 @@ public class AuthenticationToken : AggregateRoot<UserId>
         //for ef
     }
 
-    private AuthenticationToken(UserId userId, AuthenticationClient client) : base(userId)
+    private AuthenticationToken(AccountId accountId, AuthenticationClient client) : base(accountId)
     {
         Client = client;
     }
@@ -42,11 +42,11 @@ public class AuthenticationToken : AggregateRoot<UserId>
     /// <summary>
     /// 创建用户认证令牌
     /// </summary>
-    /// <param name="userId"></param>
+    /// <param name="accountId"></param>
     /// <param name="client"></param>
     /// <returns></returns>
-    public static AuthenticationToken Create(UserId userId, AuthenticationClient client)
+    public static AuthenticationToken Create(AccountId accountId, AuthenticationClient client)
     {
-        return new AuthenticationToken(userId, client);
+        return new AuthenticationToken(accountId, client);
     }
 }

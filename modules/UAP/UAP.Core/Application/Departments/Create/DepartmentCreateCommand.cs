@@ -33,5 +33,5 @@ public class DepartmentCreateCommand : CommandBase<DepartmentId>
     /// <summary>
     /// 创建人标识
     /// </summary>
-    public UserId CreatedBy { get; set; }
+    public AccountId CreatedBy { get; set; }
 }

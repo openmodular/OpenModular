@@ -1,8 +1,8 @@
 ﻿using OpenModular.Common.Utils.DependencyInjection;
-using OpenModular.Module.UAP.Core.Domain.Users;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Runtime.CompilerServices;
+using OpenModular.Module.UAP.Core.Domain.Accounts;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure;
 
@@ -13,7 +13,7 @@ public class PasswordHasher : IPasswordHasher, ISingletonDependency
     private readonly int _iterationCount = 10000;
     private readonly int _saltSize = 16;
 
-    public string HashPassword(User user, string password)
+    public string HashPassword(Account user, string password)
     {
         var salt = new byte[_saltSize];
         RandomNumberGenerator.Create().GetBytes(salt);
@@ -29,7 +29,7 @@ public class PasswordHasher : IPasswordHasher, ISingletonDependency
         return Convert.ToBase64String(outputBytes);
     }
 
-    public bool VerifyHashedPassword(User user, string hashedPassword, string providedPassword)
+    public bool VerifyHashedPassword(Account user, string hashedPassword, string providedPassword)
     {
         var iterCount = default(int);
         byte[] decodedHashedPassword = Convert.FromBase64String(hashedPassword);

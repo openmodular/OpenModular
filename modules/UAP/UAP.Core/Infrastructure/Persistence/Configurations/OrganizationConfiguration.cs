@@ -22,6 +22,6 @@ public class OrganizationConfiguration : IEntityTypeConfiguration<Organization>
 
         builder.Property(x => x.CreatedBy).ValueGeneratedNever().HasConversion(
             v => v != null ? v.ToString() : string.Empty,
-            v => v.IsNull() ? null : new UserId(v));
+            v => v.IsNull() ? null : new AccountId(v));
     }
 }

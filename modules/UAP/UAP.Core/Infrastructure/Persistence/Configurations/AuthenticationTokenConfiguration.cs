@@ -19,7 +19,7 @@ public class AuthenticationTokenConfiguration : IEntityTypeConfiguration<Authent
 
         builder.Property(x => x.Id).ValueGeneratedNever().HasConversion(
             v => v.ToString(),
-            v => new UserId(v));
+            v => new AccountId(v));
 
         builder.Property(x => x.Client).IsRequired().ValueGeneratedNever().HasConversion(
             v => v.ToString(),

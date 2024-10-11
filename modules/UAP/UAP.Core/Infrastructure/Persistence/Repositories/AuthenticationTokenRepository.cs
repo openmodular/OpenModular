@@ -5,6 +5,6 @@ using OpenModular.Persistence;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure.Persistence.Repositories;
 
-internal class AuthenticationTokenRepository(IUnitOfWork unitOfWork) : RepositoryAbstract<AuthenticationToken, UserId, UAPDbContext>(unitOfWork), IAuthenticationTokenRepository
+internal class AuthenticationTokenRepository(IUnitOfWork unitOfWork) : RepositoryAbstract<AuthenticationToken, AccountId, UAPDbContext>(unitOfWork), IAuthenticationTokenRepository
 {
 }

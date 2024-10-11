@@ -15,9 +15,9 @@ namespace OpenModular.Module.Web;
 public abstract class ControllerAbstract : ControllerBase
 {
     /// <summary>
-    /// 租户标识
+    /// 当前租户标识
     /// </summary>
-    public TenantId TenantId
+    public TenantId CurrentTenantId
     {
         get
         {
@@ -35,15 +35,15 @@ public abstract class ControllerAbstract : ControllerBase
     /// <summary>
     /// 当前登录用户标识
     /// </summary>
-    public UserId UserId
+    public AccountId CurrentAccountId
     {
         get
         {
-            var userId = User.FindFirst(OpenModularClaimTypes.USER_ID);
+            var accountId = User.FindFirst(OpenModularClaimTypes.ACCOUNT_ID);
 
-            if (userId != null && userId.Value.NotNull())
+            if (accountId != null && accountId.Value.NotNull())
             {
-                return new UserId(userId.Value);
+                return new AccountId(accountId.Value);
             }
 
             return null;

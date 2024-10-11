@@ -40,9 +40,9 @@ public class AuthenticationRecord : AggregateRoot<int>
     public string Mac { get; set; }
 
     /// <summary>
-    /// 用户编号
+    /// 账户标识
     /// </summary>
-    public UserId UserId { get; set; }
+    public AccountId AccountId { get; set; }
 
     /// <summary>
     /// 认证状态
@@ -77,6 +77,7 @@ public class AuthenticationRecord : AggregateRoot<int>
     /// </summary>
     /// <param name="mode"></param>
     /// <param name="source"></param>
+    /// <param name="authenticateTime"></param>
     /// <returns></returns>
     public static AuthenticationRecord Create(AuthenticationMode mode, AuthenticationSource source, DateTimeOffset authenticateTime)
     {

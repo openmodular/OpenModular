@@ -3,7 +3,7 @@
 /// <summary>
 /// 认证上下文
 /// </summary>
-public class AuthenticationContext<TUser> where TUser : class
+public class AuthenticationContext<TAccount> where TAccount : class
 {
     /// <summary>
     /// 认证模式
@@ -46,9 +46,9 @@ public class AuthenticationContext<TUser> where TUser : class
     public DateTimeOffset AuthenticateTime { get; } = DateTimeOffset.UtcNow;
 
     /// <summary>
-    /// 用户信息
+    /// 账户信息
     /// </summary>
-    public TUser User { get; set; }
+    public TAccount Account { get; set; }
 
     /// <summary>
     /// 认证状态

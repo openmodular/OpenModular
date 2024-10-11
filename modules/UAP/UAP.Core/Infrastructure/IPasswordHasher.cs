@@ -1,4 +1,4 @@
-﻿using OpenModular.Module.UAP.Core.Domain.Users;
+﻿using OpenModular.Module.UAP.Core.Domain.Accounts;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure;
 
@@ -10,7 +10,7 @@ public interface IPasswordHasher
     /// <param name="user"></param>
     /// <param name="password"></param>
     /// <returns></returns>
-    string HashPassword(User user, string password);
+    string HashPassword(Account user, string password);
 
     /// <summary>
     /// 验证密码
@@ -19,5 +19,5 @@ public interface IPasswordHasher
     /// <param name="hashedPassword"></param>
     /// <param name="providedPassword"></param>
     /// <returns></returns>
-    bool VerifyHashedPassword(User user, string hashedPassword, string providedPassword);
+    bool VerifyHashedPassword(Account user, string hashedPassword, string providedPassword);
 }

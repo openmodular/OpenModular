@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using OpenModular.Authentication.Abstractions;
-using OpenModular.Module.UAP.Core.Domain.Users;
+using OpenModular.Module.UAP.Core.Domain.Accounts;
 
 namespace OpenModular.Module.UAP.Core.Application.Authentications.Authenticate.VerifyStageHandlers;
 
-internal class UserStatusVerifyStageHandler : IAuthenticationVerifyStageHandler<User>
+internal class UserStatusVerifyStageHandler : IAuthenticationVerifyStageHandler<Account>
 {
     public const string StageName = "UserStatus";
 
@@ -17,11 +17,11 @@ internal class UserStatusVerifyStageHandler : IAuthenticationVerifyStageHandler<
         _logger = logger;
     }
 
-    public Task HandleAsync(AuthenticationContext<User> context, CancellationToken cancellationToken)
+    public Task HandleAsync(AuthenticationContext<Account> context, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Start verify user status, the user is {@user}.", context.User);
+        _logger.LogInformation("Start verify user status, the user is {@user}.", context.Account);
 
-        if (context.User.Status == UserStatus.Deleted)
+        if (context.Account.Status == AccountStatus.Deleted)
         {
             context.Status = AuthenticationStatus.UserNotFound;
             context.Message = "Authentication failed, user not found";

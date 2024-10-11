@@ -1,6 +1,6 @@
 ﻿using OpenModular.DDD.Core.Domain.Entities.TypeIds;
+using OpenModular.Module.UAP.Core.Domain.Accounts;
 using OpenModular.Module.UAP.Core.Domain.Organizations;
-using OpenModular.Module.UAP.Core.Domain.Users;
 using OpenModular.Module.UAP.Core.Infrastructure;
 
 namespace OpenModular.Module.UAP.DataSeeding;
@@ -10,7 +10,7 @@ internal class DataSeedingDefinition_20240619 : UAPDataSeedingDefinition
     /// <summary>
     /// 创世主
     /// </summary>
-    public UserId CreatorId = new("e0a953c3-ee8c-452b-9e6a-7d57d033bb00");
+    public AccountId CreatorId = new("e0a953c3-ee8c-452b-9e6a-7d57d033bb00");
 
     public override void Define()
     {
@@ -27,7 +27,7 @@ internal class DataSeedingDefinition_20240619 : UAPDataSeedingDefinition
 
     private void CreateCreator()
     {
-        var user = new User(CreatorId, "openmodular", "service@openmodular.io", "15155555555", CreatorId);
+        var user = new Account(CreatorId, "openmodular", "service@openmodular.io", "15155555555", CreatorId);
 
         user.SetPasswordHash(new PasswordHasher().HashPassword(user, "openmodular"));
 

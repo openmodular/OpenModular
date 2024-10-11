@@ -1,22 +1,22 @@
 ﻿using OpenModular.Authentication.Abstractions;
 using OpenModular.Common.Utils.DependencyInjection;
 using OpenModular.Module.UAP.Core.Application.Authentications.Authenticate.VerifyStageHandlers;
-using OpenModular.Module.UAP.Core.Domain.Users;
+using OpenModular.Module.UAP.Core.Domain.Accounts;
 
 namespace OpenModular.Module.UAP.Core.Application.Authentications.Authenticate;
 
-internal class AuthenticationVerifyHandler : IAuthenticationVerifyHandler<User>, ITransientDependency
+internal class AuthenticationVerifyHandler : IAuthenticationVerifyHandler<Account>, ITransientDependency
 {
     public static List<string> Stages = [UserStatusVerifyStageHandler.StageName];
 
-    private readonly IEnumerable<IAuthenticationVerifyStageHandler<User>> _handlers;
+    private readonly IEnumerable<IAuthenticationVerifyStageHandler<Account>> _handlers;
 
-    public AuthenticationVerifyHandler(IEnumerable<IAuthenticationVerifyStageHandler<User>> handlers)
+    public AuthenticationVerifyHandler(IEnumerable<IAuthenticationVerifyStageHandler<Account>> handlers)
     {
         _handlers = handlers;
     }
 
-    public async Task HandleAsync(AuthenticationContext<User> context, CancellationToken cancellationToken)
+    public async Task HandleAsync(AuthenticationContext<Account> context, CancellationToken cancellationToken)
     {
         foreach (var stage in Stages)
         {

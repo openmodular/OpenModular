@@ -1,5 +1,5 @@
 ﻿using OpenModular.Authentication.Abstractions;
-using OpenModular.Module.UAP.Core.Application.Users.Get;
+using OpenModular.Module.UAP.Core.Application.Accounts.Get;
 
 namespace OpenModular.Module.UAP.Core.Application.Authentications.Authenticate;
 
@@ -23,7 +23,7 @@ public class AuthenticateDto
     /// <summary>
     /// 用户信息
     /// </summary>
-    public UserDto User { get; set; }
+    public AccountDto User { get; set; }
 
     /// <summary>
     /// 客户端

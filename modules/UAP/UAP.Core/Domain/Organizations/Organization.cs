@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using OpenModular.DDD.Core.Domain.Entities;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
-using OpenModular.Module.UAP.Core.Domain.Users;
 
 namespace OpenModular.Module.UAP.Core.Domain.Organizations;
 
@@ -29,7 +28,7 @@ public class Organization : AggregateRoot<OrganizationId>
     /// <summary>
     /// 创建人标识
     /// </summary>
-    public UserId CreatedBy { get; }
+    public AccountId CreatedBy { get; }
 
     /// <summary>
     /// 创建时间
@@ -48,7 +47,7 @@ public class Organization : AggregateRoot<OrganizationId>
     }
 
     [JsonConstructor]
-    private Organization(OrganizationId id, string name, string code, string description, UserId createdBy) : base(id)
+    private Organization(OrganizationId id, string name, string code, string description, AccountId createdBy) : base(id)
     {
         Check.NotNull(name, nameof(name));
         Check.NotNull(code, nameof(code));
@@ -61,7 +60,7 @@ public class Organization : AggregateRoot<OrganizationId>
         CreatedAt = DateTime.UtcNow;
     }
 
-    public static Organization Create(string name, string code, string description, UserId createdBy)
+    public static Organization Create(string name, string code, string description, AccountId createdBy)
     {
         return new Organization(new OrganizationId(), name, code, description, createdBy);
     }

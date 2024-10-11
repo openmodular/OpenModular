@@ -25,9 +25,9 @@ public class AuthenticationRecordConfiguration : IEntityTypeConfiguration<Authen
             v => new IpHelper().Ipv4ToInt(v),
             v => new IpHelper().IntToIpv4(v));
 
-        builder.Property(x => x.UserId).ValueGeneratedNever().HasConversion(
+        builder.Property(x => x.AccountId).ValueGeneratedNever().HasConversion(
             v => v != null ? v.ToString() : "",
-            v => v.IsNull() ? null : new UserId(v));
+            v => v.IsNull() ? null : new AccountId(v));
 
         builder.HasKey(x => x.Id);
 

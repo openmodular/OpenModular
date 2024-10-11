@@ -3,7 +3,6 @@ using OpenModular.DDD.Core.Domain.Entities;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 using OpenModular.Module.UAP.Core.Domain.Departments.Events;
 using OpenModular.Module.UAP.Core.Domain.Organizations;
-using OpenModular.Module.UAP.Core.Domain.Users;
 
 namespace OpenModular.Module.UAP.Core.Domain.Departments;
 
@@ -40,7 +39,7 @@ public class Department : AggregateRoot<DepartmentId>
     /// <summary>
     /// 创建人标识
     /// </summary>
-    public UserId CreatedBy { get; private set; }
+    public AccountId CreatedBy { get; private set; }
 
     /// <summary>
     /// 创建时间
@@ -58,7 +57,7 @@ public class Department : AggregateRoot<DepartmentId>
     }
 
     [JsonConstructor]
-    private Department(OrganizationId organizationId, string name, DepartmentId parentId, string code, UserId createdBy) : base(new DepartmentId())
+    private Department(OrganizationId organizationId, string name, DepartmentId parentId, string code, AccountId createdBy) : base(new DepartmentId())
     {
         Check.NotNull(name, nameof(name));
         Check.NotNull(code, nameof(code));
@@ -83,7 +82,7 @@ public class Department : AggregateRoot<DepartmentId>
     /// <param name="code"></param>
     /// <param name="createdBy"></param>
     /// <returns></returns>
-    public static Department Create(OrganizationId organizationId, string name, DepartmentId parentId, string code, UserId createdBy)
+    public static Department Create(OrganizationId organizationId, string name, DepartmentId parentId, string code, AccountId createdBy)
     {
         return new Department(organizationId, name, parentId, code, createdBy);
     }

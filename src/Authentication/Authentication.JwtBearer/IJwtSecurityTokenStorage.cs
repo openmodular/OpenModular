@@ -11,9 +11,9 @@ public interface IJwtSecurityTokenStorage
     /// <summary>
     /// 存储
     /// </summary>
-    /// <param name="userId">用户编号</param>
+    /// <param name="accountId">用户编号</param>
     /// <param name="client">客户端</param>
     /// <param name="token">令牌</param>
     /// <returns></returns>
-    Task SaveAsync(UserId userId, AuthenticationClient client, JwtSecurityToken token);
+    Task SaveAsync(AccountId accountId, AuthenticationClient client, JwtSecurityToken token);
 }

@@ -6,6 +6,6 @@ namespace OpenModular.Module.UAP.Core.Domain.Authentications;
 /// <summary>
 /// 认证令牌仓储
 /// </summary>
-public interface IAuthenticationTokenRepository : IRepository<AuthenticationToken, UserId>
+public interface IAuthenticationTokenRepository : IRepository<AuthenticationToken, AccountId>
 {
 }

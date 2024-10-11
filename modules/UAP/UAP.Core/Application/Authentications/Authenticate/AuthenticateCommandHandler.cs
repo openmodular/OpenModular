@@ -3,20 +3,20 @@ using Microsoft.Extensions.Logging;
 using OpenModular.Authentication.Abstractions;
 using OpenModular.DDD.Core.Application.Command;
 using OpenModular.Module.UAP.Core.Conventions;
+using OpenModular.Module.UAP.Core.Domain.Accounts;
 using OpenModular.Module.UAP.Core.Domain.Authentications;
-using OpenModular.Module.UAP.Core.Domain.Users;
 
 namespace OpenModular.Module.UAP.Core.Application.Authentications.Authenticate;
 
 internal class AuthenticateCommandHandler : CommandHandler<AuthenticateCommand, AuthenticateDto>
 {
-    private readonly IEnumerable<IAuthenticationIdentityHandler<User>> _identityHandlers;
-    private readonly IAuthenticationVerifyHandler<User> _verifyHandler;
+    private readonly IEnumerable<IAuthenticationIdentityHandler<Account>> _identityHandlers;
+    private readonly IAuthenticationVerifyHandler<Account> _verifyHandler;
     private readonly IMapper _mapper;
     private readonly IAuthenticationRecordRepository _recordRepository;
     private readonly ILogger<AuthenticateCommandHandler> _logger;
 
-    public AuthenticateCommandHandler(IEnumerable<IAuthenticationIdentityHandler<User>> identityHandlers, IAuthenticationVerifyHandler<User> verifyHandler, IMapper mapper, IAuthenticationRecordRepository recordRepository, ILogger<AuthenticateCommandHandler> logger)
+    public AuthenticateCommandHandler(IEnumerable<IAuthenticationIdentityHandler<Account>> identityHandlers, IAuthenticationVerifyHandler<Account> verifyHandler, IMapper mapper, IAuthenticationRecordRepository recordRepository, ILogger<AuthenticateCommandHandler> logger)
     {
         _identityHandlers = identityHandlers;
         _verifyHandler = verifyHandler;
@@ -33,7 +33,7 @@ internal class AuthenticateCommandHandler : CommandHandler<AuthenticateCommand, 
             throw new UAPBusinessException(UAPErrorCode.Auth_NotSupportMode);
         }
 
-        var context = new AuthenticationContext<User>
+        var context = new AuthenticationContext<Account>
         {
             Mode = request.Mode,
             Source = request.Source,
@@ -62,9 +62,9 @@ internal class AuthenticateCommandHandler : CommandHandler<AuthenticateCommand, 
             record.Status = context.Status;
             record.Message = context.Message;
 
-            if (context.User != null)
+            if (context.Account != null)
             {
-                record.UserId = context.User.Id;
+                record.AccountId = context.Account.Id;
             }
 
             await _recordRepository.InsertAsync(record, cancellationToken);

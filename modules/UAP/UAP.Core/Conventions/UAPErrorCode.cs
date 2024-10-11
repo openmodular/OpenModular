@@ -15,35 +15,35 @@ public enum UAPErrorCode
     /// <summary>
     /// 用户名已存在
     /// </summary>
-    User_UsernameExists,
+    Account_UsernameExists,
     /// <summary>
     /// 邮箱已存在
     /// </summary>
-    User_EmailExists,
+    Account_EmailExists,
     /// <summary>
     /// 邮箱已存在
     /// </summary>
-    User_PhoneExists,
+    Account_PhoneExists,
     /// <summary>
     /// 邮箱格式不正确
     /// </summary>
-    User_EmailFormatNotValid,
+    Account_EmailFormatNotValid,
     /// <summary>
-    /// 用户已删除
+    /// 账户已删除
     /// </summary>
-    User_Deleted,
+    Account_Deleted,
     /// <summary>
-    /// 用户已禁用
+    /// 账户已禁用
     /// </summary>
-    User_Disabled,
+    Account_Disabled,
     /// <summary>
     /// 用户未激活
     /// </summary>
-    User_Inactive,
+    Account_Inactive,
     /// <summary>
     /// 用户未验证
     /// </summary>
-    User_Unverified,
+    Account_Unverified,
 
     /// <summary>
     /// 部门已存在

@@ -1,13 +1,13 @@
 ﻿using OpenModular.Authentication.Abstractions;
 using OpenModular.DDD.Core.Application.Command;
-using OpenModular.Module.UAP.Core.Application.Users.Get;
+using OpenModular.Module.UAP.Core.Application.Accounts.Get;
 
 namespace OpenModular.Module.UAP.Core.Application.Authentications.RefreshToken;
 
 /// <summary>
 /// 刷新令牌命令
 /// </summary>
-public class RefreshTokenCommand : CommandBase<UserDto>
+public class RefreshTokenCommand : CommandBase<AccountDto>
 {
     /// <summary>
     /// 刷新令牌

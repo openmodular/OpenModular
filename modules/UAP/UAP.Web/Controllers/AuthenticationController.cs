@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using OpenModular.Authentication.Abstractions;
 using OpenModular.Authentication.JwtBearer;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
+using OpenModular.Module.UAP.Core.Application.Accounts.Get;
 using OpenModular.Module.UAP.Core.Application.Authentications.Authenticate;
 using OpenModular.Module.UAP.Core.Application.Authentications.RefreshToken;
-using OpenModular.Module.UAP.Core.Application.Users.Get;
 using OpenModular.Module.UAP.Web.Models.Auths;
 using OpenModular.Module.Web;
 
@@ -84,13 +84,13 @@ public class AuthenticationController : ModuleController
         return APIResponse.Success(credential);
     }
 
-    private JwtSecurityToken BuildJwtCredential(UserDto user, TenantId tenantId, DateTimeOffset loginTime)
+    private JwtSecurityToken BuildJwtCredential(AccountDto user, TenantId tenantId, DateTimeOffset loginTime)
     {
         var claims = new List<Claim>
         {
             new(OpenModularClaimTypes.TENANT_ID, tenantId  != null ? tenantId.Value.ToString() : ""),
-            new(OpenModularClaimTypes.USER_ID, user.Id.ToString()),
-            new(OpenModularClaimTypes.USER_NAME, user.Username),
+            new(OpenModularClaimTypes.ACCOUNT_ID, user.Id.ToString()),
+            new(OpenModularClaimTypes.ACCOUNT_NAME, user.Username),
             new(OpenModularClaimTypes.LOGIN_TIME, loginTime.ToString())
         };
 

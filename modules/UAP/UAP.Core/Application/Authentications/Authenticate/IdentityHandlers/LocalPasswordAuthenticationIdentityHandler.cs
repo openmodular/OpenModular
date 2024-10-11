@@ -2,7 +2,7 @@
 using OpenModular.Common.Utils.DependencyInjection;
 using OpenModular.Common.Utils.Extensions;
 using OpenModular.Module.UAP.Core.Conventions;
-using OpenModular.Module.UAP.Core.Domain.Users;
+using OpenModular.Module.UAP.Core.Domain.Accounts;
 using OpenModular.Module.UAP.Core.Infrastructure;
 
 namespace OpenModular.Module.UAP.Core.Application.Authentications.Authenticate.IdentityHandlers;
@@ -10,18 +10,18 @@ namespace OpenModular.Module.UAP.Core.Application.Authentications.Authenticate.I
 /// <summary>
 /// 本地密码认证身份处理器实现
 /// </summary>
-internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdentityHandler<User>, ITransientDependency
+internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdentityHandler<Account>, ITransientDependency
 {
     public AuthenticationMode Mode => AuthenticationMode.Password;
 
     public AuthenticationSource Source => AuthenticationSource.Local;
 
-    private readonly IUserRepository _userRepository;
+    private readonly IAccountRepository _userRepository;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IImageCaptchaService _imageCaptchaService;
     private readonly UAPConfig _config;
 
-    public LocalPasswordAuthenticationIdentityHandler(IUserRepository userRepository, IPasswordHasher passwordHasher, IImageCaptchaService imageCaptchaService, UAPConfig config)
+    public LocalPasswordAuthenticationIdentityHandler(IAccountRepository userRepository, IPasswordHasher passwordHasher, IImageCaptchaService imageCaptchaService, UAPConfig config)
     {
         _userRepository = userRepository;
         _passwordHasher = passwordHasher;
@@ -29,7 +29,7 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
         _config = config;
     }
 
-    public async Task HandleAsync(string payload, AuthenticationContext<User> context, CancellationToken cancellationToken)
+    public async Task HandleAsync(string payload, AuthenticationContext<Account> context, CancellationToken cancellationToken)
     {
         if (payload.IsNull())
         {
@@ -57,7 +57,7 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
             }
         }
 
-        var user = await _userRepository.FindAsync(m => m.Status != UserStatus.Deleted && m.UserName == identity.UserName, cancellationToken);
+        var user = await _userRepository.FindAsync(m => m.Status != AccountStatus.Deleted && m.UserName == identity.UserName, cancellationToken);
         if (user == null)
         {
             context.Status = AuthenticationStatus.UserNotFound;
@@ -73,7 +73,7 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
             return;
         }
 
-        context.User = user;
+        context.Account = user;
     }
 }
 

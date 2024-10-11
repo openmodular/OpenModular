@@ -14,13 +14,13 @@ internal class JwtSecurityTokenStorage : IJwtSecurityTokenStorage
         _repository = repository;
     }
 
-    public async Task SaveAsync(UserId userId, AuthenticationClient client, JwtSecurityToken token)
+    public async Task SaveAsync(AccountId accountId, AuthenticationClient client, JwtSecurityToken token)
     {
-        var entity = await _repository.FindAsync(m => m.Id == userId && m.Client == client);
+        var entity = await _repository.FindAsync(m => m.Id == accountId && m.Client == client);
         var isExists = entity != null;
         if (!isExists)
         {
-            entity = AuthenticationToken.Create(userId, client);
+            entity = AuthenticationToken.Create(accountId, client);
         }
 
         entity.AccessToken = token.AccessToken;
