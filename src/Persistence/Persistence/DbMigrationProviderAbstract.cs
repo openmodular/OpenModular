@@ -21,7 +21,7 @@ namespace OpenModular.Persistence
             return Task.CompletedTask;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             context.Dispose();
         }

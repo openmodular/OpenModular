@@ -121,7 +121,7 @@ public static class ServiceCollectionExtensions
         var dbMigrationProviderType = assembly.GetTypes().FirstOrDefault(t => typeof(IDbMigrationProvider).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
         if (dbMigrationProviderType != null)
         {
-            services.TryAddTransient(typeof(IDbMigrationProvider), dbMigrationProviderType);
+            services.AddTransient(typeof(IDbMigrationProvider), dbMigrationProviderType);
         }
     }
 
