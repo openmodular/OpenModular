@@ -9,6 +9,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\Host\Host.Web\Host.Web.csproj" />
+		<ProjectReference Include="..\UAP\UAP.Migrations.Postgresql\UAP.Migrations.Postgresql.csproj" />
 		<ProjectReference Include="..\UAP\UAP.Web\UAP.Web.csproj" />
 	</ItemGroup>
 
