@@ -12,7 +12,7 @@ public class AuthenticateCommand : CommandBase<AuthenticateDto>
     /// <summary>
     /// 租户编号
     /// </summary>
-    public TenantId? TenantId { get; set; }
+    public TenantId TenantId { get; set; }
 
     /// <summary>
     /// 认证模式
