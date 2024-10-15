@@ -21,6 +21,8 @@ public static class ServiceCollectionExtensions
 
         services.TryAddScoped<IUnitOfWork, UnitOfWork>();
 
+        services.TryAddScoped<IDbContextBuilder, DbContextBuilder>();
+
         return services;
     }
 
@@ -35,6 +37,9 @@ public static class ServiceCollectionExtensions
 
         switch (options.Provider)
         {
+            case DbProvider.SqlServer:
+                services.AddSqlServer<TDbContext>(options.ConnectionString, migrationsAssemblyPrefix);
+                break;
             case DbProvider.Sqlite:
                 services.AddSQLite<TDbContext>(options.ConnectionString, migrationsAssemblyPrefix);
                 break;
@@ -51,6 +56,18 @@ public static class ServiceCollectionExtensions
         services.AddRepositories(moduleCoreAssembly);
 
         return services;
+    }
+
+    private static void AddSqlServer<TDbContext>(this IServiceCollection services, string connectionString, string migrationsAssemblyPrefix) where TDbContext : OpenModularDbContext<TDbContext>
+    {
+        services.AddDbContextPool<TDbContext>(builder =>
+        {
+            builder.UseSqlServer(connectionString, x => x.MigrationsAssembly($"{migrationsAssemblyPrefix}.Migrations.SqlServer"));
+
+#if DEBUG
+            builder.LogTo(Console.WriteLine);
+#endif
+        });
     }
 
     private static void AddSQLite<TDbContext>(this IServiceCollection services, string connectionString, string migrationsAssemblyPrefix) where TDbContext : OpenModularDbContext<TDbContext>
@@ -86,17 +103,17 @@ public static class ServiceCollectionExtensions
         });
     }
 
-//    private static void AddMySql<TDbContext>(this IServiceCollection services, string connectionString, string migrationsAssemblyPrefix) where TDbContext : OpenModularDbContext<TDbContext>
-//    {
-//        services.AddDbContextPool<TDbContext>(builder =>
-//        {
-//            builder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), x => x.MigrationsAssembly($"{migrationsAssemblyPrefix}.Migrations.MySQL"));
+    //    private static void AddMySql<TDbContext>(this IServiceCollection services, string connectionString, string migrationsAssemblyPrefix) where TDbContext : OpenModularDbContext<TDbContext>
+    //    {
+    //        services.AddDbContextPool<TDbContext>(builder =>
+    //        {
+    //            builder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), x => x.MigrationsAssembly($"{migrationsAssemblyPrefix}.Migrations.MySQL"));
 
-//#if DEBUG
-//            builder.LogTo(Console.WriteLine);
-//#endif
-//        });
-//    }
+    //#if DEBUG
+    //            builder.LogTo(Console.WriteLine);
+    //#endif
+    //        });
+    //    }
 
     private static void AddPostgreSql<TDbContext>(this IServiceCollection services, string connectionString, string migrationsAssemblyPrefix) where TDbContext : OpenModularDbContext<TDbContext>
     {

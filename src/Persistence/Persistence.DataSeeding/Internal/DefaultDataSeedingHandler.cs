@@ -38,37 +38,7 @@ internal class DefaultDataSeedingHandler<TDbContext> : IDataSeedingHandler where
 
         _logger.LogDebug("Default data seeding handler[{module}] start,the last version is {version}", _moduleCode, lastVersion);
 
-        var connectionString = new SqliteConnectionStringBuilder($"Data Source={_options.DbFileName}")
-        {
-            Mode = SqliteOpenMode.ReadWriteCreate,
-            Password = _options.DbPassword
-        }.ToString();
-
-        await using var con = new SqliteConnection(connectionString);
-        con.Open();
-
-        // 设置加密密钥
-        var command = con.CreateCommand();
-        command.CommandText = $"PRAGMA key = '{_options.DbPassword}';";
-        command.ExecuteNonQuery();
-
-        command.CommandText = $"SELECT * FROM DataSeedingRecord WHERE Module='{_moduleCode}' AND Version>{lastVersion}";
-        await using var reader = await command.ExecuteReaderAsync();
-        var seedingRecords = new List<DataSeedingRecord>();
-
-        while (await reader.ReadAsync())
-        {
-            var record = new DataSeedingRecord(
-                reader.GetString(reader.GetOrdinal(nameof(DataSeedingRecord.Module))),
-                reader.GetString(reader.GetOrdinal(nameof(DataSeedingRecord.EntityName))),
-                (DataSeedingMode)reader.GetInt32(reader.GetOrdinal(nameof(DataSeedingRecord.Mode))),
-                reader.GetString(reader.GetOrdinal(nameof(DataSeedingRecord.Data))),
-                reader.GetInt32(reader.GetOrdinal(nameof(DataSeedingRecord.Version))),
-                (DataSeedingSqlMode)reader.GetInt32(reader.GetOrdinal(nameof(DataSeedingRecord.SqlMode)))
-            );
-
-            seedingRecords.Add(record);
-        }
+        var seedingRecords = await GetRecordAsync(lastVersion);
 
         if (!seedingRecords.Any())
         {
@@ -150,6 +120,43 @@ internal class DefaultDataSeedingHandler<TDbContext> : IDataSeedingHandler where
 
             await uow.CompleteAsync();
         }
+    }
+
+    private async Task<List<DataSeedingRecord>> GetRecordAsync(int lastVersion)
+    {
+        var connectionString = new SqliteConnectionStringBuilder($"Data Source={_options.DbFileName}")
+        {
+            Mode = SqliteOpenMode.ReadWriteCreate,
+            Password = _options.DbPassword
+        }.ToString();
+
+        await using var con = new SqliteConnection(connectionString);
+        con.Open();
+
+        // 设置加密密钥
+        var command = con.CreateCommand();
+        command.CommandText = $"PRAGMA key = '{_options.DbPassword}';";
+        command.ExecuteNonQuery();
+
+        command.CommandText = $"SELECT * FROM DataSeedingRecord WHERE Module='{_moduleCode}' AND Version>{lastVersion}";
+        await using var reader = await command.ExecuteReaderAsync();
+        var seedingRecords = new List<DataSeedingRecord>();
+
+        while (await reader.ReadAsync())
+        {
+            var record = new DataSeedingRecord(
+                reader.GetString(reader.GetOrdinal(nameof(DataSeedingRecord.Module))),
+                reader.GetString(reader.GetOrdinal(nameof(DataSeedingRecord.EntityName))),
+                (DataSeedingMode)reader.GetInt32(reader.GetOrdinal(nameof(DataSeedingRecord.Mode))),
+                reader.GetString(reader.GetOrdinal(nameof(DataSeedingRecord.Data))),
+                reader.GetInt32(reader.GetOrdinal(nameof(DataSeedingRecord.Version))),
+                (DataSeedingSqlMode)reader.GetInt32(reader.GetOrdinal(nameof(DataSeedingRecord.SqlMode)))
+            );
+
+            seedingRecords.Add(record);
+        }
+
+        return seedingRecords;
     }
 
     private void HandleInsert(DataSeedingRecord record, TDbContext dbContext)
