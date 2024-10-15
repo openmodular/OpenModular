@@ -8,12 +8,11 @@ namespace OpenModular.Persistence
     {
         public virtual async Task SchemaMigrateAsync()
         {
-            await context.Database.EnsureCreatedAsync();
-
             if (!(await context.Database.GetPendingMigrationsAsync()).Any())
                 return;
 
             await context.Database.MigrateAsync();
+            await context.Database.EnsureCreatedAsync();
         }
 
         public virtual Task DataMigrateAsync()

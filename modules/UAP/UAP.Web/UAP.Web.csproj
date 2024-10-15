@@ -4,6 +4,8 @@
     <ProjectReference Include="..\..\..\src\Authentication\Authentication.JwtBearer\Authentication.JwtBearer.csproj" />
     <ProjectReference Include="..\..\..\src\Module\Module.Web\Module.Web.csproj" />
     <ProjectReference Include="..\UAP.Core\UAP.Core.csproj" />
+    <ProjectReference Include="..\UAP.Migrations.Postgresql\UAP.Migrations.Postgresql.csproj" />
+    <ProjectReference Include="..\UAP.Migrations.Sqlite\UAP.Migrations.Sqlite.csproj" />
   </ItemGroup>
 
 </Project>
