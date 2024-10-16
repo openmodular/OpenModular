@@ -22,9 +22,9 @@ public static class ServiceCollectionExtensions
             opts.DbPassword = DataSeedingConstants.DbPassword;
         });
 
-        services.TryAddScoped<IDataSeedingExecutor, DefaultDataSeedingExecutor>();
+        services.AddScoped<IDataSeedingHandler, DefaultDataSeedingHandler<TDbContext>>();
 
-        services.TryAddScoped<IDataSeedingHandler, DefaultDataSeedingHandler<TDbContext>>();
+        services.TryAddScoped<IDataSeedingExecutor, DefaultDataSeedingExecutor>();
 
         return services;
     }

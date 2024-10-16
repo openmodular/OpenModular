@@ -1,6 +1,8 @@
-﻿using OpenModular.Persistence.DataSeeding;
+﻿using Microsoft.EntityFrameworkCore;
+using OpenModular.Persistence.DataSeeding;
 using OpenModular.Common.Utils.DependencyInjection;
 using OpenModular.Module.UAP.Core.Domain.DataSeedingHistories;
+using OpenModular.Module.UAP.Core.Infrastructure.Persistence;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure;
 

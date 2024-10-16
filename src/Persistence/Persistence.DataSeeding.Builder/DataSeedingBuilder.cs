@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using LiteDB;
+﻿using Microsoft.Data.Sqlite;
+using System.Reflection;
 
 namespace OpenModular.Persistence.DataSeeding.Builder;
 
@@ -48,16 +48,35 @@ public class DataSeedingBuilder
     /// <param name="dbPassword">数据库密码</param>
     public void Build(string dbFileName, string dbPassword)
     {
-        using var db = new LiteDatabase(new ConnectionString
+        var connectionString = new SqliteConnectionStringBuilder($"Data Source={Path.Combine(_dbFileDir, dbFileName)}")
         {
-            Filename = Path.Combine(_dbFileDir, dbFileName),
+            Mode = SqliteOpenMode.ReadWriteCreate,
             Password = dbPassword
-        });
+        }.ToString();
 
-        //删除表
-        db.DropCollection(nameof(DataSeedingRecord));
+        using var con = new SqliteConnection(connectionString);
+        con.Open();
 
-        var col = db.GetCollection<DataSeedingRecord>();
+        var command = con.CreateCommand();
+        command.CommandText = $"PRAGMA key = '{dbPassword}';";
+        command.ExecuteNonQuery();
+
+        // 删除 DataSeedingRecord 表
+        command.CommandText = "DROP TABLE IF EXISTS DataSeedingRecord;";
+        command.ExecuteNonQuery();
+
+        // 创建 DataSeedingRecord 表
+        command.CommandText = @"
+        CREATE TABLE DataSeedingRecord (
+            Module TEXT NOT NULL,
+            EntityName TEXT NOT NULL,
+            Mode INTEGER NOT NULL,
+            Data TEXT NOT NULL,
+            Version INTEGER NOT NULL,
+            SqlMode INTEGER NOT NULL
+        );";
+
+        command.ExecuteNonQuery();
 
         foreach (var assembly in _modules)
         {
@@ -72,7 +91,20 @@ public class DataSeedingBuilder
 
                 if (data != null && data.Any())
                 {
-                    col.Insert(data);
+                    foreach (var record in data)
+                    {
+                        command.CommandText = @"
+                        INSERT INTO DataSeedingRecord (Module, EntityName, Mode, Data, Version, SqlMode)
+                        VALUES (@Module, @EntityName, @Mode, @Data, @Version, @SqlMode);";
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@Module", record.Module);
+                        command.Parameters.AddWithValue("@EntityName", record.EntityName);
+                        command.Parameters.AddWithValue("@Mode", record.Mode);
+                        command.Parameters.AddWithValue("@Data", record.Data);
+                        command.Parameters.AddWithValue("@Version", record.Version);
+                        command.Parameters.AddWithValue("@SqlMode", record.SqlMode);
+                        command.ExecuteNonQuery();
+                    }
                 }
             }
         }

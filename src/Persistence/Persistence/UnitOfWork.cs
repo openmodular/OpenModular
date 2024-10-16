@@ -1,14 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Data.Common;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using OpenModular.DDD.Core.Uow;
 
 namespace OpenModular.Persistence;
 
-public class UnitOfWork(IServiceProvider serviceProvider) : IUnitOfWork
+public class UnitOfWork(IDbContextBuilder dbContextBuilder, IServiceProvider serviceProvider) : IUnitOfWork
 {
     private readonly List<DbContext> _dbContexts = new();
     private IDbContextTransaction _transaction;
+    private DbConnection _connection;
+    private string _databaseProviderName;
 
     public async Task CompleteAsync(CancellationToken cancellationToken = default)
     {
@@ -39,20 +42,32 @@ public class UnitOfWork(IServiceProvider serviceProvider) : IUnitOfWork
         var dbContext = _dbContexts.OfType<TDbContext>().FirstOrDefault();
         if (dbContext == null)
         {
-            dbContext = serviceProvider.GetRequiredService<TDbContext>();
+            if (_connection == null)
+            {
+                dbContext = serviceProvider.GetRequiredService<TDbContext>();
+                _connection = dbContext.Database.GetDbConnection();
+                _databaseProviderName = dbContext.Database.ProviderName;
+            }
+            else
+            {
+                dbContext = dbContextBuilder.Build<TDbContext>(_databaseProviderName, _connection);
+            }
+
             _dbContexts.Add(dbContext);
 
             //Sqlite不支持事务
-            if (dbContext.GetDatabaseProvider() != DbProvider.Sqlite)
+            if (dbContext.GetDatabaseProvider() == DbProvider.Sqlite)
             {
-                if (_transaction == null)
-                {
-                    _transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
-                }
-                else
-                {
-                    await dbContext.Database.UseTransactionAsync(_transaction.GetDbTransaction(), cancellationToken);
-                }
+                return dbContext;
+            }
+
+            if (_transaction == null)
+            {
+                _transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
+            }
+            else
+            {
+                await dbContext.Database.UseTransactionAsync(_transaction.GetDbTransaction(), cancellationToken);
             }
         }
 

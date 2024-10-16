@@ -6,6 +6,7 @@ using OpenModular.DDD.Core.Domain.Entities;
 using OpenModular.DDD.Core.Domain.Exceptions;
 using OpenModular.DDD.Core.Domain.Repositories;
 using OpenModular.DDD.Core.Uow;
+using System;
 
 namespace OpenModular.Persistence;
 
@@ -31,12 +32,23 @@ public class RepositoryAbstract<TEntity, TDbContext> : IRepository<TEntity> wher
 
     public List<TEntity> GetList(Expression<Func<TEntity, bool>> predicate)
     {
-        return Db.Where(predicate).ToList();
+        return Db.AsNoTracking().Where(predicate).ToList();
     }
 
     public Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
     {
-        return Db.Where(predicate).ToListAsync(cancellationToken);
+        return Db.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
+    }
+
+    public List<TEntity> GetAll()
+    {
+        return Db.AsNoTracking().ToList();
+
+    }
+
+    public Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return Db.AsNoTracking().ToListAsync(cancellationToken: cancellationToken);
     }
 
     public TEntity Find(Expression<Func<TEntity, bool>> predicate)

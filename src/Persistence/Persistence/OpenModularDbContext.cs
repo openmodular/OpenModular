@@ -7,9 +7,9 @@ public abstract class OpenModularDbContext<TDbContext> : DbContext where TDbCont
 {
     public string ModuleCode { get; }
 
-    protected OpenModularDbContext(DbContextOptions<TDbContext> dbContextOptions, string ModuleCode) : base(dbContextOptions)
+    protected OpenModularDbContext(DbContextOptions<TDbContext> dbContextOptions, string moduleCode) : base(dbContextOptions)
     {
-        this.ModuleCode = ModuleCode;
+        ModuleCode = moduleCode;
     }
 
     /// <summary>
@@ -21,13 +21,13 @@ public abstract class OpenModularDbContext<TDbContext> : DbContext where TDbCont
     {
         switch (Database.ProviderName)
         {
-            case "Microsoft.EntityFrameworkCore.SqlServer":
+            case OpenModularDbConstants.SqlServerProviderName:
                 return DbProvider.SqlServer;
-            case "Npgsql.EntityFrameworkCore.PostgreSQL":
+            case OpenModularDbConstants.PostgreSQLProviderName:
                 return DbProvider.PostgreSql;
-            case "Pomelo.EntityFrameworkCore.MySql":
+            case OpenModularDbConstants.MySqlProviderName:
                 return DbProvider.MySql;
-            case "Microsoft.EntityFrameworkCore.Sqlite":
+            case OpenModularDbConstants.SqliteProviderName:
                 return DbProvider.Sqlite;
             default:
                 throw new NotSupportedException($"The database({Database.ProviderName}) not supported");

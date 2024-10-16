@@ -1,10 +1,10 @@
-﻿using LiteDB;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using OpenModular.DDD.Core.Uow;
+using Microsoft.Data.Sqlite;
 
 namespace OpenModular.Persistence.DataSeeding.Internal;
 
@@ -26,7 +26,7 @@ internal class DefaultDataSeedingHandler<TDbContext> : IDataSeedingHandler where
         _serviceProvider = serviceProvider;
 
         _moduleCode = dbContext.ModuleCode;
-        
+
         dbContext.Dispose();
     }
 
@@ -38,13 +38,8 @@ internal class DefaultDataSeedingHandler<TDbContext> : IDataSeedingHandler where
 
         _logger.LogDebug("Default data seeding handler[{module}] start,the last version is {version}", _moduleCode, lastVersion);
 
-        using var db = new LiteDatabase(new ConnectionString
-        {
-            Filename = _options.DbFileName,
-            Password = _options.DbPassword
-        });
+        var seedingRecords = await GetRecordAsync(lastVersion);
 
-        var seedingRecords = db.GetCollection<DataSeedingRecord>().Query().Where(m => m.Module == _moduleCode && m.Version > lastVersion).ToList();
         if (!seedingRecords.Any())
         {
             _logger.LogDebug("Default data seeding handler[{module}] not found  seeding record,handle finished.", _moduleCode);
@@ -125,6 +120,43 @@ internal class DefaultDataSeedingHandler<TDbContext> : IDataSeedingHandler where
 
             await uow.CompleteAsync();
         }
+    }
+
+    private async Task<List<DataSeedingRecord>> GetRecordAsync(int lastVersion)
+    {
+        var connectionString = new SqliteConnectionStringBuilder($"Data Source={_options.DbFileName}")
+        {
+            Mode = SqliteOpenMode.ReadWriteCreate,
+            Password = _options.DbPassword
+        }.ToString();
+
+        await using var con = new SqliteConnection(connectionString);
+        con.Open();
+
+        // 设置加密密钥
+        var command = con.CreateCommand();
+        command.CommandText = $"PRAGMA key = '{_options.DbPassword}';";
+        command.ExecuteNonQuery();
+
+        command.CommandText = $"SELECT * FROM DataSeedingRecord WHERE Module='{_moduleCode}' AND Version>{lastVersion}";
+        await using var reader = await command.ExecuteReaderAsync();
+        var seedingRecords = new List<DataSeedingRecord>();
+
+        while (await reader.ReadAsync())
+        {
+            var record = new DataSeedingRecord(
+                reader.GetString(reader.GetOrdinal(nameof(DataSeedingRecord.Module))),
+                reader.GetString(reader.GetOrdinal(nameof(DataSeedingRecord.EntityName))),
+                (DataSeedingMode)reader.GetInt32(reader.GetOrdinal(nameof(DataSeedingRecord.Mode))),
+                reader.GetString(reader.GetOrdinal(nameof(DataSeedingRecord.Data))),
+                reader.GetInt32(reader.GetOrdinal(nameof(DataSeedingRecord.Version))),
+                (DataSeedingSqlMode)reader.GetInt32(reader.GetOrdinal(nameof(DataSeedingRecord.SqlMode)))
+            );
+
+            seedingRecords.Add(record);
+        }
+
+        return seedingRecords;
     }
 
     private void HandleInsert(DataSeedingRecord record, TDbContext dbContext)

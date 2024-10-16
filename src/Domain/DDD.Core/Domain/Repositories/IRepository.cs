@@ -28,6 +28,19 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity
     Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// 获取所有实体信息
+    /// </summary>
+    /// <returns></returns>
+    List<TEntity> GetAll();
+
+    /// <summary>
+    /// 获取所有实体信息
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// 根据指定 <paramref name="predicate"/> 获取单个实体信息
     /// <para>
     /// 如果查询不到数据则返回 null
