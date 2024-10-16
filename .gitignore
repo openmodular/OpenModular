@@ -398,3 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 /publish_local.ps1
 /modules/WebHost/Seeding.data
+/modules/WebHost/appsettings.Local.json

@@ -21,12 +21,14 @@ public class OpenModularWebHost : IOpenModularHost
     private readonly WebApplicationBuilder _builder;
     private readonly IServiceCollection _services;
     private readonly WebHostOptions _hostOptions;
+    private readonly OpenApiOptions _openApiOptions;
 
     public OpenModularWebHost(string[] args)
     {
         _builder = WebApplication.CreateBuilder(args);
 
         _hostOptions = new WebHostOptions();
+        _openApiOptions = new OpenApiOptions();
 
         LoadOptions();
 
@@ -83,7 +85,7 @@ public class OpenModularWebHost : IOpenModularHost
         _services.AddOpenModularMvc();
 
         //添加OpenAPI服务
-        _services.AddOpenModularOpenApi();
+        _services.AddOpenModularOpenApi(_openApiOptions);
 
         //添加MediatR服务
         _services.AddOpenModularMediatR();
@@ -112,7 +114,7 @@ public class OpenModularWebHost : IOpenModularHost
 
         //添加缓存服务
         _services.AddOpenModularCache(_builder.Configuration);
-        
+
         //添加配置服务
         _services.AddOpenModularConfig();
 
@@ -179,7 +181,7 @@ public class OpenModularWebHost : IOpenModularHost
         app.UseAuthorization();
 
         //OpenAPI
-        app.UseOpenModularOpenApi();
+        app.UseOpenModularOpenApi(_openApiOptions);
 
         //工作单元
         app.UseMiddleware<UnitOfWorkMiddleware>();
@@ -237,5 +239,7 @@ public class OpenModularWebHost : IOpenModularHost
 
         if (_hostOptions.Urls.IsNull())
             _hostOptions.Urls = "http://*:6220";
+
+        config.GetSection(OpenApiOptions.Position).Bind(_openApiOptions);
     }
 }

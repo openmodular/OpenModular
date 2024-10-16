@@ -14,4 +14,9 @@ public interface IModule
     /// 模块唯一编码
     /// </summary>
     string Code { get; }
+
+    /// <summary>
+    /// 版本号
+    /// </summary>
+    string Version { get; }
 }

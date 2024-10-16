@@ -14,9 +14,12 @@ public abstract class ModuleAbstract : IModule
     {
         Id = id;
         Code = code;
+        Version = GetType().Assembly.GetName().Version?.ToString() ?? "1.0.0";
     }
 
     public int Id { get; }
 
     public string Code { get; }
+
+    public string Version { get; }
 }
