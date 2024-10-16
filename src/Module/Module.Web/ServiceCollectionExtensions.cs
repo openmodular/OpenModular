@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection.Extensions;
 using OpenModular.Module.Core;
 using OpenModular.Module.Web;
+using OpenModular.Module.Web.Conventions;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;
@@ -53,9 +54,13 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection AddOpenModularMvc(this IServiceCollection services)
+    public static IMvcBuilder AddOpenModularMvc(this IServiceCollection services)
     {
-        var builder = services.AddControllersWithViews();
+        var builder = services.AddControllersWithViews(c =>
+        {
+            //API分组约定
+            c.Conventions.Add(new ApiExplorerGroupConvention());
+        });
 
         var descriptors = services.GetModuleWebCollection();
 
@@ -65,7 +70,7 @@ public static class ServiceCollectionExtensions
             des?.Configurator?.ConfigureMvc(builder);
         }
 
-        return services;
+        return builder;
     }
 
     /// <summary>

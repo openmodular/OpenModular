@@ -30,7 +30,7 @@ public static class OpenApiExtensions
                 {
                     var module = descriptor.Module;
 
-                    c.SwaggerDoc(module.Code.ToLower(), new OpenApiInfo
+                    c.SwaggerDoc(module.Code, new OpenApiInfo
                     {
                         Title = module.Code,
                         Version = module.Version
@@ -78,7 +78,6 @@ public static class OpenApiExtensions
             c.OperationFilter<SwaggerIgnoreOperationFilter>();
         });
 
-
         return services;
     }
 
@@ -101,7 +100,7 @@ public static class OpenApiExtensions
             foreach (var descriptor in moduleWebCollection)
             {
                 var module = descriptor.ModuleWeb.Module;
-                op.SwaggerEndpoint($"{module.Code.ToLower()}/swagger.json", $"{module.Id}_{module.Code}");
+                op.SwaggerEndpoint($"{module.Code}/swagger.json", $"{module.Id:D3}-{module.Code}");
             }
         });
 
