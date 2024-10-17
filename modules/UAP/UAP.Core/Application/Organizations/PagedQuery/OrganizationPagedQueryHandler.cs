@@ -6,9 +6,9 @@ using OpenModular.Module.UAP.Core.Domain.Organizations;
 
 namespace OpenModular.Module.UAP.Core.Application.Organizations.PagedQuery;
 
-internal class OrganizationPagedQueryHandler(IOrganizationRepository repository, IMapper mapper) : IQueryHandler<OrganizationPagedQueryQuery, PagedDto<OrganizationDto>>
+internal class OrganizationPagedQueryHandler(IOrganizationRepository repository, IMapper mapper) : QueryHandler<OrganizationPagedQueryQuery, PagedDto<OrganizationDto>>
 {
-    public async Task<PagedDto<OrganizationDto>> Handle(OrganizationPagedQueryQuery request, CancellationToken cancellationToken)
+    public override async Task<PagedDto<OrganizationDto>> ExecuteAsync(OrganizationPagedQueryQuery request, CancellationToken cancellationToken)
     {
         var pagedResult = await repository.PageQueryAsync(new Domain.Organizations.Models.OrganizationQueryModel
         {

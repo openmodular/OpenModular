@@ -8,9 +8,9 @@ namespace OpenModular.Module.UAP.Core.Application.Organizations.GetTree;
 internal class OrganizationTreeGetHandler(
     IOrganizationRepository organizationRepository,
     IDepartmentRepository departmentRepository)
-    : IQueryHandler<OrganizationTreeGetQuery, OrganizationTreeDto>
+    : QueryHandler<OrganizationTreeGetQuery, OrganizationTreeDto>
 {
-    public async Task<OrganizationTreeDto> Handle(OrganizationTreeGetQuery request, CancellationToken cancellationToken)
+    public override async Task<OrganizationTreeDto> ExecuteAsync(OrganizationTreeGetQuery request, CancellationToken cancellationToken)
     {
         var org = await organizationRepository.GetAsync(request.OrganizationId, cancellationToken);
         var departments = await departmentRepository.GetListAsync(m => m.Code.StartsWith(org.Code), cancellationToken);

@@ -11,7 +11,7 @@ public class ApiExplorerGroupConvention : IControllerModelConvention
 {
     public void Apply(ControllerModel controller)
     {
-        if (controller.ControllerType.Namespace.IsNull())
+        if (controller.ControllerType.Namespace.IsNullOrWhiteSpace())
             return;
 
         var area = controller.ControllerType.GetCustomAttribute(typeof(AreaAttribute));

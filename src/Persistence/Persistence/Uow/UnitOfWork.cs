@@ -4,14 +4,16 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using OpenModular.DDD.Core.Uow;
 
-namespace OpenModular.Persistence;
+namespace OpenModular.Persistence.Uow;
 
 public class UnitOfWork(IDbContextBuilder dbContextBuilder, IServiceProvider serviceProvider) : IUnitOfWork
 {
     private readonly List<DbContext> _dbContexts = new();
-    private IDbContextTransaction _transaction;
-    private DbConnection _connection;
-    private string _databaseProviderName;
+    private IDbContextTransaction? _transaction;
+    private DbConnection? _connection;
+    private string? _databaseProviderName;
+
+    public event EventHandler<UnitOfWorkEventArgs>? Disposed;
 
     public async Task CompleteAsync(CancellationToken cancellationToken = default)
     {
@@ -50,7 +52,7 @@ public class UnitOfWork(IDbContextBuilder dbContextBuilder, IServiceProvider ser
             }
             else
             {
-                dbContext = dbContextBuilder.Build<TDbContext>(_databaseProviderName, _connection);
+                dbContext = dbContextBuilder.Build<TDbContext>(_databaseProviderName!, _connection);
             }
 
             _dbContexts.Add(dbContext);
@@ -80,5 +82,7 @@ public class UnitOfWork(IDbContextBuilder dbContextBuilder, IServiceProvider ser
         {
             _transaction.Dispose();
         }
+
+        Disposed?.Invoke(this, new UnitOfWorkEventArgs(this));
     }
 }

@@ -229,7 +229,7 @@ public class OpenModularWebHost : IOpenModularHost
             .AddJsonFile("appsettings.json", false);
 
         var environmentVariable = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-        if (environmentVariable.NotNull())
+        if (environmentVariable.IsNotNullOrWhiteSpace())
         {
             configBuilder.AddJsonFile($"appsettings.{environmentVariable}.json", false);
         }
@@ -237,7 +237,7 @@ public class OpenModularWebHost : IOpenModularHost
         var config = configBuilder.Build();
         config.GetSection(WebHostOptions.Position).Bind(_hostOptions);
 
-        if (_hostOptions.Urls.IsNull())
+        if (_hostOptions.Urls.IsNullOrWhiteSpace())
             _hostOptions.Urls = "http://*:6220";
 
         config.GetSection(OpenApiOptions.Position).Bind(_openApiOptions);

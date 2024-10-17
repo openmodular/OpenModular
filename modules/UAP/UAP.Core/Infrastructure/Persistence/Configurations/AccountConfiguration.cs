@@ -32,11 +32,11 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
 
         builder.Property(x => x.CreatedBy).ValueGeneratedNever().HasConversion(
             v => v != null ? v.ToString() : string.Empty,
-            v => v.IsNull() ? null : new AccountId(v));
+            v => v.IsNullOrWhiteSpace() ? null : new AccountId(v));
 
         builder.Property(x => x.TenantId).ValueGeneratedNever().HasConversion(
             v => v != null ? v.ToString() : string.Empty,
-            v => v.IsNull() ? null : new TenantId(v));
+            v => v.IsNullOrWhiteSpace() ? null : new TenantId(v));
 
     }
 }

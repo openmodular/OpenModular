@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using OpenModular.DDD.Core.Uow;
 using Microsoft.Data.Sqlite;
+using OpenModular.Persistence.Uow;
 
 namespace OpenModular.Persistence.DataSeeding.Internal;
 

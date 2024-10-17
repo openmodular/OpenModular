@@ -15,7 +15,7 @@ public static class StringExtensions
     /// <returns></returns>
     public static byte ToByte(this string s)
     {
-        if (s.IsNull())
+        if (s.IsNullOrWhiteSpace())
             return 0;
 
         byte.TryParse(s, out byte result);
@@ -29,7 +29,7 @@ public static class StringExtensions
     /// <returns></returns>
     public static char ToChar(this string s)
     {
-        if (s.IsNull())
+        if (s.IsNullOrWhiteSpace())
             return default;
 
         char.TryParse(s, out char result);
@@ -43,7 +43,7 @@ public static class StringExtensions
     /// <returns></returns>
     public static short ToShort(this string s)
     {
-        if (s.IsNull())
+        if (s.IsNullOrWhiteSpace())
             return 0;
 
         short.TryParse(s, out short result);
@@ -55,7 +55,7 @@ public static class StringExtensions
     /// </summary>
     /// <param name="s"></param>
     /// <returns></returns>
-    public static bool IsNull(this string s)
+    public static bool IsNullOrWhiteSpace(this string s)
     {
         return string.IsNullOrWhiteSpace(s);
     }
@@ -65,7 +65,7 @@ public static class StringExtensions
     /// </summary>
     /// <param name="s"></param>
     /// <returns></returns>
-    public static bool NotNull(this string s)
+    public static bool IsNotNullOrWhiteSpace(this string s)
     {
         return !string.IsNullOrWhiteSpace(s);
     }

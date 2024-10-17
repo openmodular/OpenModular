@@ -6,9 +6,9 @@ using OpenModular.Module.UAP.Core.Domain.Configs.Models;
 
 namespace OpenModular.Module.UAP.Core.Application.Configs.PagedQuery;
 
-internal class ConfigPagedQueryHandler(IConfigRepository repository, IMapper mapper) : IQueryHandler<ConfigPagedQuery, PagedDto<ConfigDto>>
+internal class ConfigPagedQueryHandler(IConfigRepository repository, IMapper mapper) : QueryHandler<ConfigPagedQuery, PagedDto<ConfigDto>>
 {
-    public async Task<PagedDto<ConfigDto>> Handle(ConfigPagedQuery request, CancellationToken cancellationToken)
+    public override async Task<PagedDto<ConfigDto>> ExecuteAsync(ConfigPagedQuery request, CancellationToken cancellationToken)
     {
         var queryModel = new ConfigPagedQueryModel
         {

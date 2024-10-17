@@ -25,7 +25,7 @@ internal class AuthenticateCommandHandler : CommandHandler<AuthenticateCommand, 
         _logger = logger;
     }
 
-    public override async Task<AuthenticateDto> Handle(AuthenticateCommand request, CancellationToken cancellationToken)
+    public override async Task<AuthenticateDto> ExecuteAsync(AuthenticateCommand request, CancellationToken cancellationToken)
     {
         var identityHandler = _identityHandlers.FirstOrDefault(x => x.Mode == request.Mode && x.Source == request.Source);
         if (identityHandler == null)
@@ -67,7 +67,7 @@ internal class AuthenticateCommandHandler : CommandHandler<AuthenticateCommand, 
                 record.AccountId = context.Account.Id;
             }
 
-            await _recordRepository.InsertAsync(record, cancellationToken);
+            await _recordRepository.InsertAsync(record, cancellationToken: cancellationToken);
         }
         catch (Exception ex)
         {

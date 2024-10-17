@@ -3,14 +3,14 @@ using OpenModular.Module.UAP.Core.Domain.Organizations;
 
 namespace OpenModular.Module.UAP.Core.Application.Organizations.Rename;
 
-internal class OrganizationRenameCommandHandler(IOrganizationRepository repository) : ICommandHandler<OrganizationRenameCommand>
+internal class OrganizationRenameCommandHandler(IOrganizationRepository repository) : CommandHandler<OrganizationRenameCommand>
 {
-    public async Task Handle(OrganizationRenameCommand request, CancellationToken cancellationToken)
+    public override async Task ExecuteAsync(OrganizationRenameCommand request, CancellationToken cancellationToken)
     {
         var organization = await repository.GetAsync(request.OrganizationId, cancellationToken);
 
         organization.Rename(request.Name);
 
-        await repository.UpdateAsync(organization, cancellationToken);
+        await repository.UpdateAsync(organization, cancellationToken: cancellationToken);
     }
 }

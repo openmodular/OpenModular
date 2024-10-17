@@ -1,10 +1,12 @@
 ﻿using MediatR;
+using OpenModular.Common.Utils;
 using OpenModular.DDD.Core.Domain;
+using OpenModular.DDD.Core.Uow;
 using OpenModular.Module.Abstractions.Exceptions;
 
 namespace OpenModular.DDD.Core.Application.Command;
 
-public abstract class CommandHandlerBase
+public abstract class HandlerBase
 {
     /// <summary>
     /// 检测业务规则
@@ -24,9 +26,19 @@ public abstract class CommandHandlerBase
 /// 命令处理器基类
 /// </summary>
 /// <typeparam name="TCommand"></typeparam>
-public abstract class CommandHandler<TCommand> : CommandHandlerBase, ICommandHandler<TCommand> where TCommand : ICommand, IRequest
+public abstract class CommandHandler<TCommand> : HandlerBase, ICommandHandler<TCommand> where TCommand : ICommand, IRequest
 {
-    public abstract Task Handle(TCommand request, CancellationToken cancellationToken);
+    public async Task Handle(TCommand request, CancellationToken cancellationToken)
+    {
+        var unitOfWorkManager = GlobalServiceProvider.GetRequiredService<IUnitOfWorkManager>();
+        using var uow = unitOfWorkManager.Begin();
+
+        await ExecuteAsync(request, cancellationToken);
+
+        await uow.CompleteAsync(cancellationToken);
+    }
+
+    public abstract Task ExecuteAsync(TCommand request, CancellationToken cancellationToken);
 }
 
 /// <summary>
@@ -34,7 +46,19 @@ public abstract class CommandHandler<TCommand> : CommandHandlerBase, ICommandHan
 /// </summary>
 /// <typeparam name="TCommand"></typeparam>
 /// <typeparam name="TResult"></typeparam>
-public abstract class CommandHandler<TCommand, TResult> : CommandHandlerBase, ICommandHandler<TCommand, TResult> where TCommand : ICommand<TResult>
+public abstract class CommandHandler<TCommand, TResult> : HandlerBase, ICommandHandler<TCommand, TResult> where TCommand : ICommand<TResult>
 {
-    public abstract Task<TResult> Handle(TCommand request, CancellationToken cancellationToken);
+    public async Task<TResult> Handle(TCommand request, CancellationToken cancellationToken)
+    {
+        var unitOfWorkManager = GlobalServiceProvider.GetRequiredService<IUnitOfWorkManager>();
+        using var uow = unitOfWorkManager.Begin();
+
+        var result = await ExecuteAsync(request, cancellationToken);
+
+        await uow.CompleteAsync(cancellationToken);
+
+        return result;
+    }
+
+    public abstract Task<TResult> ExecuteAsync(TCommand request, CancellationToken cancellationToken);
 }

@@ -27,7 +27,7 @@ public class AuthenticationRecordConfiguration : IEntityTypeConfiguration<Authen
 
         builder.Property(x => x.AccountId).ValueGeneratedNever().HasConversion(
             v => v != null ? v.ToString() : "",
-            v => v.IsNull() ? null : new AccountId(v));
+            v => v.IsNullOrWhiteSpace() ? null : new AccountId(v));
 
         builder.HasKey(x => x.Id);
 

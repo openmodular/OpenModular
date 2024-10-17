@@ -6,9 +6,9 @@ using OpenModular.Module.UAP.Core.Infrastructure;
 
 namespace OpenModular.Module.UAP.Core.Application.Accounts.Create;
 
-internal class AccountCreateCommandHandler(IAccountRepository repository, IPasswordHasher passwordHasher) : ICommandHandler<AccountCreateCommand, AccountId>
+internal class AccountCreateCommandHandler(IAccountRepository repository, IPasswordHasher passwordHasher) : CommandHandler<AccountCreateCommand, AccountId>
 {
-    public async Task<AccountId> Handle(AccountCreateCommand commond, CancellationToken cancellationToken)
+    public override async Task<AccountId> ExecuteAsync(AccountCreateCommand commond, CancellationToken cancellationToken)
     {
         var exists = await repository.FindAsync(m => m.UserName == commond.Username || m.Email == commond.Email || m.Phone == commond.Phone, cancellationToken);
         if (exists != null)

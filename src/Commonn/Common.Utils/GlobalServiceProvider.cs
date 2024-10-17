@@ -14,22 +14,22 @@ public class GlobalServiceProvider
         ServiceProvider = serviceProvider;
     }
 
-    public static T GetService<T>()
+    public static T? GetService<T>()
     {
         return ServiceProvider.GetService<T>();
     }
 
-    public static object GetService(Type serviceType)
+    public static object? GetService(Type serviceType)
     {
         return ServiceProvider.GetService(serviceType);
     }
 
-    public static T GetKeyedServices<T>(string serviceKey)
+    public static T? GetKeyedServices<T>(string serviceKey)
     {
         return ServiceProvider.GetKeyedService<T>(serviceKey);
     }
 
-    public static T GetRequiredService<T>()
+    public static T GetRequiredService<T>() where T : notnull
     {
         return ServiceProvider.GetRequiredService<T>();
     }
@@ -39,7 +39,7 @@ public class GlobalServiceProvider
         return ServiceProvider.GetRequiredService(serviceType);
     }
 
-    public static T GetRequiredKeyedService<T>(string serviceKey)
+    public static T GetRequiredKeyedService<T>(string serviceKey) where T : notnull
     {
         return ServiceProvider.GetRequiredKeyedService<T>(serviceKey);
     }

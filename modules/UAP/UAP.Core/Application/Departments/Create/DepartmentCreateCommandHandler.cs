@@ -5,9 +5,9 @@ using OpenModular.Module.UAP.Core.Domain.Organizations;
 
 namespace OpenModular.Module.UAP.Core.Application.Departments.Create;
 
-internal class DepartmentCreateCommandHandler(IDepartmentRepository repository, IOrganizationRepository organizationRepository, IDepartmentCodeGenerator codeGenerator) : ICommandHandler<DepartmentCreateCommand, DepartmentId>
+internal class DepartmentCreateCommandHandler(IDepartmentRepository repository, IOrganizationRepository organizationRepository, IDepartmentCodeGenerator codeGenerator) : CommandHandler<DepartmentCreateCommand, DepartmentId>
 {
-    public async Task<DepartmentId> Handle(DepartmentCreateCommand commond, CancellationToken cancellationToken)
+    public override async Task<DepartmentId> ExecuteAsync(DepartmentCreateCommand commond, CancellationToken cancellationToken)
     {
         var org = await organizationRepository.GetAsync(commond.OrganizationId, cancellationToken);
 
@@ -24,7 +24,7 @@ internal class DepartmentCreateCommandHandler(IDepartmentRepository repository, 
         var department = Department.Create(org.Id, commond.Name, commond.ParentId, code, commond.CreatedBy);
         department.SetOrder(commond.Order);
 
-        await repository.InsertAsync(department, cancellationToken);
+        await repository.InsertAsync(department, cancellationToken: cancellationToken);
 
         return department.Id;
     }

@@ -23,7 +23,7 @@ internal class RefreshTokenCommandHandler : CommandHandler<RefreshTokenCommand, 
         _mapper = mapper;
     }
 
-    public override async Task<AccountDto> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
+    public override async Task<AccountDto> ExecuteAsync(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
         Check.NotNull(request.RefreshToken, nameof(request.RefreshToken));
 

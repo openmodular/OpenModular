@@ -2,9 +2,9 @@
 
 namespace OpenModular.Module.UAP.Core.Application.Accounts.Get;
 
-internal class AccountGetQueryHandler : IQueryHandler<AccountGetQuery, AccountDto>
+internal class AccountGetQueryHandler : QueryHandler<AccountGetQuery, AccountDto>
 {
-    public Task<AccountDto> Handle(AccountGetQuery query, CancellationToken cancellationToken)
+    public override Task<AccountDto> ExecuteAsync(AccountGetQuery request, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
