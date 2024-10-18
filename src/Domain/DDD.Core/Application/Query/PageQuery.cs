@@ -3,10 +3,10 @@
 namespace OpenModular.DDD.Core.Application.Query;
 
 /// <summary>
-/// 分页查询基类
+/// 定义一个分页查询请求
 /// </summary>
 /// <typeparam name="TDto"></typeparam>
-public abstract class PageQueryBase<TDto> : QueryBase<TDto>
+public abstract class PageQuery<TDto> : Query<TDto>
 {
     /// <summary>
     /// 分页信息

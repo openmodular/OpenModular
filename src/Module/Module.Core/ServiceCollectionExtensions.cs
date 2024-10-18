@@ -27,14 +27,14 @@ public static class ServiceCollectionExtensions
     /// <param name="services"></param>
     /// <param name="module"></param>
     /// <returns></returns>
-    public static IServiceCollection RegisterModuleCore(this IServiceCollection services, IModule module)
+    public static IModuleDescriptor RegisterModuleCore(this IServiceCollection services, IModule module)
     {
         var descriptor = new ModuleDescriptor(module);
 
         var collection = services.GetModuleCollection();
         collection.Add(descriptor);
 
-        return services;
+        return descriptor;
     }
 
     /// <summary>

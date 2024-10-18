@@ -13,7 +13,7 @@ public static class Check
     /// <param name="minLength"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static string NotNull(string value, string parameterName, int maxLength = int.MaxValue, int minLength = 0)
+    public static string NotNullOrWhiteSpace(string value, string parameterName, int maxLength = int.MaxValue, int minLength = 0)
     {
         if (value.IsNullOrWhiteSpace())
         {

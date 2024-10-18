@@ -4,6 +4,8 @@ using Microsoft.OpenApi.Models;
 using OpenModular.Host.Web.OpenApi.Filters;
 using OpenModular.Host.Web.Options;
 using OpenModular.Module.Web;
+using OpenModular.Module.Abstractions;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace OpenModular.Host.Web.OpenApi;
 
@@ -24,18 +26,17 @@ public static class OpenApiExtensions
         {
             var descriptors = services.GetModuleCollection();
 
-            if (descriptors != null)
+            foreach (var descriptor in descriptors)
             {
-                foreach (var descriptor in descriptors)
-                {
-                    var module = descriptor.Module;
+                var module = descriptor.Module;
 
-                    c.SwaggerDoc(module.Code, new OpenApiInfo
-                    {
-                        Title = module.Code,
-                        Version = module.Version
-                    });
-                }
+                c.SwaggerDoc(module.Code, new OpenApiInfo
+                {
+                    Title = module.Code,
+                    Version = module.Version
+                });
+
+                LoadXml(descriptor, c);
             }
 
             var securityScheme = new OpenApiSecurityScheme
@@ -105,5 +106,23 @@ public static class OpenApiExtensions
         });
 
         return app;
+    }
+
+    private static void LoadXml(IModuleDescriptor descriptor, SwaggerGenOptions options)
+    {
+        var xmlFilePath = descriptor.Assemblies.Core.Location.Replace(".dll", ".xml", StringComparison.OrdinalIgnoreCase);
+        if (File.Exists(xmlFilePath))
+        {
+            options.IncludeXmlComments(xmlFilePath);
+        }
+
+        if (descriptor.Assemblies.Web != null)
+        {
+            xmlFilePath = descriptor.Assemblies.Web.Location.Replace(".dll", ".xml", StringComparison.OrdinalIgnoreCase);
+            if (File.Exists(xmlFilePath))
+            {
+                options.IncludeXmlComments(xmlFilePath);
+            }
+        }
     }
 }

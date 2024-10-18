@@ -41,10 +41,12 @@ public static class ServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection RegisterModuleWeb(this IServiceCollection services, IModuleWeb moduleWeb)
     {
-        services.RegisterModuleCore(moduleWeb.Module);
+        var moduleDescriptor = services.RegisterModuleCore(moduleWeb.Module);
 
         var collection = services.GetModuleWebCollection();
         collection.Add(new ModuleWebDescriptor(moduleWeb));
+
+        moduleDescriptor.Assemblies.Web = moduleWeb.GetType().Assembly;
 
         return services;
     }

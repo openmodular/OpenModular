@@ -198,7 +198,7 @@ public class OpenModularWebHost : IOpenModularHost
         //启用Banner图
         app.UseBanner(app.Lifetime, _hostOptions);
 
-        GlobalServiceProvider.SetServiceProvider(app.Services);
+        GlobalServiceProvider.Set(app.Services);
 
         await app.RunAsync();
     }

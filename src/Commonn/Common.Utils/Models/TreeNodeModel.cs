@@ -24,7 +24,7 @@ public class TreeNodeModel<TKey, TData>
     /// <summary>
     /// 绑定的数据对象
     /// </summary>
-    public TData Data { get; set; }
+    public TData? Data { get; set; }
 
     /// <summary>
     /// 子节点

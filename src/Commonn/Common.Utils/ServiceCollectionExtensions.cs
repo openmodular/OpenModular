@@ -24,7 +24,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services"></param>
     /// <param name="assembly"></param>
     /// <returns></returns>
-    public static IServiceCollection AddServicesFromAssembly(this IServiceCollection services, Assembly assembly)
+    public static IServiceCollection AddServicesFromAssembly(this IServiceCollection services, Assembly? assembly)
     {
         if (assembly == null)
             return services;

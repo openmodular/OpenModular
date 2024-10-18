@@ -1,11 +1,12 @@
 ﻿using OpenModular.Authentication.Abstractions;
 using OpenModular.Authentication.JwtBearer;
+using OpenModular.Common.Utils.DependencyInjection;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 using OpenModular.Module.UAP.Core.Domain.Authentications;
 
 namespace OpenModular.Module.UAP.Core.Application.Authentications.RefreshToken;
 
-internal class JwtSecurityTokenStorage : IJwtSecurityTokenStorage
+internal class JwtSecurityTokenStorage : IJwtSecurityTokenStorage, ISingletonDependency
 {
     private readonly IAuthenticationTokenRepository _repository;
 

@@ -30,12 +30,7 @@ public abstract class CommandHandler<TCommand> : HandlerBase, ICommandHandler<TC
 {
     public async Task Handle(TCommand request, CancellationToken cancellationToken)
     {
-        var unitOfWorkManager = GlobalServiceProvider.GetRequiredService<IUnitOfWorkManager>();
-        using var uow = unitOfWorkManager.Begin();
-
         await ExecuteAsync(request, cancellationToken);
-
-        await uow.CompleteAsync(cancellationToken);
     }
 
     public abstract Task ExecuteAsync(TCommand request, CancellationToken cancellationToken);
@@ -50,13 +45,7 @@ public abstract class CommandHandler<TCommand, TResult> : HandlerBase, ICommandH
 {
     public async Task<TResult> Handle(TCommand request, CancellationToken cancellationToken)
     {
-        var unitOfWorkManager = GlobalServiceProvider.GetRequiredService<IUnitOfWorkManager>();
-        using var uow = unitOfWorkManager.Begin();
-
         var result = await ExecuteAsync(request, cancellationToken);
-
-        await uow.CompleteAsync(cancellationToken);
-
         return result;
     }
 

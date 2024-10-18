@@ -16,4 +16,9 @@ public interface IModuleDescriptor
     /// 配置类描述符
     /// </summary>
     IConfigDescriptor Config { get; }
+
+    /// <summary>
+    /// 模块程序集
+    /// </summary>
+    IModuleAssemblies Assemblies { get; }
 }

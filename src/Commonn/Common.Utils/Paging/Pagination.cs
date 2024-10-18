@@ -18,5 +18,5 @@ public class Pagination
     /// <summary>
     /// 排序
     /// </summary>
-    public string OrderBy { get; set; }
+    public string? OrderBy { get; set; }
 }

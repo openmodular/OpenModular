@@ -28,6 +28,7 @@ public class PagedResult<T>
 
     public PagedResult()
     {
+        Rows = new List<T>();
     }
 
     public PagedResult(List<T> rows, int total)

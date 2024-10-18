@@ -27,6 +27,7 @@ public class PagedDto<TData>
 
     public PagedDto()
     {
+        Rows = new List<TData>();
     }
 
     public PagedDto(List<TData> rows, int total)

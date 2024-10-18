@@ -6,7 +6,7 @@ namespace OpenModular.Module.UAP.Core.Application.Accounts.Create;
 /// <summary>
 /// 创建账户命令
 /// </summary>
-public class AccountCreateCommand : CommandBase<AccountId>
+public class AccountCreateCommand : Command<AccountId>
 {
     /// <summary>
     /// 用户名

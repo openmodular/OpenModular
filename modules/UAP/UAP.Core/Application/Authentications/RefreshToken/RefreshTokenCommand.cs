@@ -7,7 +7,7 @@ namespace OpenModular.Module.UAP.Core.Application.Authentications.RefreshToken;
 /// <summary>
 /// 刷新令牌命令
 /// </summary>
-public class RefreshTokenCommand : CommandBase<AccountDto>
+public class RefreshTokenCommand : Command<AccountDto>
 {
     /// <summary>
     /// 刷新令牌

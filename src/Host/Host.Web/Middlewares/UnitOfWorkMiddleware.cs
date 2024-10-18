@@ -3,11 +3,12 @@ using OpenModular.DDD.Core.Uow;
 
 namespace OpenModular.Host.Web.Middlewares;
 
-public class UnitOfWorkMiddleware(IUnitOfWork unitOfWork) : IMiddleware
+public class UnitOfWorkMiddleware(IUnitOfWorkManager unitOfWorkManager) : IMiddleware
 {
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
-    { 
+    {
+        var uow = unitOfWorkManager.Begin();
         await next(context);
-        await unitOfWork.CompleteAsync();
+        await uow.CompleteAsync();
     }
 }

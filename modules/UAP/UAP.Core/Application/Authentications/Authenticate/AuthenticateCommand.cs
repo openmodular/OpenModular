@@ -7,7 +7,7 @@ namespace OpenModular.Module.UAP.Core.Application.Authentications.Authenticate;
 /// <summary>
 /// 认证命令
 /// </summary>
-public class AuthenticateCommand : CommandBase<AuthenticateDto>
+public class AuthenticateCommand : Command<AuthenticateDto>
 {
     /// <summary>
     /// 租户编号

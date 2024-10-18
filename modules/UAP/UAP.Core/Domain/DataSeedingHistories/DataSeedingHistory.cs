@@ -10,12 +10,12 @@ public class DataSeedingHistory : AggregateRoot<DataSeedingHistoryId>
 
     public DataSeedingHistory()
     {
-
+        //for ef
     }
 
     private DataSeedingHistory(string moduleCode, int version) : base(new DataSeedingHistoryId())
     {
-        Check.NotNull(moduleCode, nameof(moduleCode));
+        Check.NotNullOrWhiteSpace(moduleCode, nameof(moduleCode));
 
         ModuleCode = moduleCode;
         Version = version;

@@ -39,7 +39,7 @@ public sealed class AuthenticationSource
     /// </summary>
     /// <param name="schema"></param>
     /// <returns></returns>
-    public static AuthenticationSource Find(string schema)
+    public static AuthenticationSource? Find(string schema)
     {
         return _sources.FirstOrDefault(s => s.Schema == schema);
     }
@@ -70,7 +70,7 @@ public sealed class AuthenticationSource
     public static AuthenticationSource FeiShu = GetOrCreate("FeiShu");
 
     // 重载 == 运算符
-    public static bool operator ==(AuthenticationSource left, AuthenticationSource right)
+    public static bool operator ==(AuthenticationSource? left, AuthenticationSource? right)
     {
         if (ReferenceEquals(left, right))
         {
@@ -86,13 +86,13 @@ public sealed class AuthenticationSource
     }
 
     // 重载 != 运算符
-    public static bool operator !=(AuthenticationSource left, AuthenticationSource right)
+    public static bool operator !=(AuthenticationSource? left, AuthenticationSource? right)
     {
         return !(left == right);
     }
 
     // 重写 Equals 方法
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is AuthenticationSource other)
         {
