@@ -71,10 +71,18 @@ public interface IRepository<TEntity> : IRepository where TEntity : IEntity
     /// 根据指定 <paramref name="predicate"/> 删除多个实体
     /// </summary>
     /// <param name="predicate">删除条件</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>受影响的行数</returns>
+    Task<int> DeleteAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 根据指定 <paramref name="predicate"/> 删除多个实体
+    /// </summary>
+    /// <param name="predicate">删除条件</param>
     /// <param name="autoSave">自动保存</param>
     /// <param name="cancellationToken"></param>
     /// <returns>受影响的行数</returns>
-    Task<int> DeleteAsync(Expression<Func<TEntity, bool>> predicate, bool autoSave = false, CancellationToken cancellationToken = default);
+    Task<int> DeleteAsync(Expression<Func<TEntity, bool>> predicate, bool autoSave, CancellationToken cancellationToken = default);
 }
 
 public interface IRepository<TEntity, in TKey> : IRepository<TEntity> where TEntity : IEntity<TKey>
@@ -111,9 +119,23 @@ public interface IRepository<TEntity, in TKey> : IRepository<TEntity> where TEnt
     /// 插入一个实体
     /// </summary>
     /// <param name="entity">准备插入的实体</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    Task<TEntity> InsertAsync(TEntity entity, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 插入一个实体
+    /// </summary>
+    /// <param name="entity">准备插入的实体</param>
     /// <param name="autoSave">自动保存</param>
     /// <param name="cancellationToken">取消令牌</param>
-    Task<TEntity> InsertAsync(TEntity entity, bool autoSave = false, CancellationToken cancellationToken = default);
+    Task<TEntity> InsertAsync(TEntity entity, bool autoSave, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 插入多个实体
+    /// </summary>
+    /// <param name="entities">准备插入的实体</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    Task InsertManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 插入多个实体
@@ -121,7 +143,14 @@ public interface IRepository<TEntity, in TKey> : IRepository<TEntity> where TEnt
     /// <param name="entities">准备插入的实体</param>
     /// <param name="autoSave">自动保存</param>
     /// <param name="cancellationToken">取消令牌</param>
-    Task InsertManyAsync(IEnumerable<TEntity> entities, bool autoSave = false, CancellationToken cancellationToken = default);
+    Task InsertManyAsync(IEnumerable<TEntity> entities, bool autoSave, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 更新一个实体
+    /// </summary>
+    /// <param name="entity">准备更新的实体</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 更新一个实体
@@ -129,7 +158,14 @@ public interface IRepository<TEntity, in TKey> : IRepository<TEntity> where TEnt
     /// <param name="entity">准备更新的实体</param>
     /// <param name="autoSave">自动保存</param>
     /// <param name="cancellationToken">取消令牌</param>
-    Task<TEntity> UpdateAsync(TEntity entity, bool autoSave = false, CancellationToken cancellationToken = default);
+    Task<TEntity> UpdateAsync(TEntity entity, bool autoSave, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 更新多个实体
+    /// </summary>
+    /// <param name="entities">准备更新的实体</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    Task UpdateManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 更新多个实体
@@ -137,7 +173,14 @@ public interface IRepository<TEntity, in TKey> : IRepository<TEntity> where TEnt
     /// <param name="entities">准备更新的实体</param>
     /// <param name="autoSave">自动保存</param>
     /// <param name="cancellationToken">取消令牌</param>
-    Task UpdateManyAsync(IEnumerable<TEntity> entities, bool autoSave = false, CancellationToken cancellationToken = default);
+    Task UpdateManyAsync(IEnumerable<TEntity> entities, bool autoSave, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 删除一个实体
+    /// </summary>
+    /// <param name="entity">准备删除的实体</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 删除一个实体
@@ -145,7 +188,14 @@ public interface IRepository<TEntity, in TKey> : IRepository<TEntity> where TEnt
     /// <param name="entity">准备删除的实体</param>
     /// <param name="autoSave">自动保存</param>
     /// <param name="cancellationToken">取消令牌</param>
-    Task DeleteAsync(TEntity entity, bool autoSave = false, CancellationToken cancellationToken = default);
+    Task DeleteAsync(TEntity entity, bool autoSave, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 删除多个实体
+    /// </summary>
+    /// <param name="entities">准备删除的实体</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    Task DeleteManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 删除多个实体
@@ -153,5 +203,5 @@ public interface IRepository<TEntity, in TKey> : IRepository<TEntity> where TEnt
     /// <param name="entities">准备删除的实体</param>
     /// <param name="autoSave">自动保存</param>
     /// <param name="cancellationToken">取消令牌</param>
-    Task DeleteManyAsync(IEnumerable<TEntity> entities, bool autoSave = false, CancellationToken cancellationToken = default);
+    Task DeleteManyAsync(IEnumerable<TEntity> entities, bool autoSave, CancellationToken cancellationToken = default);
 }

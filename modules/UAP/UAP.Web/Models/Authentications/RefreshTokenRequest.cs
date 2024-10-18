@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OpenModular.Module.UAP.Web.Models.Auths;
+namespace OpenModular.Module.UAP.Web.Models.Authentications;
 
 public class RefreshTokenRequest
 {

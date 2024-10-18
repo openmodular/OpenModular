@@ -15,7 +15,7 @@ public static class JsonExtensions
     /// <typeparam name="T"></typeparam>
     /// <param name="obj"></param>
     /// <returns></returns>
-    public static string ToJson<T>(this T obj)
+    public static string? ToJson<T>(this T obj)
     {
         if (obj == null) return null;
 
@@ -28,10 +28,10 @@ public static class JsonExtensions
     /// <typeparam name="T"></typeparam>
     /// <param name="obj"></param>
     /// <returns></returns>
-    public static T ToModel<T>(this string obj)
+    public static T? ToModel<T>(this string? obj)
     {
         if (obj == null)
-            return default(T);
+            return default;
 
         return JsonSerializer.Deserialize<T>(obj, Options);
     }

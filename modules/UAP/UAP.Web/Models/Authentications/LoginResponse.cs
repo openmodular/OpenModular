@@ -1,7 +1,7 @@
 ﻿using OpenModular.Authentication.Abstractions;
 using OpenModular.Authentication.JwtBearer;
 
-namespace OpenModular.Module.UAP.Web.Models.Auths;
+namespace OpenModular.Module.UAP.Web.Models.Authentications;
 
 public class LoginResponse
 {

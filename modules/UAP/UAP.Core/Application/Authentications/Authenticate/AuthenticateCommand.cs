@@ -12,7 +12,7 @@ public class AuthenticateCommand : CommandBase<AuthenticateDto>
     /// <summary>
     /// 租户编号
     /// </summary>
-    public TenantId TenantId { get; set; }
+    public TenantId? TenantId { get; set; }
 
     /// <summary>
     /// 认证模式
@@ -37,15 +37,15 @@ public class AuthenticateCommand : CommandBase<AuthenticateDto>
     /// <summary>
     /// IPv4地址
     /// </summary>
-    public string IPv4 { get; set; }
+    public string? IPv4 { get; set; }
 
     /// <summary>
     /// IPv6地址
     /// </summary>
-    public string IPv6 { get; set; }
+    public string? IPv6 { get; set; }
 
     /// <summary>
     /// MAC地址
     /// </summary>
-    public string Mac { get; set; }
+    public string? Mac { get; set; }
 }

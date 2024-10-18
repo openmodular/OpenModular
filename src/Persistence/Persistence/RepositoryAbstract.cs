@@ -65,7 +65,12 @@ public class RepositoryAbstract<TEntity, TDbContext> : IRepository<TEntity> wher
         return await dbContext.Set<TEntity>().Where(predicate).CountAsync(cancellationToken) > 0;
     }
 
-    public async Task<int> DeleteAsync(Expression<Func<TEntity, bool>> predicate, bool autoSave = false, CancellationToken cancellationToken = default)
+    public Task<int> DeleteAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+    {
+        return DeleteAsync(predicate, false, cancellationToken);
+    }
+
+    public async Task<int> DeleteAsync(Expression<Func<TEntity, bool>> predicate, bool autoSave, CancellationToken cancellationToken = default)
     {
         var dbContext = await GetDbContextAsync();
         var count = await dbContext.Set<TEntity>().Where(predicate).ExecuteDeleteAsync(cancellationToken);
@@ -87,17 +92,24 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IDbContextProvider<TD
         return await dbContext.Set<TEntity>().Where(m => m.Id!.Equals(id)).FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<TEntity> GetAsync(TKey id, CancellationToken cancellationToken = default)
+    public async Task<TEntity> GetAsync(TKey? id, CancellationToken cancellationToken = default)
     {
         var dbContext = await GetDbContextAsync();
         var entity = await dbContext.Set<TEntity>().Where(m => m.Id!.Equals(id)).SingleOrDefaultAsync(cancellationToken);
         if (entity == null)
+        {
             throw new EntityNotFoundException(typeof(TEntity), id);
+        }
 
         return entity;
     }
 
-    public async Task<TEntity> InsertAsync(TEntity entity, bool autoSave = false, CancellationToken cancellationToken = default)
+    public Task<TEntity> InsertAsync(TEntity entity, CancellationToken cancellationToken = default)
+    {
+        return InsertAsync(entity, false, cancellationToken);
+    }
+
+    public async Task<TEntity> InsertAsync(TEntity entity, bool autoSave, CancellationToken cancellationToken = default)
     {
         var dbContext = await GetDbContextAsync();
         await dbContext.Set<TEntity>().AddAsync(entity, cancellationToken);
@@ -109,7 +121,12 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IDbContextProvider<TD
         return entity;
     }
 
-    public async Task InsertManyAsync(IEnumerable<TEntity> entities, bool autoSave = false, CancellationToken cancellationToken = default)
+    public Task InsertManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+    {
+        return InsertManyAsync(entities, false, cancellationToken);
+    }
+
+    public async Task InsertManyAsync(IEnumerable<TEntity> entities, bool autoSave, CancellationToken cancellationToken = default)
     {
         var dbContext = await GetDbContextAsync();
         await dbContext.Set<TEntity>().AddRangeAsync(entities, cancellationToken);
@@ -120,7 +137,12 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IDbContextProvider<TD
         }
     }
 
-    public async Task<TEntity> UpdateAsync(TEntity entity, bool autoSave = false, CancellationToken cancellationToken = default)
+    public Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
+    {
+        return UpdateAsync(entity, false, cancellationToken);
+    }
+
+    public async Task<TEntity> UpdateAsync(TEntity entity, bool autoSave, CancellationToken cancellationToken = default)
     {
         var dbContext = await GetDbContextAsync();
         dbContext.Set<TEntity>().Update(entity);
@@ -131,7 +153,12 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IDbContextProvider<TD
         return entity;
     }
 
-    public async Task UpdateManyAsync(IEnumerable<TEntity> entities, bool autoSave = false, CancellationToken cancellationToken = default)
+    public Task UpdateManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+    {
+        return UpdateManyAsync(entities, false, cancellationToken);
+    }
+
+    public async Task UpdateManyAsync(IEnumerable<TEntity> entities, bool autoSave, CancellationToken cancellationToken = default)
     {
         var dbContext = await GetDbContextAsync();
         dbContext.Set<TEntity>().UpdateRange(entities);
@@ -141,7 +168,12 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IDbContextProvider<TD
         }
     }
 
-    public async Task DeleteAsync(TEntity entity, bool autoSave = false, CancellationToken cancellationToken = default)
+    public Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
+    {
+        return DeleteAsync(entity, false, cancellationToken);
+    }
+
+    public async Task DeleteAsync(TEntity entity, bool autoSave, CancellationToken cancellationToken = default)
     {
         var dbContext = await GetDbContextAsync();
         dbContext.Set<TEntity>().Remove(entity);
@@ -151,7 +183,12 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IDbContextProvider<TD
         }
     }
 
-    public async Task DeleteManyAsync(IEnumerable<TEntity> entities, bool autoSave = false, CancellationToken cancellationToken = default)
+    public Task DeleteManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+    {
+        return DeleteManyAsync(entities, false, cancellationToken);
+    }
+
+    public async Task DeleteManyAsync(IEnumerable<TEntity> entities, bool autoSave, CancellationToken cancellationToken = default)
     {
         var dbContext = await GetDbContextAsync();
         dbContext.Set<TEntity>().RemoveRange(entities);

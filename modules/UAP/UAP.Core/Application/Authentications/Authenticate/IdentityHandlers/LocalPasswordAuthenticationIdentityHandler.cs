@@ -29,7 +29,7 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
         _config = config;
     }
 
-    public async Task HandleAsync(string payload, AuthenticationContext<Account> context, CancellationToken cancellationToken)
+    public async Task HandleAsync(string? payload, AuthenticationContext<Account> context, CancellationToken cancellationToken)
     {
         if (payload.IsNullOrWhiteSpace())
         {
@@ -85,20 +85,20 @@ public class PasswordIdentity
     /// <summary>
     /// 用户名
     /// </summary>
-    public string UserName { get; set; }
+    public string? UserName { get; set; }
 
     /// <summary>
     /// 密码
     /// </summary>
-    public string Password { get; set; }
+    public string? Password { get; set; }
 
     /// <summary>
     /// 图形验证码标识
     /// </summary>
-    public string CaptchaId { get; set; }
+    public string? CaptchaId { get; set; }
 
     /// <summary>
     /// 图形验证码
     /// </summary>
-    public string Captcha { get; set; }
+    public string? Captcha { get; set; }
 }

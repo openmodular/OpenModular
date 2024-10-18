@@ -8,7 +8,7 @@ public class AccountCreateRequest
     /// <summary>
     /// 用户名
     /// </summary>
-    public required string Username { get; set; }
+    public required string UserName { get; set; }
 
     /// <summary>
     /// 密码

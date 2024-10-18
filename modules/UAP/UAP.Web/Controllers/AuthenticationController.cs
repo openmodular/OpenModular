@@ -10,7 +10,7 @@ using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 using OpenModular.Module.UAP.Core.Application.Accounts.Get;
 using OpenModular.Module.UAP.Core.Application.Authentications.Authenticate;
 using OpenModular.Module.UAP.Core.Application.Authentications.RefreshToken;
-using OpenModular.Module.UAP.Web.Models.Auths;
+using OpenModular.Module.UAP.Web.Models.Authentications;
 using OpenModular.Module.Web;
 
 namespace OpenModular.Module.UAP.Web.Controllers;

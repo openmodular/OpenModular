@@ -3,7 +3,7 @@ using OpenModular.Authentication.Abstractions;
 using OpenModular.Module.UAP.Core.Application.Authentications.Authenticate;
 using OpenModular.Module.UAP.Core.Application.Configs.PagedQuery;
 using OpenModular.Module.UAP.Web.Models.Configs;
-using LoginRequest = OpenModular.Module.UAP.Web.Models.Auths.LoginRequest;
+using LoginRequest = OpenModular.Module.UAP.Web.Models.Authentications.LoginRequest;
 
 namespace OpenModular.Module.UAP.Web;
 

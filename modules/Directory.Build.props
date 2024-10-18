@@ -3,6 +3,7 @@
 		<Version>1.0.0-beta.9</Version>
 		<Authors>OpenModular</Authors>
 		<NoWarn>$(NoWarn);1591</NoWarn>
+		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>Latest</LangVersion>
 		<TargetFramework>net9.0</TargetFramework>
