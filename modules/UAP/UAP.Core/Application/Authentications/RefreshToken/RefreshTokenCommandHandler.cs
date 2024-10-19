@@ -33,7 +33,7 @@ internal class RefreshTokenCommandHandler : CommandHandler<RefreshTokenCommand, 
             throw new UAPBusinessException(UAPErrorCode.Auth_InvalidRefreshToken);
         }
 
-        var jwtOptions = _jwtOptionsProvider.Get();
+        var jwtOptions = await _jwtOptionsProvider.GetAsync();
 
         if (token.Expires <= DateTimeOffset.UtcNow.AddDays(jwtOptions.Expires))
         {

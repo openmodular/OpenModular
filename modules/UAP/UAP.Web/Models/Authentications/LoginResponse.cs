@@ -13,10 +13,10 @@ public class LoginResponse
     /// <summary>
     /// 错误信息
     /// </summary>
-    public string Message { get; set; }
+    public string? Message { get; set; }
 
     /// <summary>
     /// 令牌
     /// </summary>
-    public JwtSecurityToken Jwt { get; set; }
+    public JwtSecurityToken? Jwt { get; set; }
 }

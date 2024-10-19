@@ -33,7 +33,7 @@ internal class ConfigProvider : IConfigProvider, ITransientDependency
         return _cache.GetOrSetAsync(cacheKey, token => GetFromRepositoryAsync<TConfig>(module, token), TimeSpan.FromDays(7));
     }
 
-    public ValueTask<object> GetAsync(Type configType)
+    public ValueTask<object?> GetAsync(Type configType)
     {
         var module = _modules.FirstOrDefault(m => m.Config != null && m.Config.ConfigType == configType);
         if (module == null)
@@ -59,7 +59,7 @@ internal class ConfigProvider : IConfigProvider, ITransientDependency
 
         foreach (var d in dic)
         {
-            var configItem = await _repository.GetAsync(m => m.ModuleCode == module.Module.Code && m.Key == d.Key);
+            var configItem = await _repository.FindAsync(m => m.ModuleCode == module.Module.Code && m.Key == d.Key);
             if (configItem != null)
             {
                 configItem.Value = d.Value;
@@ -89,15 +89,14 @@ internal class ConfigProvider : IConfigProvider, ITransientDependency
             return config;
         }
 
-        var builder = new ConfigurationBuilder().AddInMemoryCollection(configItems.Select(m => new KeyValuePair<string, string>(m.Key, m.Value)));
+        var builder = new ConfigurationBuilder().AddInMemoryCollection(configItems.Select(m => new KeyValuePair<string, string?>(m.Key, m.Value)));
 
         builder.Build().Bind(config);
 
         return config;
     }
 
-
-    private async Task<object> GetFromRepositoryAsync(IModuleDescriptor module, Type configType, CancellationToken cancellationToken)
+    private async Task<object?> GetFromRepositoryAsync(IModuleDescriptor module, Type configType, CancellationToken cancellationToken)
     {
         var config = Activator.CreateInstance(configType);
 
@@ -108,34 +107,37 @@ internal class ConfigProvider : IConfigProvider, ITransientDependency
             return config;
         }
 
-        var builder = new ConfigurationBuilder().AddInMemoryCollection(configItems.Select(m => new KeyValuePair<string, string>(m.Key, m.Value)));
+        var builder = new ConfigurationBuilder().AddInMemoryCollection(configItems.Select(m => new KeyValuePair<string, string?>(m.Key, m.Value)));
 
         builder.Build().Bind(config);
 
         return config;
     }
 
-
-    private static void Object2Dictionary(object obj, Dictionary<string, string> configDictionary, string parentKey)
+    private void Object2Dictionary(object obj, Dictionary<string, string> configDictionary, string parentKey)
     {
         var objType = obj.GetType();
         foreach (var property in objType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
         {
-            var key = string.IsNullOrEmpty(parentKey) ? property.Name : $"{parentKey}:{property.Name}";
+            var key = parentKey.IsNullOrWhiteSpace() ? property.Name : $"{parentKey}:{property.Name}";
             var value = property.GetValue(obj);
 
-            if (value != null && IsSimpleType(property.PropertyType))
+            if (value != null)
             {
-                configDictionary[key] = value.ToString();
-            }
-            else if (value != null)
-            {
-                Object2Dictionary(value, configDictionary, key);
+                if (IsSimpleType(property.PropertyType))
+                {
+
+                    configDictionary[key] = value.ToString() ?? string.Empty;
+                }
+                else
+                {
+                    Object2Dictionary(value, configDictionary, key);
+                }
             }
         }
     }
 
-    private static bool IsSimpleType(Type type)
+    private bool IsSimpleType(Type type)
     {
         return type.IsPrimitive || type.IsEnum || type == typeof(string) || type == typeof(decimal);
     }

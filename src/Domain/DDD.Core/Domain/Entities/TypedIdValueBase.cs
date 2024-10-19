@@ -30,7 +30,7 @@ public abstract class TypedIdValueBase : IEquatable<TypedIdValueBase>
         Value = val;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj))
         {
@@ -45,12 +45,12 @@ public abstract class TypedIdValueBase : IEquatable<TypedIdValueBase>
         return Value.GetHashCode();
     }
 
-    public bool Equals(TypedIdValueBase other)
+    public bool Equals(TypedIdValueBase? other)
     {
         return Value == other?.Value;
     }
 
-    public static bool operator ==(TypedIdValueBase obj1, TypedIdValueBase obj2)
+    public static bool operator ==(TypedIdValueBase? obj1, TypedIdValueBase? obj2)
     {
         if (Equals(obj1, null))
         {
@@ -65,7 +65,7 @@ public abstract class TypedIdValueBase : IEquatable<TypedIdValueBase>
         return obj1.Equals(obj2);
     }
 
-    public static bool operator !=(TypedIdValueBase x, TypedIdValueBase y)
+    public static bool operator !=(TypedIdValueBase? x, TypedIdValueBase? y)
     {
         return !(x == y);
     }

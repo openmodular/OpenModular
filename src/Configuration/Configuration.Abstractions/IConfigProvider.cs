@@ -14,7 +14,7 @@ public interface IConfigProvider
     /// </summary>
     /// <param name="configType"></param>
     /// <returns></returns>
-    ValueTask<object> GetAsync(Type configType);
+    ValueTask<object?> GetAsync(Type configType);
 
     /// <summary>
     /// 设置配置

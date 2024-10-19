@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 using OpenModular.Authentication.Abstractions;
+using OpenModular.Common.Utils.DependencyInjection;
 using OpenModular.Module.UAP.Core.Domain.Accounts;
 
 namespace OpenModular.Module.UAP.Core.Application.Authentications.Authenticate.VerifyStageHandlers;
 
-internal class UserStatusVerifyStageHandler : IAuthenticationVerifyStageHandler<Account>
+internal class UserStatusVerifyStageHandler : IAuthenticationVerifyStageHandler<Account>, ITransientDependency
 {
     public const string StageName = "UserStatus";
 
@@ -21,7 +22,7 @@ internal class UserStatusVerifyStageHandler : IAuthenticationVerifyStageHandler<
     {
         _logger.LogInformation("Start verify user status, the user is {@user}.", context.Account);
 
-        if (context.Account.Status == AccountStatus.Deleted)
+        if (context.Account!.Status == AccountStatus.Deleted)
         {
             context.Status = AuthenticationStatus.UserNotFound;
             context.Message = "Authentication failed, user not found";

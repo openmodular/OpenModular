@@ -51,15 +51,13 @@ public class DataSeedingBuilder
         var connectionString = new SqliteConnectionStringBuilder($"Data Source={Path.Combine(_dbFileDir, dbFileName)}")
         {
             Mode = SqliteOpenMode.ReadWriteCreate,
-            Password = dbPassword
+            //Password = dbPassword
         }.ToString();
 
         using var con = new SqliteConnection(connectionString);
         con.Open();
 
         var command = con.CreateCommand();
-        command.CommandText = $"PRAGMA key = '{dbPassword}';";
-        command.ExecuteNonQuery();
 
         // 删除 DataSeedingRecord 表
         command.CommandText = "DROP TABLE IF EXISTS DataSeedingRecord;";
@@ -85,11 +83,11 @@ public class DataSeedingBuilder
             foreach (var definitionType in migrationDefinitionTypes)
             {
                 //获取数据集
-                var instance = (IDataSeedingDefinition)Activator.CreateInstance(definitionType);
+                var instance = (IDataSeedingDefinition)Activator.CreateInstance(definitionType)!;
 
-                var data = (List<DataSeedingRecord>)definitionType.GetMethod("Get")!.Invoke(instance, null);
+                var data = (List<DataSeedingRecord>)definitionType.GetMethod("Get")!.Invoke(instance, null)!;
 
-                if (data != null && data.Any())
+                if (data.Any())
                 {
                     foreach (var record in data)
                     {

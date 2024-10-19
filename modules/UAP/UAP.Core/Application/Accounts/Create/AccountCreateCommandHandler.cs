@@ -8,22 +8,22 @@ namespace OpenModular.Module.UAP.Core.Application.Accounts.Create;
 
 internal class AccountCreateCommandHandler(IAccountRepository repository, IPasswordHasher passwordHasher) : CommandHandler<AccountCreateCommand, AccountId>
 {
-    public override async Task<AccountId> ExecuteAsync(AccountCreateCommand commond, CancellationToken cancellationToken)
+    public override async Task<AccountId> ExecuteAsync(AccountCreateCommand command, CancellationToken cancellationToken)
     {
-        var exists = await repository.FindAsync(m => m.UserName == commond.Username || m.Email == commond.Email || m.Phone == commond.Phone, cancellationToken);
+        var exists = await repository.FindAsync(m => m.UserName == command.Username || m.Email == command.Email || m.Phone == command.Phone, cancellationToken);
         if (exists != null)
         {
-            if (exists.UserName == commond.Username)
+            if (exists.UserName == command.Username)
                 throw new UAPBusinessException(UAPErrorCode.Account_UsernameExists);
-            if (exists.Email == commond.Email)
+            if (exists.Email == command.Email)
                 throw new UAPBusinessException(UAPErrorCode.Account_UsernameExists);
-            if (exists.Phone == commond.Phone)
+            if (exists.Phone == command.Phone)
                 throw new UAPBusinessException(UAPErrorCode.Account_PhoneExists);
         }
 
-        var user = Account.Create(commond.Username, commond.Email, commond.Phone, AccountStatus.Inactive, commond.CreatedBy);
+        var user = Account.Create(new AccountId(), command.Username, command.Email, command.Phone, AccountStatus.Inactive, command.CreatedBy);
 
-        user.SetPasswordHash(passwordHasher.HashPassword(user, commond.Password));
+        user.PasswordHash = passwordHasher.HashPassword(user, command.Password);
 
         await repository.InsertAsync(user, cancellationToken: cancellationToken);
 

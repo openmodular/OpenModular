@@ -24,7 +24,7 @@ public class Department : AggregateRoot<DepartmentId>
     /// <summary>
     /// 父级部门
     /// </summary>
-    public DepartmentId ParentId { get; private set; }
+    public DepartmentId? ParentId { get; private set; }
 
     /// <summary>
     /// 部门编码
@@ -94,8 +94,6 @@ public class Department : AggregateRoot<DepartmentId>
     public void SetOrder(int order)
     {
         Order = order < 0 ? 0 : order;
-
-        UpdatedAt = DateTime.UtcNow;
     }
 
     /// <summary>

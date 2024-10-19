@@ -54,7 +54,7 @@ internal class AuthenticateCommandHandler : CommandHandler<AuthenticateCommand, 
 
         try
         {
-            var record = AuthenticationRecord.Create(context.Mode, context.Source, context.AuthenticateTime);
+            var record = AuthenticationRecord.Create(context.Mode, context.Source, context.Client, context.AuthenticateTime);
             record.Client = context.Client;
             record.IPv4 = context.IPv4;
             record.IPv6 = context.IPv6;

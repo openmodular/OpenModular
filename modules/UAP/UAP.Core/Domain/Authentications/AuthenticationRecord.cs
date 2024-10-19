@@ -27,22 +27,22 @@ public class AuthenticationRecord : AggregateRoot<int>
     /// <summary>
     /// IPv4地址
     /// </summary>
-    public string IPv4 { get; set; }
+    public string? IPv4 { get; set; }
 
     /// <summary>
     /// IPv6地址
     /// </summary>
-    public string IPv6 { get; set; }
+    public string? IPv6 { get; set; }
 
     /// <summary>
     /// MAC地址
     /// </summary>
-    public string Mac { get; set; }
+    public string? Mac { get; set; }
 
     /// <summary>
     /// 账户标识
     /// </summary>
-    public AccountId AccountId { get; set; }
+    public AccountId? AccountId { get; set; }
 
     /// <summary>
     /// 认证状态
@@ -52,7 +52,7 @@ public class AuthenticationRecord : AggregateRoot<int>
     /// <summary>
     /// 错误信息
     /// </summary>
-    public string Message { get; set; }
+    public string? Message { get; set; }
 
     /// <summary>
     /// 认证时间
@@ -64,11 +64,11 @@ public class AuthenticationRecord : AggregateRoot<int>
         //for ef
     }
 
-    private AuthenticationRecord(AuthenticationMode mode, AuthenticationSource source, DateTimeOffset authenticateTime)
+    private AuthenticationRecord(AuthenticationMode mode, AuthenticationSource source, AuthenticationClient client, DateTimeOffset authenticateTime)
     {
         Mode = mode;
         Source = source;
-
+        Client = client;
         AuthenticateTime = authenticateTime;
     }
 
@@ -79,8 +79,8 @@ public class AuthenticationRecord : AggregateRoot<int>
     /// <param name="source"></param>
     /// <param name="authenticateTime"></param>
     /// <returns></returns>
-    public static AuthenticationRecord Create(AuthenticationMode mode, AuthenticationSource source, DateTimeOffset authenticateTime)
+    public static AuthenticationRecord Create(AuthenticationMode mode, AuthenticationSource source, AuthenticationClient client, DateTimeOffset authenticateTime)
     {
-        return new AuthenticationRecord(mode, source, authenticateTime);
+        return new AuthenticationRecord(mode, source, client, authenticateTime);
     }
 }

@@ -28,17 +28,17 @@ public class AuthenticationContext<TAccount> where TAccount : class
     /// <summary>
     /// IPv4地址
     /// </summary>
-    public string IPv4 { get; set; }
+    public string? IPv4 { get; set; }
 
     /// <summary>
     /// IPv6地址
     /// </summary>
-    public string IPv6 { get; set; }
+    public string? IPv6 { get; set; }
 
     /// <summary>
     /// MAC地址
     /// </summary>
-    public string Mac { get; set; }
+    public string? Mac { get; set; }
 
     /// <summary>
     /// 认证时间
@@ -48,7 +48,7 @@ public class AuthenticationContext<TAccount> where TAccount : class
     /// <summary>
     /// 账户信息
     /// </summary>
-    public TAccount Account { get; set; }
+    public TAccount? Account { get; set; }
 
     /// <summary>
     /// 认证状态
@@ -58,5 +58,5 @@ public class AuthenticationContext<TAccount> where TAccount : class
     /// <summary>
     /// 错误信息
     /// </summary>
-    public string Message { get; set; }
+    public string? Message { get; set; }
 }

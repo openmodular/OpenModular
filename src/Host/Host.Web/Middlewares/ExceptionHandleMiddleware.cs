@@ -42,6 +42,8 @@ namespace OpenModular.Host.Web.Middlewares
             }
             catch (ArgumentException ex)
             {
+                logger.LogError(ex, "argument exception");
+
                 await HandleExceptionAsync(context, 400, ex.Message);
             }
             catch (Exception ex)
@@ -60,9 +62,9 @@ namespace OpenModular.Host.Web.Middlewares
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.OK;
 
-            var APIResponse = new APIResponse(code, message);
+            var apiResponse = new APIResponse(code, message);
 
-            return context.Response.WriteAsync(JsonSerializer.Serialize(APIResponse));
+            return context.Response.WriteAsync(JsonSerializer.Serialize(apiResponse));
         }
     }
 }

@@ -13,10 +13,15 @@ internal class DefaultJwtOptionsProvider : IJwtOptionsProvider, ITransientDepend
         _config = config;
     }
 
-    public JwtOptions Get()
+    public ValueTask<JwtOptions> GetAsync()
     {
         var jwtConfig = _config.Authentication.Jwt;
-        return new JwtOptions
+        if (jwtConfig == null)
+        {
+            throw new ArgumentException("The uap authentication jwt setting is null");
+        }
+
+        var options = new JwtOptions
         {
             Key = jwtConfig.Key,
             Issuer = jwtConfig.Issuer,
@@ -24,5 +29,7 @@ internal class DefaultJwtOptionsProvider : IJwtOptionsProvider, ITransientDepend
             Expires = jwtConfig.Expires,
             RefreshTokenExpires = jwtConfig.RefreshTokenExpires
         };
+
+        return ValueTask.FromResult(options);
     }
 }

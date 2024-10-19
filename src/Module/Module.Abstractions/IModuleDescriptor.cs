@@ -15,7 +15,7 @@ public interface IModuleDescriptor
     /// <summary>
     /// 配置类描述符
     /// </summary>
-    IConfigDescriptor Config { get; }
+    IConfigDescriptor? Config { get; }
 
     /// <summary>
     /// 模块程序集

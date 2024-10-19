@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using OpenModular.DDD.Core.Domain.Entities;
+﻿using OpenModular.DDD.Core.Domain.Entities;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 
 namespace OpenModular.Module.UAP.Core.Domain.Organizations;
@@ -17,36 +16,33 @@ public class Organization : AggregateRoot<OrganizationId>
     /// <summary>
     /// 组织编码
     /// </summary>
-    public string Code { get; private set; }
+    public string Code { get; set; }
 
     /// <summary>
     /// 说明
     /// </summary>
-    [JsonInclude]
-    public string Description { get; private set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// 创建人标识
     /// </summary>
-    public AccountId CreatedBy { get; }
+    public AccountId CreatedBy { get; private set; }
 
     /// <summary>
     /// 创建时间
     /// </summary>
-    public DateTimeOffset CreatedAt { get; }
+    public DateTimeOffset CreatedAt { get; private set; }
 
     /// <summary>
     /// 更新时间
     /// </summary>
-    [JsonInclude]
-    public DateTimeOffset? UpdatedAt { get; private set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 
     public Organization()
     {
-
+        //for ef
     }
 
-    [JsonConstructor]
     private Organization(OrganizationId id, string name, string code, string description, AccountId createdBy) : base(id)
     {
         Check.NotNull(name, nameof(name));
@@ -63,6 +59,11 @@ public class Organization : AggregateRoot<OrganizationId>
     public static Organization Create(string name, string code, string description, AccountId createdBy)
     {
         return new Organization(new OrganizationId(), name, code, description, createdBy);
+    }
+
+    public static Organization Create(OrganizationId id, string name, string code, string description, AccountId createdBy)
+    {
+        return new Organization(id, name, code, description, createdBy);
     }
 
     public void Rename(string name)

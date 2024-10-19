@@ -58,9 +58,9 @@ public class AuthenticationController : ModuleController
 
         if (dto.Success)
         {
-            response.Jwt = BuildJwtCredential(dto.User, command.TenantId, dto.AuthenticateTime);
+            response.Jwt = await BuildJwtCredentialAsync(dto.Account, command.TenantId, dto.AuthenticateTime);
 
-            await _tokenStorage.SaveAsync(dto.User.Id, dto.Client, response.Jwt);
+            await _tokenStorage.SaveAsync(dto.Account.Id, dto.Client, response.Jwt);
         }
 
         return APIResponse.Success(response);
@@ -77,23 +77,23 @@ public class AuthenticationController : ModuleController
     {
         var command = new RefreshTokenCommand { RefreshToken = request.RefreshToken, Client = AuthenticationClient.Find(request.Client) };
         var user = await _mediator.Send(command);
-        var credential = BuildJwtCredential(user, null, DateTimeOffset.UtcNow);
+        var credential = await BuildJwtCredentialAsync(user, null, DateTimeOffset.UtcNow);
 
         await _tokenStorage.SaveAsync(user.Id, command.Client, credential);
 
         return APIResponse.Success(credential);
     }
 
-    private JwtSecurityToken BuildJwtCredential(AccountDto user, TenantId tenantId, DateTimeOffset loginTime)
+    private ValueTask<JwtSecurityToken> BuildJwtCredentialAsync(AccountDto user, TenantId? tenantId, DateTimeOffset loginTime)
     {
         var claims = new List<Claim>
         {
-            new(OpenModularClaimTypes.TENANT_ID, tenantId  != null ? tenantId.Value.ToString() : ""),
+            new(OpenModularClaimTypes.TENANT_ID, tenantId != null ? tenantId.Value.ToString() : ""),
             new(OpenModularClaimTypes.ACCOUNT_ID, user.Id.ToString()),
             new(OpenModularClaimTypes.ACCOUNT_NAME, user.Username),
             new(OpenModularClaimTypes.LOGIN_TIME, loginTime.ToString())
         };
 
-        return _builder.Build(claims);
+        return _builder.BuildAsync(claims);
     }
 }

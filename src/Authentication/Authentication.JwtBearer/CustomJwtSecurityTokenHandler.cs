@@ -12,7 +12,7 @@ internal class CustomJwtSecurityTokenHandler : JwtSecurityTokenHandler
     {
         var provider = GlobalServiceProvider.GetRequiredService<IJwtOptionsProvider>();
 
-        var options = provider.Get();
+        var options = provider.GetAsync().GetAwaiter().GetResult();
 
         validationParameters.ValidIssuer = options.Issuer;
         validationParameters.ValidAudience = options.Audience;

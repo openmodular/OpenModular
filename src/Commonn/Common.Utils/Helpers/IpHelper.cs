@@ -25,30 +25,33 @@ public class IpHelper : ISingletonDependency
     /// <returns>代表IPv4的整数</returns>
     public uint Ipv4ToInt(string ip)
     {
-        if (!IsIpv4(ip)) throw new ArgumentException("not a valid ipv4");
+        if (!IsIpv4(ip)) return 0;
+
         var ipParts = ip.Split('.');
-        uint intIP = 0;
+        uint intIp = 0;
         for (int i = 0; i < 4; i++)
         {
-            intIP = intIP << 8;
-            intIP += uint.Parse(ipParts[i]);
+            intIp = intIp << 8;
+            intIp += uint.Parse(ipParts[i]);
         }
 
-        return intIP;
+        return intIp;
     }
 
     /// <summary>
     /// 将整数转换为IPv4
     /// </summary>
-    /// <param name="intIP">代表IPv4的整数</param>
+    /// <param name="intIp">代表IPv4的整数</param>
     /// <returns>IPv4字符串</returns>
-    public string IntToIpv4(uint intIP)
+    public string IntToIpv4(uint intIp)
     {
+        if (intIp == 0) return string.Empty;
+
         var ipParts = new byte[4];
         for (int i = 0; i < 4; i++)
         {
-            ipParts[3 - i] = (byte)(intIP & 255);
-            intIP = intIP >> 8;
+            ipParts[3 - i] = (byte)(intIp & 255);
+            intIp = intIp >> 8;
         }
 
         return string.Join('.', ipParts);

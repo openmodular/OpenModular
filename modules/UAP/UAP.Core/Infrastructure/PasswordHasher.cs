@@ -11,13 +11,14 @@ namespace OpenModular.Module.UAP.Core.Infrastructure;
 public class PasswordHasher : IPasswordHasher, ISingletonDependency
 {
     private readonly int _iterationCount = 10000;
-    private readonly int _saltSize = 16;
+    private readonly int _saltSize = 128 / 8;
+    private static readonly RandomNumberGenerator Rng = RandomNumberGenerator.Create();
 
     public string HashPassword(Account user, string password)
     {
         var salt = new byte[_saltSize];
-        RandomNumberGenerator.Create().GetBytes(salt);
-        var subkey = KeyDerivation.Pbkdf2(password, salt, KeyDerivationPrf.HMACSHA256, _iterationCount, 42);
+        Rng.GetBytes(salt);
+        var subkey = KeyDerivation.Pbkdf2(password, salt, KeyDerivationPrf.HMACSHA256, _iterationCount, 256 / 8);
 
         var outputBytes = new byte[13 + salt.Length + subkey.Length];
         outputBytes[0] = 0x01;
@@ -31,37 +32,24 @@ public class PasswordHasher : IPasswordHasher, ISingletonDependency
 
     public bool VerifyHashedPassword(Account user, string hashedPassword, string providedPassword)
     {
-        var iterCount = default(int);
-        byte[] decodedHashedPassword = Convert.FromBase64String(hashedPassword);
+        var decodedHashedPassword = Convert.FromBase64String(hashedPassword);
         try
         {
-            // Read header information
-            KeyDerivationPrf prf = (KeyDerivationPrf)ReadNetworkByteOrder(decodedHashedPassword, 1);
-            iterCount = (int)ReadNetworkByteOrder(decodedHashedPassword, 5);
-            int saltLength = (int)ReadNetworkByteOrder(decodedHashedPassword, 9);
-
-            // Read the salt: must be >= 128 bits
-            if (saltLength < 128 / 8)
-            {
-                return false;
-            }
-
-            byte[] salt = new byte[saltLength];
+            var salt = new byte[_saltSize];
             Buffer.BlockCopy(decodedHashedPassword, 13, salt, 0, salt.Length);
 
             // Read the subkey (the rest of the payload): must be >= 128 bits
-            int subkeyLength = hashedPassword.Length - 13 - salt.Length;
+            int subkeyLength = decodedHashedPassword.Length - 13 - salt.Length;
             if (subkeyLength < 128 / 8)
             {
                 return false;
             }
-
-            byte[] expectedSubkey = new byte[subkeyLength];
+            var expectedSubkey = new byte[subkeyLength];
             Buffer.BlockCopy(decodedHashedPassword, 13 + salt.Length, expectedSubkey, 0, expectedSubkey.Length);
 
             // Hash the incoming password and verify it
-            byte[] actualSubkey = KeyDerivation.Pbkdf2(providedPassword, salt, prf, iterCount, subkeyLength);
-            return ByteArraysEqual(actualSubkey, expectedSubkey);
+            var actualSubkey = KeyDerivation.Pbkdf2(providedPassword, salt, KeyDerivationPrf.HMACSHA256, _iterationCount, subkeyLength);
+            return CryptographicOperations.FixedTimeEquals(actualSubkey, expectedSubkey);
         }
         catch
         {
@@ -72,7 +60,7 @@ public class PasswordHasher : IPasswordHasher, ISingletonDependency
         }
     }
 
-    private static void WriteNetworkByteOrder(byte[] buffer, int offset, uint value)
+    private void WriteNetworkByteOrder(byte[] buffer, int offset, uint value)
     {
         buffer[offset + 0] = (byte)(value >> 24);
         buffer[offset + 1] = (byte)(value >> 16);
@@ -81,7 +69,7 @@ public class PasswordHasher : IPasswordHasher, ISingletonDependency
     }
 
 
-    private static uint ReadNetworkByteOrder(byte[] buffer, int offset)
+    private uint ReadNetworkByteOrder(byte[] buffer, int offset)
     {
         return ((uint)(buffer[offset + 0]) << 24)
                | ((uint)(buffer[offset + 1]) << 16)
@@ -91,7 +79,7 @@ public class PasswordHasher : IPasswordHasher, ISingletonDependency
 
     // Compares two byte arrays for equality. The method is specifically written so that the loop is not optimized.
     [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-    private static bool ByteArraysEqual(byte[] a, byte[] b)
+    private bool ByteArraysEqual(byte[] a, byte[] b)
     {
         if (a == null && b == null)
         {

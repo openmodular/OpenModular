@@ -13,7 +13,7 @@ public class AuthenticateDto
     /// <summary>
     /// 认证源
     /// </summary>
-    public AuthenticationSource Source { get; set; }
+    public required AuthenticationSource Source { get; set; }
 
     /// <summary>
     /// 认证成功
@@ -23,12 +23,12 @@ public class AuthenticateDto
     /// <summary>
     /// 用户信息
     /// </summary>
-    public AccountDto User { get; set; }
+    public required AccountDto Account { get; set; }
 
     /// <summary>
     /// 客户端
     /// </summary>
-    public AuthenticationClient Client { get; set; }
+    public required AuthenticationClient Client { get; set; }
 
     /// <summary>
     /// 认证时间
@@ -43,5 +43,5 @@ public class AuthenticateDto
     /// <summary>
     /// 错误信息
     /// </summary>
-    public string Message { get; set; }
+    public string? Message { get; set; }
 }

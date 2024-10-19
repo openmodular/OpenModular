@@ -10,5 +10,5 @@ public interface ITenant
     /// <summary>
     /// 租户标识
     /// </summary>
-    TenantId TenantId { get; set; }
+    TenantId? TenantId { get; set; }
 }

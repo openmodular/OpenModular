@@ -21,19 +21,11 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                     UserName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     PasswordHash = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Email = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
+                    Email = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
-                    Phone = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Tel = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    RealName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    NickName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Avatar = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: true),
-                    Gender = table.Column<int>(type: "integer", nullable: false),
+                    Phone = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false),
-                    Locked = table.Column<bool>(type: "boolean", nullable: false),
-                    IsRealNameVerified = table.Column<bool>(type: "boolean", nullable: false),
-                    ActivatedTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    CreatedBy = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
@@ -121,12 +113,12 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    OrganizationId = table.Column<string>(type: "text", nullable: true),
+                    OrganizationId = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     ParentId = table.Column<string>(type: "text", nullable: false),
                     Code = table.Column<string>(type: "text", nullable: false),
                     Order = table.Column<int>(type: "integer", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    CreatedBy = table.Column<string>(type: "text", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
@@ -142,7 +134,8 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Code = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    CreatedBy = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>

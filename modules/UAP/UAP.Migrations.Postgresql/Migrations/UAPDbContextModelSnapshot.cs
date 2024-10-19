@@ -27,36 +27,16 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<DateTimeOffset?>("ActivatedTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Avatar")
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
-
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("character varying(300)");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("IsRealNameVerified")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("Locked")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("NickName")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("NormalizedEmail")
                         .IsRequired()
@@ -74,20 +54,11 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<string>("RealName")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
-
-                    b.Property<string>("Tel")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("TenantId")
                         .HasColumnType("text");
@@ -233,6 +204,7 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -243,6 +215,7 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("OrganizationId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("ParentId")
@@ -266,7 +239,11 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Description")

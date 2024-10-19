@@ -13,16 +13,10 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
 
         builder.Property(x => x.UserName).IsRequired().HasMaxLength(100);
         builder.Property(x => x.NormalizedUserName).IsRequired().HasMaxLength(100);
-        builder.Property(x => x.Email).IsRequired().HasMaxLength(300);
-        builder.Property(x => x.NormalizedEmail).IsRequired().HasMaxLength(300);
-        builder.Property(x => x.Phone).IsRequired().HasMaxLength(50);
         builder.Property(x => x.PasswordHash).IsRequired().HasMaxLength(100);
-        builder.Property(x => x.Tel).HasMaxLength(50);
-        builder.Property(x => x.RealName).HasMaxLength(50);
-        builder.Property(x => x.NickName).HasMaxLength(50);
-        builder.Property(x => x.Avatar).HasMaxLength(300);
-        builder.Property(x => x.Status);
-        builder.Property(x => x.ActivatedTime);
+        builder.Property(x => x.Email).HasMaxLength(300);
+        builder.Property(x => x.NormalizedEmail).IsRequired().HasMaxLength(300);
+        builder.Property(x => x.Phone).HasMaxLength(50);
 
         builder.HasKey(x => x.Id);
 
@@ -31,8 +25,8 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             v => new AccountId(v));
 
         builder.Property(x => x.CreatedBy).ValueGeneratedNever().HasConversion(
-            v => v != null ? v.ToString() : string.Empty,
-            v => v.IsNullOrWhiteSpace() ? null : new AccountId(v));
+            v => v.ToString(),
+            v =>  new AccountId(v));
 
         builder.Property(x => x.TenantId).ValueGeneratedNever().HasConversion(
             v => v != null ? v.ToString() : string.Empty,

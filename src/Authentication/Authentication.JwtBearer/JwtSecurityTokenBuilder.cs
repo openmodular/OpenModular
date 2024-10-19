@@ -21,9 +21,9 @@ public class JwtSecurityTokenBuilder
         _optionsProvider = optionsProvider;
     }
 
-    public JwtSecurityToken Build(List<Claim> claims)
+    public async ValueTask<JwtSecurityToken> BuildAsync(List<Claim> claims)
     {
-        var options = _optionsProvider.Get();
+        var options = await _optionsProvider.GetAsync();
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Key));
         var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

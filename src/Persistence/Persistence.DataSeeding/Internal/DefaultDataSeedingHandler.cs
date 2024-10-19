@@ -3,8 +3,10 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Text.Json;
 using OpenModular.DDD.Core.Uow;
 using Microsoft.Data.Sqlite;
+using OpenModular.Persistence.DataSeeding.Json;
 using OpenModular.Persistence.Uow;
 
 namespace OpenModular.Persistence.DataSeeding.Internal;
@@ -127,8 +129,7 @@ internal class DefaultDataSeedingHandler<TDbContext> : IDataSeedingHandler where
     {
         var connectionString = new SqliteConnectionStringBuilder($"Data Source={_options.DbFileName}")
         {
-            Mode = SqliteOpenMode.ReadWriteCreate,
-            Password = _options.DbPassword
+            Mode = SqliteOpenMode.ReadWriteCreate
         }.ToString();
 
         await using var con = new SqliteConnection(connectionString);
@@ -136,8 +137,6 @@ internal class DefaultDataSeedingHandler<TDbContext> : IDataSeedingHandler where
 
         // 设置加密密钥
         var command = con.CreateCommand();
-        command.CommandText = $"PRAGMA key = '{_options.DbPassword}';";
-        command.ExecuteNonQuery();
 
         command.CommandText = $"SELECT * FROM DataSeedingRecord WHERE Module='{_moduleCode}' AND Version>{lastVersion}";
         await using var reader = await command.ExecuteReaderAsync();
@@ -165,7 +164,13 @@ internal class DefaultDataSeedingHandler<TDbContext> : IDataSeedingHandler where
         var entityType = dbContext.Model.FindEntityType(record.EntityName)!.ClrType;
         var dbSet = dbContext.GetType().GetMethod("Set", [])!.MakeGenericMethod(entityType).Invoke(dbContext, []);
         var dbSetType = dbSet!.GetType();
-        var entity = System.Text.Json.JsonSerializer.Deserialize(record.Data, entityType);
+
+        var options = new JsonSerializerOptions
+        {
+            Converters = { new PrivateSettersContractResolver() }
+        };
+
+        var entity = JsonSerializer.Deserialize(record.Data, entityType, options);
 
         dbSetType.GetMethod("Add", [entityType])!.Invoke(dbSet, new[] { entity });
     }
@@ -178,7 +183,7 @@ internal class DefaultDataSeedingHandler<TDbContext> : IDataSeedingHandler where
             .Invoke(dbContext, []);
         var dbSetType = dbSet!.GetType();
 
-        var entity = System.Text.Json.JsonSerializer.Deserialize(record.Data, entityType);
+        var entity = JsonSerializer.Deserialize(record.Data, entityType);
         if (entity == null)
         {
             _logger.LogError("Data seeding update handle error,the entity[{entity}] is null", record.EntityName);

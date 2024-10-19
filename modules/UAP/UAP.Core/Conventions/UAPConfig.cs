@@ -23,14 +23,14 @@ public class UAPConfig : ConfigAbstract
 public class AuthenticationConfig
 {
     /// <summary>
-    /// 是否启用图片验证码
+    /// 图片验证码配置
     /// </summary>
     public ImageCaptchaConfig ImageCaptcha { get; set; } = new();
 
     /// <summary>
     /// Jwt配置
     /// </summary>
-    public JwtConfig Jwt { get; set; }
+    public JwtConfig? Jwt { get; set; }
 }
 
 /// <summary>

@@ -10,24 +10,24 @@ public class Config : AggregateRoot<ConfigId>
     /// <summary>
     /// 模块编码
     /// </summary>
-    public string ModuleCode { get; }
+    public string ModuleCode { get; private set; }
 
     /// <summary>
     /// 键
     /// </summary>
-    public string Key { get; }
+    public string Key { get; private set; }
 
     /// <summary>
     /// 值
     /// </summary>
-    public string Value { get; set; }
+    public string? Value { get; set; }
 
     public Config()
     {
-
+        //fro ef
     }
 
-    private Config(string moduleCode, string key, string value)
+    private Config(string moduleCode, string key, string? value) : base(new ConfigId())
     {
         Check.NotNull(moduleCode, nameof(moduleCode));
         Check.NotNull(key, nameof(key));
@@ -37,7 +37,7 @@ public class Config : AggregateRoot<ConfigId>
         Value = value;
     }
 
-    public static Config Create(string moduleCode, string key, string value)
+    public static Config Create(string moduleCode, string key, string? value)
     {
         return new Config(moduleCode, key, value);
     }
