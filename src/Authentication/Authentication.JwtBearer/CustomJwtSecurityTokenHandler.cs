@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 using OpenModular.Common.Utils;
 
 namespace OpenModular.Authentication.JwtBearer;
@@ -10,7 +11,9 @@ internal class CustomJwtSecurityTokenHandler : JwtSecurityTokenHandler
 {
     public override ClaimsPrincipal ValidateToken(string token, TokenValidationParameters validationParameters, out SecurityToken validatedToken)
     {
-        var provider = GlobalServiceProvider.GetRequiredService<IJwtOptionsProvider>();
+        using var scope = GlobalServiceProvider.CreateScope();
+
+        var provider = scope.ServiceProvider.GetRequiredService<IJwtOptionsProvider>();
 
         var options = provider.GetAsync().GetAwaiter().GetResult();
 

@@ -11,8 +11,19 @@ using OpenModular.Module.Web;
 
 namespace OpenModular.Host.Web.Middlewares
 {
-    internal class ExceptionHandleMiddleware(ILogger<ExceptionHandleMiddleware> logger, IHostEnvironment env, IServiceProvider service) : IMiddleware
+    internal class ExceptionHandleMiddleware : IMiddleware
     {
+        private readonly ILogger<ExceptionHandleMiddleware> _logger;
+        private readonly IHostEnvironment _env;
+        private readonly IServiceProvider _service;
+
+        public ExceptionHandleMiddleware(ILogger<ExceptionHandleMiddleware> logger, IHostEnvironment env, IServiceProvider service)
+        {
+            _logger = logger;
+            _env = env;
+            _service = service;
+        }
+
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             try
@@ -21,37 +32,38 @@ namespace OpenModular.Host.Web.Middlewares
             }
             catch (ModuleBusinessException ex)
             {
-                logger.LogError(ex,
+                _logger.LogError(ex,
                     "Throw module business exception,the module code is {moduleCode},the error code is {errorCode}",
                     ex.ModuleCode, ex.ErrorCode);
 
-                var message = ex.Message;
-                var localizer = service.GetKeyedService<IModuleLocalizer>(ex.ModuleCode);
+                var message = string.Empty;
+                var code = Convert.ToInt32(ex.ErrorCode);
+                var localizer = _service.GetKeyedService<IModuleLocalizer>(ex.ModuleCode);
                 if (localizer != null)
                 {
-                    message = localizer[$"ErrorCode_{ex.ErrorCode}"];
+                    message = localizer[$"ErrorCode_{code}"];
                 }
 
-                await HandleExceptionAsync(context, Convert.ToInt32(ex.ErrorCode), message);
+                await HandleExceptionAsync(context, code, message);
             }
             catch (EntityNotFoundException ex)
             {
-                logger.LogError(ex, "Entity not found,the id is [{id}],the entity type is [{type}]", ex.Id, ex.EntityType);
+                _logger.LogError(ex, "Entity not found,the id is [{id}],the entity type is [{type}]", ex.Id, ex.EntityType);
 
                 await HandleExceptionAsync(context, 404, ex.Message);
             }
             catch (ArgumentException ex)
             {
-                logger.LogError(ex, "argument exception");
+                _logger.LogError(ex, "argument exception");
 
                 await HandleExceptionAsync(context, 400, ex.Message);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "");
+                _logger.LogError(ex, "");
 
                 //开发环境返回详细异常信息
-                var error = env.IsDevelopment() ? ex.ToString() : ex.Message;
+                var error = !_env.IsProduction() ? ex.ToString() : ex.Message;
 
                 await HandleExceptionAsync(context, 500, error);
             }
@@ -64,7 +76,7 @@ namespace OpenModular.Host.Web.Middlewares
 
             var apiResponse = new APIResponse(code, message);
 
-            return context.Response.WriteAsync(JsonSerializer.Serialize(apiResponse));
+            return context.Response.WriteAsync(JsonSerializer.Serialize(apiResponse, JsonSerializerOptions.Web));
         }
     }
 }

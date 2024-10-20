@@ -60,8 +60,8 @@ public static class ServiceCollectionExtensions
             var localizerType = assembly.GetTypes().FirstOrDefault(m => m.IsAssignableTo(typeof(IModuleLocalizer)));
             if (localizerType != null)
             {
-                context.Services.TryAddTransient(localizerType);
-                context.Services.TryAddKeyedTransient(typeof(IModuleLocalizer), descriptor.Module.Code, localizerType);
+                context.Services.TryAddSingleton(localizerType);
+                context.Services.TryAddKeyedSingleton(typeof(IModuleLocalizer), descriptor.Module.Code, localizerType);
             }
 
             var des = descriptor as ModuleDescriptor;

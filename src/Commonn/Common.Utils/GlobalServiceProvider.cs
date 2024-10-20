@@ -56,4 +56,18 @@ public class GlobalServiceProvider
             throw new NullReferenceException("The global IServiceProvider is null, please call GlobalServiceProvider.Set");
         return ServiceProvider.GetRequiredKeyedService<T>(serviceKey);
     }
+
+    public static IServiceScope CreateScope()
+    {
+        if (ServiceProvider == null)
+            throw new NullReferenceException("The global IServiceProvider is null, please call GlobalServiceProvider.Set");
+        return ServiceProvider.CreateScope();
+    }
+
+    public static AsyncServiceScope CreateAsyncScope()
+    {
+        if (ServiceProvider == null)
+            throw new NullReferenceException("The global IServiceProvider is null, please call GlobalServiceProvider.Set");
+        return ServiceProvider.CreateAsyncScope();
+    }
 }

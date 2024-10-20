@@ -6,11 +6,11 @@ namespace OpenModular.Authorization;
 
 public class OpenModularAuthorizationHandler : AuthorizationHandler<OpenModularAuthorizationRequirement>
 {
-    private readonly IPermissionValidator _permissionValidateHandler;
+    private readonly IPermissionValidator _permissionValidator;
 
-    public OpenModularAuthorizationHandler(IPermissionValidator permissionValidateHandler)
+    public OpenModularAuthorizationHandler(IPermissionValidator permissionValidator)
     {
-        _permissionValidateHandler = permissionValidateHandler;
+        _permissionValidator = permissionValidator;
     }
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, OpenModularAuthorizationRequirement requirement)
@@ -35,7 +35,7 @@ public class OpenModularAuthorizationHandler : AuthorizationHandler<OpenModularA
         var httpMethod = GetHttpMethod(httpContext.Request.Method);
 
         //验证权限
-        if (await _permissionValidateHandler.Validate(routes, httpMethod))
+        if (await _permissionValidator.Validate(routes, httpMethod))
         {
             context.Succeed(requirement);
         }

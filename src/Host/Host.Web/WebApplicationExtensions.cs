@@ -191,11 +191,11 @@ public static class WebApplicationExtensions
         Console.Write(@"Startup successful, welcome to OpenModular");
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine(@"                                        *");
-        Console.Write(@" *                           ");
+        Console.Write(@" *                         ");
         Console.ForegroundColor = ConsoleColor.Green;
         Console.Write(@"You can access the system through this link " + options.Urls);
         Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine(@"                               *");
+        Console.WriteLine(@"                           *");
         Console.WriteLine(@" *                                                                                                                   *");
         Console.WriteLine(@" *                                                                                                                   *");
         Console.WriteLine(@" *********************************************************************************************************************");

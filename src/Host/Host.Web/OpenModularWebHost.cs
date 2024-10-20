@@ -141,14 +141,7 @@ public class OpenModularWebHost : IOpenModularHost
         app.ExecuteDataSeeding();
 
         //异常处理
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
-        }
-        else
-        {
-            app.UseMiddleware<ExceptionHandleMiddleware>();
-        }
+        app.UseMiddleware<ExceptionHandleMiddleware>();
 
         //基地址
         app.UsePathBase(_hostOptions);
@@ -229,7 +222,7 @@ public class OpenModularWebHost : IOpenModularHost
             .AddJsonFile("appsettings.json", false);
 
         var environmentVariable = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-        if (environmentVariable.IsNotNullOrWhiteSpace())
+        if (environmentVariable!.IsNotNullOrWhiteSpace())
         {
             configBuilder.AddJsonFile($"appsettings.{environmentVariable}.json", false);
         }
