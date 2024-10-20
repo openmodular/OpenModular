@@ -14,7 +14,7 @@ public class PagedResult<T>
     /// <summary>
     /// 总记录数
     /// </summary>
-    public int Total { get; set; }
+    public long Total { get; set; }
 
     /// <summary>
     /// 当前页码
@@ -25,6 +25,11 @@ public class PagedResult<T>
     /// 每页记录数
     /// </summary>
     public int Size { get; set; }
+
+    /// <summary>
+    /// 总页数
+    /// </summary>
+    public long TotalPage => (Total - 1 + Size) / Size;
 
     public PagedResult()
     {

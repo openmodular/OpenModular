@@ -50,13 +50,14 @@ namespace OpenModular.Host.Web.Middlewares
             {
                 _logger.LogError(ex, "Entity not found,the id is [{id}],the entity type is [{type}]", ex.Id, ex.EntityType);
 
-                await HandleExceptionAsync(context, 404, ex.Message);
+                var error = !_env.IsProduction() ? ex.ToString() : ex.Message;
+                await HandleExceptionAsync(context, 404, error);
             }
             catch (ArgumentException ex)
             {
                 _logger.LogError(ex, "argument exception");
-
-                await HandleExceptionAsync(context, 400, ex.Message);
+                var error = !_env.IsProduction() ? ex.ToString() : ex.Message;
+                await HandleExceptionAsync(context, 400, error);
             }
             catch (Exception ex)
             {

@@ -3,7 +3,7 @@
 /// <summary>
 /// 分页查询数据传输对象
 /// </summary>
-public abstract class PagedDto<TData> : DtoBase where TData : class
+public class PagedDto<TData> : DtoBase where TData : class
 {
     /// <summary>
     /// 查询结果集
@@ -13,7 +13,7 @@ public abstract class PagedDto<TData> : DtoBase where TData : class
     /// <summary>
     /// 总记录数
     /// </summary>
-    public int Total { get; set; }
+    public long Total { get; set; }
 
     /// <summary>
     /// 当前页码
@@ -25,18 +25,23 @@ public abstract class PagedDto<TData> : DtoBase where TData : class
     /// </summary>
     public int Size { get; set; }
 
-    protected PagedDto()
+    /// <summary>
+    /// 总页数
+    /// </summary>
+    public long TotalPage => (Total - 1 + Size) / Size;
+
+    public PagedDto()
     {
         Rows = new List<TData>();
     }
 
-    protected PagedDto(List<TData> rows, int total)
+    public PagedDto(List<TData> rows, long total)
     {
         Rows = rows;
         Total = total;
     }
 
-    protected PagedDto(List<TData> rows, int total, int index, int size)
+    public PagedDto(List<TData> rows, long total, int index, int size)
     {
         Rows = rows;
         Total = total;
