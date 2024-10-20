@@ -3,7 +3,7 @@
 /// <summary>
 /// 分页查询数据传输对象
 /// </summary>
-public class PagedDto<TData>
+public abstract class PagedDto<TData> : DtoBase where TData : class
 {
     /// <summary>
     /// 查询结果集
@@ -25,18 +25,18 @@ public class PagedDto<TData>
     /// </summary>
     public int Size { get; set; }
 
-    public PagedDto()
+    protected PagedDto()
     {
         Rows = new List<TData>();
     }
 
-    public PagedDto(List<TData> rows, int total)
+    protected PagedDto(List<TData> rows, int total)
     {
         Rows = rows;
         Total = total;
     }
 
-    public PagedDto(List<TData> rows, int total, int index, int size)
+    protected PagedDto(List<TData> rows, int total, int index, int size)
     {
         Rows = rows;
         Total = total;

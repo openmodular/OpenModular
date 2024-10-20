@@ -1,8 +1,9 @@
-﻿using OpenModular.Module.UAP.Core.Domain.Configs;
+﻿using OpenModular.DDD.Core.Application.Dto;
+using OpenModular.Module.UAP.Core.Domain.Configs;
 
 namespace OpenModular.Module.UAP.Core.Application.Configs.PagedQuery;
 
-public class ConfigDto
+public class ConfigDto:IDto
 {
     public ConfigId Id { get; set; }
 

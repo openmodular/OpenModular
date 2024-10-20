@@ -48,9 +48,9 @@ public static class QueryableExtensions
     /// <param name="condition">条件</param>
     /// <param name="predicate">过滤条件</param>
     /// <returns>过滤后的查询对象</returns>
-    public static IQueryable<T> WhereNotNull<T>(this IQueryable<T> query, string condition, Expression<Func<T, bool>> predicate)
+    public static IQueryable<T> WhereNotNull<T>(this IQueryable<T> query, string? condition, Expression<Func<T, bool>> predicate)
     {
-        if (condition.IsNullOrWhiteSpace())
+        if (condition!.IsNullOrWhiteSpace())
             return query;
 
         return query.Where(predicate);
@@ -65,9 +65,9 @@ public static class QueryableExtensions
     /// <param name="ifPredicate">字符串不为null或空字符串时应用的过滤条件</param>
     /// <param name="elsePredicate">字符串为null或空字符串时应用的过滤条件</param>
     /// <returns>过滤后的查询对象</returns>
-    public static IQueryable<T> WhereNotNull<T>(this IQueryable<T> query, string condition, Expression<Func<T, bool>> ifPredicate, Expression<Func<T, bool>> elsePredicate)
+    public static IQueryable<T> WhereNotNull<T>(this IQueryable<T> query, string? condition, Expression<Func<T, bool>> ifPredicate, Expression<Func<T, bool>> elsePredicate)
     {
-        if (condition.IsNullOrWhiteSpace())
+        if (condition!.IsNullOrWhiteSpace())
         {
             return query.Where(elsePredicate);
         }

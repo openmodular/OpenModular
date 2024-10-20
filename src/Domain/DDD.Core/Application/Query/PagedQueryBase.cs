@@ -1,12 +1,13 @@
 ﻿using OpenModular.Common.Utils.Paging;
+using OpenModular.DDD.Core.Application.Dto;
 
 namespace OpenModular.DDD.Core.Application.Query;
 
 /// <summary>
-/// 定义一个分页查询请求
+/// 分页查询基类
 /// </summary>
-/// <typeparam name="TDto"></typeparam>
-public abstract class PageQuery<TDto> : Query<TDto>
+/// <typeparam name="TData"></typeparam>
+public abstract class PagedQueryBase<TData> : Query<PagedDto<TData>> where TData : class
 {
     /// <summary>
     /// 分页信息
