@@ -84,10 +84,94 @@ public static class Check
     }
 
     /// <summary>
+    /// 确保前值小于后值
+    /// </summary>
+    /// <exception cref="ArgumentException"></exception>
+    public static decimal LessThan(decimal value, decimal maxValue, string parameterName)
+    {
+        if (value >= maxValue)
+        {
+            throw new ArgumentException($"{parameterName} must be less than {maxValue}!", parameterName);
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    /// 确保前值小于后值
+    /// </summary>
+    /// <exception cref="ArgumentException"></exception>
+    public static double LessThan(double value, double maxValue, string parameterName)
+    {
+        if (value >= maxValue)
+        {
+            throw new ArgumentException($"{parameterName} must be less than {maxValue}!", parameterName);
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    /// 确保前值小于后值
+    /// </summary>
+    /// <exception cref="ArgumentException"></exception>
+    public static float LessThan(float value, float maxValue, string parameterName)
+    {
+        if (value >= maxValue)
+        {
+            throw new ArgumentException($"{parameterName} must be less than {maxValue}!", parameterName);
+        }
+
+        return value;
+    }
+
+    /// <summary>
     /// 确保前值小于等于后值
     /// </summary>
     /// <exception cref="ArgumentException"></exception>
     public static int LessThanOrEqual(int value, int maxValue, string parameterName)
+    {
+        if (value > maxValue)
+        {
+            throw new ArgumentException($"{parameterName} must be less than or equal to {maxValue}!", parameterName);
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    /// 确保前值小于等于后值
+    /// </summary>
+    /// <exception cref="ArgumentException"></exception>
+    public static decimal LessThanOrEqual(decimal value, decimal maxValue, string parameterName)
+    {
+        if (value > maxValue)
+        {
+            throw new ArgumentException($"{parameterName} must be less than or equal to {maxValue}!", parameterName);
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    /// 确保前值小于等于后值
+    /// </summary>
+    /// <exception cref="ArgumentException"></exception>
+    public static double LessThanOrEqual(double value, double maxValue, string parameterName)
+    {
+        if (value > maxValue)
+        {
+            throw new ArgumentException($"{parameterName} must be less than or equal to {maxValue}!", parameterName);
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    /// 确保前值小于等于后值
+    /// </summary>
+    /// <exception cref="ArgumentException"></exception>
+    public static float LessThanOrEqual(float value, float maxValue, string parameterName)
     {
         if (value > maxValue)
         {
@@ -111,9 +195,87 @@ public static class Check
     }
 
     /// <summary>
+    /// 确保前值大于后值
+    /// </summary>
+    public static decimal GreaterThan(decimal value, decimal minValue, string parameterName)
+    {
+        if (value <= minValue)
+        {
+            throw new ArgumentException($"{parameterName} must be greater than {minValue}!", parameterName);
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    /// 确保前值大于后值
+    /// </summary>
+    public static double GreaterThan(double value, double minValue, string parameterName)
+    {
+        if (value <= minValue)
+        {
+            throw new ArgumentException($"{parameterName} must be greater than {minValue}!", parameterName);
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    /// 确保前值大于后值
+    /// </summary>
+    public static float GreaterThan(float value, float minValue, string parameterName)
+    {
+        if (value <= minValue)
+        {
+            throw new ArgumentException($"{parameterName} must be greater than {minValue}!", parameterName);
+        }
+
+        return value;
+    }
+
+    /// <summary>
     /// 确保前值大于等于后值
     /// </summary>
     public static int GreaterThanOrEqual(int value, int minValue, string parameterName)
+    {
+        if (value < minValue)
+        {
+            throw new ArgumentException($"{parameterName} must be greater than or equal to {minValue}!", parameterName);
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    /// 确保前值大于等于后值
+    /// </summary>
+    public static decimal GreaterThanOrEqual(decimal value, decimal minValue, string parameterName)
+    {
+        if (value < minValue)
+        {
+            throw new ArgumentException($"{parameterName} must be greater than or equal to {minValue}!", parameterName);
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    /// 确保前值大于等于后值
+    /// </summary>
+    public static double GreaterThanOrEqual(double value, double minValue, string parameterName)
+    {
+        if (value < minValue)
+        {
+            throw new ArgumentException($"{parameterName} must be greater than or equal to {minValue}!", parameterName);
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    /// 确保前值大于等于后值
+    /// </summary>
+    public static float GreaterThanOrEqual(float value, float minValue, string parameterName)
     {
         if (value < minValue)
         {
