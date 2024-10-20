@@ -10,6 +10,8 @@ internal class AccountCreateCommandHandler(IAccountRepository repository, IPassw
 {
     public override async Task<AccountId> ExecuteAsync(AccountCreateCommand command, CancellationToken cancellationToken)
     {
+        Check.NotNull(command.OperatorId, nameof(command.OperatorId));
+
         var exists = await repository.FindAsync(m => m.UserName == command.Username || m.Email == command.Email || m.Phone == command.Phone, cancellationToken);
         if (exists != null)
         {
@@ -21,7 +23,7 @@ internal class AccountCreateCommandHandler(IAccountRepository repository, IPassw
                 throw new UAPBusinessException(UAPErrorCode.Account_PhoneExists);
         }
 
-        var user = Account.Create(new AccountId(), command.Username, command.Email, command.Phone, AccountStatus.Inactive, command.CreatedBy);
+        var user = Account.Create(new AccountId(), command.Username, command.Email, command.Phone, AccountStatus.Inactive, command.OperatorId!);
 
         user.PasswordHash = passwordHasher.HashPassword(user, command.Password);
 

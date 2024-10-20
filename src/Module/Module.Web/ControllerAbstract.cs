@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OpenModular.Authentication.Abstractions;
 using OpenModular.Authorization;
+using OpenModular.Common.Utils;
+using OpenModular.DDD.Core.Application.Command;
+using OpenModular.DDD.Core.Application.Query;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 
 namespace OpenModular.Module.Web;
@@ -14,10 +19,19 @@ namespace OpenModular.Module.Web;
 [Authorize(Policy = OpenModularAuthorizationRequirement.Name)]
 public abstract class ControllerAbstract : ControllerBase
 {
+    protected readonly IMapper ObjectMapper;
+    protected readonly IMediator Mediator;
+
+    protected ControllerAbstract(IMapper objectMapper, IMediator mediator)
+    {
+        ObjectMapper = objectMapper;
+        Mediator = mediator;
+    }
+
     /// <summary>
     /// 当前租户标识
     /// </summary>
-    public TenantId CurrentTenantId
+    public TenantId? CurrentTenantId
     {
         get
         {
@@ -35,7 +49,7 @@ public abstract class ControllerAbstract : ControllerBase
     /// <summary>
     /// 当前登录用户标识
     /// </summary>
-    public AccountId CurrentAccountId
+    public AccountId? CurrentAccountId
     {
         get
         {
@@ -53,17 +67,17 @@ public abstract class ControllerAbstract : ControllerBase
     /// <summary>
     /// 获取当前用户IP(包含IPv和IPv6)
     /// </summary>
-    public string IP => HttpContext.Connection.RemoteIpAddress?.ToString();
+    public string? IP => HttpContext.Connection.RemoteIpAddress?.ToString();
 
     /// <summary>
     /// 获取当前用户IPv4
     /// </summary>
-    public string IPv4 => HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
+    public string? IPv4 => HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
 
     /// <summary>
     /// 获取当前用户IPv6
     /// </summary>
-    public string IPv6 => HttpContext.Connection.RemoteIpAddress?.MapToIPv6().ToString();
+    public string? IPv6 => HttpContext.Connection.RemoteIpAddress?.MapToIPv6().ToString();
 
     /// <summary>
     /// 登录时间
@@ -86,5 +100,46 @@ public abstract class ControllerAbstract : ControllerBase
     /// <summary>
     /// User-Agent
     /// </summary>
-    public string UserAgent => HttpContext.Request.Headers["User-Agent"];
+    public string? UserAgent => HttpContext.Request.Headers["User-Agent"];
+
+    /// <summary>
+    /// 将Request映射为Command
+    /// </summary>
+    /// <typeparam name="TCommand"></typeparam>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    protected TCommand Request2Command<TCommand>(object request) where TCommand : ICommand
+    {
+        var command = ObjectMapper.Map<TCommand>(request);
+        command.OperatorId = CurrentAccountId;
+        return command;
+    }
+
+    /// <summary>
+    /// 将Request映射为Command
+    /// </summary>
+    /// <typeparam name="TCommand"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    protected TCommand Request2Command<TCommand, TResult>(object request) where TCommand : ICommand<TResult>
+    {
+        var command = ObjectMapper.Map<TCommand>(request);
+        command.OperatorId = CurrentAccountId;
+        return command;
+    }
+
+    /// <summary>
+    /// 将Request映射为Query
+    /// </summary>
+    /// <typeparam name="TQuery"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    protected TQuery Request2Query<TQuery, TResult>(object request) where TQuery : IQuery<TResult>
+    {
+        var query = ObjectMapper.Map<TQuery>(request);
+        query.OperatorId = CurrentAccountId;
+        return query;
+    }
 }

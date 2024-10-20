@@ -41,7 +41,7 @@ public static class Check
     /// <param name="parameterName"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static T NotNull<T>(T value, string parameterName) where T : class
+    public static T NotNull<T>(T? value, string parameterName)
     {
         if (value == null)
         {

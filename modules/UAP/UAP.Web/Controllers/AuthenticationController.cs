@@ -18,16 +18,12 @@ namespace OpenModular.Module.UAP.Web.Controllers;
 [Tags("身份认证")]
 public class AuthenticationController : ModuleController
 {
-    private readonly IMediator _mediator;
-    private readonly IMapper _mapper;
     private readonly JwtSecurityTokenBuilder _builder;
     private readonly ITenantResolver _tenantResolver;
     private readonly IJwtSecurityTokenStorage _tokenStorage;
 
-    public AuthenticationController(IMediator mediator, IMapper mapper, JwtSecurityTokenBuilder builder, ITenantResolver tenantResolver, IJwtSecurityTokenStorage tokenStorage)
+    public AuthenticationController(IMediator mediator, IMapper mapper, JwtSecurityTokenBuilder builder, ITenantResolver tenantResolver, IJwtSecurityTokenStorage tokenStorage) : base(mapper, mediator)
     {
-        _mediator = mediator;
-        _mapper = mapper;
         _builder = builder;
         _tenantResolver = tenantResolver;
         _tokenStorage = tokenStorage;
@@ -43,12 +39,12 @@ public class AuthenticationController : ModuleController
     [EndpointDescription("登录")]
     public async Task<APIResponse<LoginResponse>> Login(LoginRequest request)
     {
-        var command = _mapper.Map<AuthenticateCommand>(request);
+        var command = ObjectMapper.Map<AuthenticateCommand>(request);
         command.TenantId = await _tenantResolver.ResolveAsync();
         command.IPv4 = IPv4;
         command.IPv6 = IPv6;
 
-        var dto = await _mediator.Send(command);
+        var dto = await Mediator.Send(command);
 
         var response = new LoginResponse
         {
@@ -76,7 +72,7 @@ public class AuthenticationController : ModuleController
     public async Task<APIResponse<JwtSecurityToken>> RefreshToken(RefreshTokenRequest request)
     {
         var command = new RefreshTokenCommand { RefreshToken = request.RefreshToken, Client = AuthenticationClient.Find(request.Client) };
-        var user = await _mediator.Send(command);
+        var user = await Mediator.Send(command);
         var credential = await BuildJwtCredentialAsync(user, null, DateTimeOffset.UtcNow);
 
         await _tokenStorage.SaveAsync(user.Id, command.Client, credential);

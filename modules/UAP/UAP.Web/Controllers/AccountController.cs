@@ -14,13 +14,8 @@ namespace OpenModular.Module.UAP.Web.Controllers;
 [Tags("账户管理")]
 public class AccountController : ModuleController
 {
-    private readonly IMediator _mediator;
-    private readonly IMapper _mapper;
-
-    public AccountController(IMediator mediator, IMapper mapper)
+    public AccountController(IMapper objectMapper, IMediator mediator) : base(objectMapper, mediator)
     {
-        _mediator = mediator;
-        _mapper = mapper;
     }
 
     /// <summary>
@@ -31,10 +26,9 @@ public class AccountController : ModuleController
     [HttpPost]
     public async Task<APIResponse<AccountId>> Create(AccountCreateRequest request)
     {
-        var command = _mapper.Map<AccountCreateCommand>(request);
-        command.CreatedBy = CurrentAccountId;
+        var command = Request2Command<AccountCreateCommand, AccountId>(request);
 
-        var accountId = await _mediator.Send(command);
+        var accountId = await Mediator.Send(command);
 
         return APIResponse.Success(accountId);
     }
@@ -52,7 +46,8 @@ public class AccountController : ModuleController
             AccountId = new AccountId(id)
         };
 
-        var account = await _mediator.Send(query);
+        var account = await Mediator.Send(query);
         return APIResponse.Success(account);
     }
+
 }

@@ -13,13 +13,9 @@ namespace OpenModular.Module.UAP.Web.Controllers;
 [Tags("配置管理")]
 public class ConfigController : ModuleController
 {
-    private readonly IMediator _mediator;
-    private readonly IMapper _mapper;
 
-    public ConfigController(IMediator mediator, IMapper mapper)
+    public ConfigController(IMapper objectMapper, IMediator mediator) : base(objectMapper, mediator)
     {
-        _mediator = mediator;
-        _mapper = mapper;
     }
 
     /// <summary>
@@ -31,9 +27,9 @@ public class ConfigController : ModuleController
     [AllowAnonymous]
     public async Task<APIResponse<PagedDto<ConfigDto>>> PagingQuery([FromQuery] ConfigPagingQueryRequest request)
     {
-        var query = _mapper.Map<ConfigPagedQuery>(request);
+        var query = ObjectMapper.Map<ConfigPagedQuery>(request);
 
-        var result = await _mediator.Send(query);
+        var result = await Mediator.Send(query);
 
         return APIResponse.Success(result);
     }

@@ -1,5 +1,4 @@
 ﻿using OpenModular.DDD.Core.Application.Command;
-using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 using OpenModular.Module.UAP.Core.Domain.Departments;
 using OpenModular.Module.UAP.Core.Domain.Organizations;
 
@@ -29,9 +28,4 @@ public class DepartmentCreateCommand : Command<DepartmentId>
     /// 排序
     /// </summary>
     public int Order { get; set; }
-
-    /// <summary>
-    /// 创建人标识
-    /// </summary>
-    public AccountId CreatedBy { get; set; }
 }
