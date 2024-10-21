@@ -14,7 +14,7 @@ public static class ServiceCollectionExtensions
     /// <typeparam name="TDbContext"></typeparam>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection AddDataSeeding<TDbContext>(this IServiceCollection services) where TDbContext : OpenModularDbContext<TDbContext>
+    public static IServiceCollection AddDataSeeding<TDbContext>(this IServiceCollection services) where TDbContext : EfDbContext<TDbContext>
     {
         services.Configure<DataSeedingOptions>(opts =>
         {

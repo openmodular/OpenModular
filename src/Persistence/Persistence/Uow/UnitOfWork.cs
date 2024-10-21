@@ -39,7 +39,7 @@ public class UnitOfWork(IDbContextBuilder dbContextBuilder, IServiceProvider ser
         }
     }
 
-    public async Task<TDbContext> GetDbContextAsync<TDbContext>(CancellationToken cancellationToken = default) where TDbContext : OpenModularDbContext<TDbContext>
+    public async Task<TDbContext> GetDbContextAsync<TDbContext>(CancellationToken cancellationToken = default) where TDbContext : EfDbContext<TDbContext>
     {
         var dbContext = _dbContexts.OfType<TDbContext>().FirstOrDefault();
         if (dbContext == null)

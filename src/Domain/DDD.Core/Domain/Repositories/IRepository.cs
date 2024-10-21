@@ -176,6 +176,23 @@ public interface IRepository<TEntity, in TKey> : IRepository<TEntity> where TEnt
     Task UpdateManyAsync(IEnumerable<TEntity> entities, bool autoSave, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// 根据标识删除一个实体
+    /// </summary>
+    /// <param name="id">标识</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    /// <returns>受影响的行数</returns>
+    Task DeleteAsync(TKey id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 根据标识删除一个实体
+    /// </summary>
+    /// <param name="id">标识</param>
+    /// <param name="autoSave">自动保存</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    /// <returns>受影响的行数</returns>
+    Task DeleteAsync(TKey id, bool autoSave, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// 删除一个实体
     /// </summary>
     /// <param name="entity">准备删除的实体</param>

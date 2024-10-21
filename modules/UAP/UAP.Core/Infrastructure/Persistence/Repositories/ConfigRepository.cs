@@ -4,6 +4,7 @@ using OpenModular.Common.Utils.Paging;
 using OpenModular.Module.UAP.Core.Domain.Configs;
 using OpenModular.Module.UAP.Core.Domain.Configs.Models;
 using OpenModular.Persistence;
+using OpenModular.Persistence.Repositories;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure.Persistence.Repositories;
 

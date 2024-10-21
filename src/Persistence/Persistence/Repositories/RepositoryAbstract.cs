@@ -6,9 +6,9 @@ using OpenModular.DDD.Core.Domain.Entities;
 using OpenModular.DDD.Core.Domain.Exceptions;
 using OpenModular.DDD.Core.Domain.Repositories;
 
-namespace OpenModular.Persistence;
+namespace OpenModular.Persistence.Repositories;
 
-public class RepositoryAbstract<TEntity, TDbContext> : IRepository<TEntity> where TEntity : class, IEntity where TDbContext : OpenModularDbContext<TDbContext>
+public class RepositoryAbstract<TEntity, TDbContext> : IRepository<TEntity> where TEntity : class, IEntity where TDbContext : EfDbContext<TDbContext>
 {
     private readonly IDbContextProvider<TDbContext> _dbContextProvider;
     public RepositoryAbstract(IDbContextProvider<TDbContext> dbContextProvider)
@@ -73,7 +73,7 @@ public class RepositoryAbstract<TEntity, TDbContext> : IRepository<TEntity> wher
     public async Task<int> DeleteAsync(Expression<Func<TEntity, bool>> predicate, bool autoSave, CancellationToken cancellationToken = default)
     {
         var dbContext = await GetDbContextAsync();
-        var count = await dbContext.Set<TEntity>().Where(predicate).ExecuteDeleteAsync(cancellationToken);
+        int count = await dbContext.Set<TEntity>().Where(predicate).ExecuteDeleteAsync(cancellationToken);
 
         if (autoSave)
         {
@@ -84,7 +84,7 @@ public class RepositoryAbstract<TEntity, TDbContext> : IRepository<TEntity> wher
     }
 }
 
-public class RepositoryAbstract<TEntity, TKey, TDbContext>(IDbContextProvider<TDbContext> dbContextProvider) : RepositoryAbstract<TEntity, TDbContext>(dbContextProvider), IRepository<TEntity, TKey> where TEntity : class, IEntity<TKey> where TDbContext : OpenModularDbContext<TDbContext>
+public class RepositoryAbstract<TEntity, TKey, TDbContext>(IDbContextProvider<TDbContext> dbContextProvider) : RepositoryAbstract<TEntity, TDbContext>(dbContextProvider), IRepository<TEntity, TKey> where TEntity : class, IEntity<TKey> where TDbContext : EfDbContext<TDbContext>
 {
     public async Task<TEntity?> FindAsync(TKey id, CancellationToken cancellationToken = default)
     {
@@ -92,13 +92,13 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IDbContextProvider<TD
         return await dbContext.Set<TEntity>().Where(m => m.Id!.Equals(id)).FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<TEntity> GetAsync(TKey? id, CancellationToken cancellationToken = default)
+    public async Task<TEntity> GetAsync(TKey id, CancellationToken cancellationToken = default)
     {
         var dbContext = await GetDbContextAsync();
         var entity = await dbContext.Set<TEntity>().Where(m => m.Id!.Equals(id)).SingleOrDefaultAsync(cancellationToken);
         if (entity == null)
         {
-            throw new EntityNotFoundException(typeof(TEntity), id);
+            throw new EntityNotFoundException(typeof(TEntity), id!);
         }
 
         return entity;
@@ -168,6 +168,16 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IDbContextProvider<TD
         }
     }
 
+    public Task DeleteAsync(TKey id, CancellationToken cancellationToken = default)
+    {
+        return DeleteAsync(id, false, cancellationToken);
+    }
+
+    public Task DeleteAsync(TKey id, bool autoSave, CancellationToken cancellationToken = default)
+    {
+        return DeleteAsync(m => m.Id!.Equals(id), autoSave, cancellationToken);
+    }
+
     public Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         return DeleteAsync(entity, false, cancellationToken);
@@ -177,6 +187,7 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IDbContextProvider<TD
     {
         var dbContext = await GetDbContextAsync();
         dbContext.Set<TEntity>().Remove(entity);
+
         if (autoSave)
         {
             await dbContext.SaveChangesAsync(cancellationToken);
@@ -192,6 +203,7 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IDbContextProvider<TD
     {
         var dbContext = await GetDbContextAsync();
         dbContext.Set<TEntity>().RemoveRange(entities);
+
         if (autoSave)
         {
             await dbContext.SaveChangesAsync(cancellationToken);
@@ -207,9 +219,9 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IDbContextProvider<TD
     /// <returns></returns>
     protected async Task<Common.Utils.Paging.PagedResult<T>> ToPagedAsync<T>(IQueryable<T> query, Pagination pagination)
     {
-        if (pagination.OrderBy.IsNotNullOrWhiteSpace())
+        if (pagination.OrderBy!.IsNotNullOrWhiteSpace())
         {
-            query = query.OrderBy(pagination.OrderBy);
+            query = query.OrderBy(pagination.OrderBy!);
         }
 
         var rows = await query.Skip((pagination.Index - 1) * pagination.Size).Take(pagination.Size).ToListAsync();

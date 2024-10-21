@@ -11,7 +11,7 @@ using OpenModular.Persistence.Uow;
 
 namespace OpenModular.Persistence.DataSeeding.Internal;
 
-internal class DefaultDataSeedingHandler<TDbContext> : IDataSeedingHandler where TDbContext : OpenModularDbContext<TDbContext>
+internal class DefaultDataSeedingHandler<TDbContext> : IDataSeedingHandler where TDbContext : EfDbContext<TDbContext>
 {
     private readonly DataSeedingOptions _options;
     private readonly IDataSeedingHistoryStorage _historyStorage;

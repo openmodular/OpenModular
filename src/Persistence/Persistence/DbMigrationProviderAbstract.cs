@@ -2,7 +2,7 @@
 
 namespace OpenModular.Persistence;
 
-public abstract class DbMigrationProviderAbstract<TDbContext>(TDbContext context) : IDbMigrationProvider, IDisposable where TDbContext : OpenModularDbContext<TDbContext>
+public abstract class DbMigrationProviderAbstract<TDbContext>(TDbContext context) : IDbMigrationProvider, IDisposable where TDbContext : EfDbContext<TDbContext>
 {
     public virtual async Task SchemaMigrateAsync()
     {

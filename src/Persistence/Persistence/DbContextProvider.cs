@@ -5,7 +5,7 @@ using OpenModular.Persistence.Uow;
 
 namespace OpenModular.Persistence;
 
-internal class DbContextProvider<TDbContext> : IDbContextProvider<TDbContext> where TDbContext : OpenModularDbContext<TDbContext>
+internal class DbContextProvider<TDbContext> : IDbContextProvider<TDbContext> where TDbContext : EfDbContext<TDbContext>
 {
     private readonly IUnitOfWorkManager _unitOfWorkManager;
     private readonly IServiceProvider _serviceProvider;

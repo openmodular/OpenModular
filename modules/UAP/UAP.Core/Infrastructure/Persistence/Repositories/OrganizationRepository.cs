@@ -2,6 +2,7 @@
 using OpenModular.Module.UAP.Core.Domain.Organizations;
 using OpenModular.Module.UAP.Core.Domain.Organizations.Models;
 using OpenModular.Persistence;
+using OpenModular.Persistence.Repositories;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure.Persistence.Repositories;
 

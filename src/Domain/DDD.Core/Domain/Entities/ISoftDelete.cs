@@ -8,5 +8,10 @@ public interface ISoftDelete
     /// <summary>
     /// 是否删除
     /// </summary>
-    bool IsDeleted { get; }
+    bool IsDeleted { get; set; }
+
+    /// <summary>
+    /// 删除时间
+    /// </summary>
+    DateTimeOffset? DeletedAt { get; set; }
 }

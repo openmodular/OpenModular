@@ -1,6 +1,6 @@
 ﻿namespace OpenModular.Persistence;
 
-public class OpenModularDbConstants
+public class DbConstants
 {
     public const string PostgreSQLProviderName = "Npgsql.EntityFrameworkCore.PostgreSQL";
 

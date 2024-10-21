@@ -7,6 +7,7 @@ using OpenModular.DDD.Core.Domain.Repositories;
 using Microsoft.Data.Sqlite;
 using OpenModular.DDD.Core.Uow;
 using OpenModular.Persistence;
+using OpenModular.Persistence.Interceptors;
 using OpenModular.Persistence.Uow;
 
 // ReSharper disable once CheckNamespace
@@ -30,7 +31,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddOpenModularDbContext<TDbContext>(this IServiceCollection services) where TDbContext : OpenModularDbContext<TDbContext>
+    public static IServiceCollection AddOpenModularDbContext<TDbContext>(this IServiceCollection services) where TDbContext : EfDbContext<TDbContext>
     {
         using var sp = services.BuildServiceProvider();
         var options = sp.GetRequiredService<IOptions<DbOptions>>().Value;
@@ -62,11 +63,12 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    private static void AddSqlServer<TDbContext>(this IServiceCollection services, string connectionString, string migrationsAssemblyPrefix) where TDbContext : OpenModularDbContext<TDbContext>
+    private static void AddSqlServer<TDbContext>(this IServiceCollection services, string connectionString, string migrationsAssemblyPrefix) where TDbContext : EfDbContext<TDbContext>
     {
         services.AddDbContextPool<TDbContext>(builder =>
         {
             builder.UseSqlServer(connectionString, x => x.MigrationsAssembly($"{migrationsAssemblyPrefix}.Migrations.SqlServer"));
+            builder.AddInterceptors(new SoftDeleteInterceptor());
 
 #if DEBUG
             builder.LogTo(Console.WriteLine);
@@ -74,9 +76,8 @@ public static class ServiceCollectionExtensions
         });
     }
 
-    private static void AddSQLite<TDbContext>(this IServiceCollection services, string connectionString, string migrationsAssemblyPrefix) where TDbContext : OpenModularDbContext<TDbContext>
+    private static void AddSQLite<TDbContext>(this IServiceCollection services, string connectionString, string migrationsAssemblyPrefix) where TDbContext : EfDbContext<TDbContext>
     {
-
         services.AddDbContextPool<TDbContext>(builder =>
         {
             //将数据库相对路径转换为绝对路径
@@ -92,14 +93,15 @@ public static class ServiceCollectionExtensions
             }
 
             var dir = Path.GetDirectoryName(connectionStringBuilder.DataSource);
-            if (dir.IsNotNullOrWhiteSpace() && !Directory.Exists(dir))
+            if (dir!.IsNotNullOrWhiteSpace() && !Directory.Exists(dir))
             {
-                Directory.CreateDirectory(dir);
+                Directory.CreateDirectory(dir!);
             }
 
             connectionString = connectionStringBuilder.ToString();
 
             builder.UseSqlite(connectionString, x => x.MigrationsAssembly($"{migrationsAssemblyPrefix}.Migrations.Sqlite"));
+            builder.AddInterceptors(new SoftDeleteInterceptor());
 
 #if DEBUG
             builder.LogTo(Console.WriteLine);
@@ -119,7 +121,7 @@ public static class ServiceCollectionExtensions
     //        });
     //    }
 
-    private static void AddPostgreSql<TDbContext>(this IServiceCollection services, string connectionString, string migrationsAssemblyPrefix) where TDbContext : OpenModularDbContext<TDbContext>
+    private static void AddPostgreSql<TDbContext>(this IServiceCollection services, string connectionString, string migrationsAssemblyPrefix) where TDbContext : EfDbContext<TDbContext>
     {
         //该配置会导致老数据中日期类型存储的-infinity解析失败导致异常
         //AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
@@ -127,6 +129,7 @@ public static class ServiceCollectionExtensions
         services.AddDbContextPool<TDbContext>(builder =>
         {
             builder.UseNpgsql(connectionString, x => x.MigrationsAssembly($"{migrationsAssemblyPrefix}.Migrations.Postgresql"));
+            builder.AddInterceptors(new SoftDeleteInterceptor());
 
 #if DEBUG
             builder.LogTo(Console.WriteLine);
