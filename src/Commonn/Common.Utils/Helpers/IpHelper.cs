@@ -13,8 +13,11 @@ public class IpHelper : ISingletonDependency
     /// </summary>
     /// <param name="str">ip地址</param>
     /// <returns>如果是ipv4地址，则为true，否则为false</returns>
-    public bool IsIpv4(string str)
+    public bool IsIpv4(string? str)
     {
+        if (str.IsNullOrWhiteSpace())
+            return false;
+
         return Regex.IsMatch(str, RegexExpressionConstants.IPv4);
     }
 
@@ -23,7 +26,7 @@ public class IpHelper : ISingletonDependency
     /// </summary>
     /// <param name="ip">IPv4字符串</param>
     /// <returns>代表IPv4的整数</returns>
-    public uint Ipv4ToInt(string ip)
+    public uint Ipv4ToInt(string? ip)
     {
         if (!IsIpv4(ip)) return 0;
 

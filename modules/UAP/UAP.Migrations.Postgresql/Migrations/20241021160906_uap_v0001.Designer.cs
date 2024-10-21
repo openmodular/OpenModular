@@ -12,7 +12,7 @@ using OpenModular.Module.UAP.Core.Infrastructure.Persistence;
 namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
 {
     [DbContext(typeof(UAPDbContext))]
-    [Migration("20241019032446_uap_v0001")]
+    [Migration("20241021160906_uap_v0001")]
     partial class uap_v0001
     {
         /// <inheritdoc />
@@ -27,19 +27,27 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
 
             modelBuilder.Entity("OpenModular.Module.UAP.Core.Domain.Accounts.Account", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Email")
                         .HasMaxLength(300)
                         .HasColumnType("character varying(300)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("NormalizedEmail")
                         .IsRequired()
@@ -63,8 +71,13 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<string>("TenantId")
-                        .HasColumnType("text");
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -79,19 +92,6 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                     b.ToTable("UAP_Account", (string)null);
                 });
 
-            modelBuilder.Entity("OpenModular.Module.UAP.Core.Domain.Accounts.AccountDepartment", b =>
-                {
-                    b.Property<string>("AccountId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("DepartmentId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.ToTable("UAP_AccountDepartment", (string)null);
-                });
-
             modelBuilder.Entity("OpenModular.Module.UAP.Core.Domain.Authentications.AuthenticationRecord", b =>
                 {
                     b.Property<int>("Id")
@@ -100,31 +100,35 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AccountId")
-                        .HasColumnType("text");
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("AuthenticateTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Client")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<long?>("IPv4")
                         .HasColumnType("bigint");
 
                     b.Property<string>("IPv6")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Mac")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Message")
                         .HasColumnType("text");
 
                     b.Property<string>("Source")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
@@ -136,8 +140,8 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
 
             modelBuilder.Entity("OpenModular.Module.UAP.Core.Domain.Authentications.AuthenticationToken", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("AccessToken")
                         .IsRequired()
@@ -161,8 +165,8 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
 
             modelBuilder.Entity("OpenModular.Module.UAP.Core.Domain.Configs.Config", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Key")
                         .IsRequired()
@@ -170,7 +174,8 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
 
                     b.Property<string>("ModuleCode")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Value")
                         .HasColumnType("text");
@@ -182,86 +187,21 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
 
             modelBuilder.Entity("OpenModular.Module.UAP.Core.Domain.DataSeedingHistories.DataSeedingHistory", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("ModuleCode")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<int>("Version")
+                        .HasMaxLength(50)
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.ToTable("UAP_DataSeedingHistory", (string)null);
-                });
-
-            modelBuilder.Entity("OpenModular.Module.UAP.Core.Domain.Departments.Department", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("OrganizationId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ParentId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UAP_Department", (string)null);
-                });
-
-            modelBuilder.Entity("OpenModular.Module.UAP.Core.Domain.Organizations.Organization", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UAP_Organization", (string)null);
                 });
 #pragma warning restore 612, 618
         }

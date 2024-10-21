@@ -1,4 +1,6 @@
-﻿namespace OpenModular.DDD.Core.Domain.Entities;
+﻿using OpenModular.DDD.Core.Domain.Entities.TypeIds;
+
+namespace OpenModular.DDD.Core.Domain.Entities;
 
 /// <summary>
 /// 软删除
@@ -14,4 +16,9 @@ public interface ISoftDelete
     /// 删除时间
     /// </summary>
     DateTimeOffset? DeletedAt { get; set; }
+
+    /// <summary>
+    /// 删除人
+    /// </summary>
+    AccountId? DeletedBy { get; set; }
 }

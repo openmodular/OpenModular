@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using OpenModular.Authentication.Abstractions;
+using OpenModular.Common.Utils;
 using OpenModular.DDD.Core.Domain.Entities;
 
 namespace OpenModular.Persistence.Interceptors;
@@ -32,6 +34,12 @@ internal class SoftDeleteInterceptor : SaveChangesInterceptor
             softDeletable.State = EntityState.Modified;
             softDeletable.Entity.IsDeleted = true;
             softDeletable.Entity.DeletedAt = DateTimeOffset.UtcNow;
+
+            var currentAccount = GlobalServiceProvider.GetService<ICurrentAccount>();
+            if (currentAccount != null)
+            {
+                softDeletable.Entity.DeletedBy = currentAccount.AccountId;
+            }
         }
 
         return base.SavingChangesAsync(eventData, result, cancellationToken);

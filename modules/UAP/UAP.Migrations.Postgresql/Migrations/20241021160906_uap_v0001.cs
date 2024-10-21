@@ -16,8 +16,9 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                 name: "UAP_Account",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    TenantId = table.Column<string>(type: "text", nullable: true),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Type = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     UserName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     PasswordHash = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
@@ -25,24 +26,16 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                     NormalizedEmail = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
                     Phone = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    DeletedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    DeletedBy = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UAP_Account", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UAP_AccountDepartment",
-                columns: table => new
-                {
-                    AccountId = table.Column<string>(type: "text", nullable: false),
-                    DepartmentId = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
                 });
 
             migrationBuilder.CreateTable(
@@ -51,12 +44,12 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Source = table.Column<string>(type: "text", nullable: false),
-                    Client = table.Column<string>(type: "text", nullable: false),
+                    Source = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Client = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     IPv4 = table.Column<long>(type: "bigint", nullable: true),
-                    IPv6 = table.Column<string>(type: "text", nullable: true),
-                    Mac = table.Column<string>(type: "text", nullable: true),
-                    AccountId = table.Column<string>(type: "text", nullable: true),
+                    IPv6 = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Mac = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    AccountId = table.Column<Guid>(type: "uuid", nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     Message = table.Column<string>(type: "text", nullable: true),
                     AuthenticateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
@@ -70,7 +63,7 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                 name: "UAP_AuthenticationToken",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Client = table.Column<string>(type: "text", nullable: false),
                     AccessToken = table.Column<string>(type: "text", nullable: false),
                     RefreshToken = table.Column<string>(type: "text", nullable: false),
@@ -85,8 +78,8 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                 name: "UAP_Config",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    ModuleCode = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ModuleCode = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Key = table.Column<string>(type: "text", nullable: false),
                     Value = table.Column<string>(type: "text", nullable: true)
                 },
@@ -99,48 +92,13 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                 name: "UAP_DataSeedingHistory",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    ModuleCode = table.Column<string>(type: "text", nullable: false),
-                    Version = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ModuleCode = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Version = table.Column<int>(type: "integer", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UAP_DataSeedingHistory", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UAP_Department",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    OrganizationId = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    ParentId = table.Column<string>(type: "text", nullable: false),
-                    Code = table.Column<string>(type: "text", nullable: false),
-                    Order = table.Column<int>(type: "integer", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UAP_Department", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UAP_Organization",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Code = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    CreatedBy = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UAP_Organization", x => x.Id);
                 });
         }
 
@@ -149,9 +107,6 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
         {
             migrationBuilder.DropTable(
                 name: "UAP_Account");
-
-            migrationBuilder.DropTable(
-                name: "UAP_AccountDepartment");
 
             migrationBuilder.DropTable(
                 name: "UAP_AuthenticationRecord");
@@ -164,12 +119,6 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
 
             migrationBuilder.DropTable(
                 name: "UAP_DataSeedingHistory");
-
-            migrationBuilder.DropTable(
-                name: "UAP_Department");
-
-            migrationBuilder.DropTable(
-                name: "UAP_Organization");
         }
     }
 }

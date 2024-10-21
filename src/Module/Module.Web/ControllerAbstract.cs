@@ -36,7 +36,7 @@ public abstract class ControllerAbstract : ControllerBase
     {
         get
         {
-            var tenantId = User.FindFirst(OpenModularClaimTypes.TENANT_ID);
+            var tenantId = User.FindFirst(ClaimTypes.TENANT_ID);
 
             if (tenantId != null && tenantId.Value.IsNotNullOrWhiteSpace())
             {
@@ -54,7 +54,7 @@ public abstract class ControllerAbstract : ControllerBase
     {
         get
         {
-            var accountId = User.FindFirst(OpenModularClaimTypes.ACCOUNT_ID);
+            var accountId = User.FindFirst(ClaimTypes.ACCOUNT_ID);
 
             if (accountId != null && accountId.Value.IsNotNullOrWhiteSpace())
             {
@@ -87,7 +87,7 @@ public abstract class ControllerAbstract : ControllerBase
     {
         get
         {
-            var ty = User.FindFirst(OpenModularClaimTypes.LOGIN_TIME);
+            var ty = User.FindFirst(ClaimTypes.LOGIN_TIME);
 
             if (ty != null && ty.Value.IsNotNullOrWhiteSpace())
             {

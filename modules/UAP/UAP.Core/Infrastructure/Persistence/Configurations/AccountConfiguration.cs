@@ -11,9 +11,9 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
     {
         builder.ToTable($"{UAPConstants.ModuleCode}_{nameof(Account)}");
 
-        builder.Property(x => x.Type).ValueGeneratedNever().HasConversion(
-            v => v.ToString(),
-            v => AccountType.Find(v));
+        builder.Property(x => x.Type).HasMaxLength(50).ValueGeneratedNever().HasConversion(
+            v => v.Name,
+            v => AccountType.GetOrCreate(v));
 
         builder.Property(x => x.UserName).IsRequired().HasMaxLength(100);
         builder.Property(x => x.NormalizedUserName).IsRequired().HasMaxLength(100);
@@ -25,16 +25,19 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id).ValueGeneratedNever().HasConversion(
-            v => v.ToString(),
+            v => v.Value,
             v => new AccountId(v));
 
         builder.Property(x => x.CreatedBy).ValueGeneratedNever().HasConversion(
-            v => v.ToString(),
+            v => v.Value,
             v => new AccountId(v));
 
         builder.Property(x => x.TenantId).ValueGeneratedNever().HasConversion(
-            v => v != null ? v.ToString() : string.Empty,
-            v => v.IsNullOrWhiteSpace() ? null : new TenantId(v));
+            v => v != null ? v.Value : Guid.Empty,
+            v => v == Guid.Empty ? null : new TenantId(v));
 
+        builder.Property(x => x.DeletedBy).ValueGeneratedNever().HasConversion(
+            v => v != null ? v.Value : Guid.Empty,
+            v => v == Guid.Empty ? null : new AccountId(v));
     }
 }

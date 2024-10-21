@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+using OpenModular.Authentication.Abstractions;
 using OpenModular.Module.Core;
 using OpenModular.Module.Web;
 using OpenModular.Module.Web.Conventions;
@@ -19,6 +20,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IModuleWebCollection>(new ModuleWebCollection());
 
         services.TryAddTransient<ITenantResolver, TenantResolver>();
+        services.TryAddSingleton<ICurrentAccount, CurrentAccount>();
 
         return services;
     }

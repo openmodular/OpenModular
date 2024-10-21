@@ -1,6 +1,6 @@
 ﻿namespace OpenModular.Authentication.Abstractions;
 
-public class OpenModularClaimTypes
+public class ClaimTypes
 {
     /// <summary>
     /// 租户编号

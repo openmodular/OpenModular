@@ -10,14 +10,13 @@ public class DataSeedingHistoryConfiguration : IEntityTypeConfiguration<DataSeed
     {
         builder.ToTable($"{UAPConstants.ModuleCode}_{nameof(DataSeedingHistory)}");
 
-        builder.Property(x => x.ModuleCode).IsRequired();
-        builder.Property(x => x.Version).IsRequired();
-
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id).ValueGeneratedNever().HasConversion(
-            v => v.ToString(),
+            v => v.Value,
             v => new DataSeedingHistoryId(v));
 
+        builder.Property(x => x.ModuleCode).IsRequired().HasMaxLength(100);
+        builder.Property(x => x.Version).IsRequired().HasMaxLength(50);
     }
 }

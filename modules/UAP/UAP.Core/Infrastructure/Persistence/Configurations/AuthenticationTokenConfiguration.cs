@@ -12,17 +12,17 @@ public class AuthenticationTokenConfiguration : IEntityTypeConfiguration<Authent
     {
         builder.ToTable($"{UAPConstants.ModuleCode}_{nameof(AuthenticationToken)}");
 
-        builder.Property(x => x.AccessToken).IsRequired();
-        builder.Property(x => x.RefreshToken).IsRequired();
-
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id).ValueGeneratedNever().HasConversion(
-            v => v.ToString(),
+            v => v.Value,
             v => new AccountId(v));
 
+        builder.Property(x => x.AccessToken).IsRequired();
+        builder.Property(x => x.RefreshToken).IsRequired();
+
         builder.Property(x => x.Client).IsRequired().ValueGeneratedNever().HasConversion(
-            v => v.ToString(),
+            v => v.Name,
             v => AuthenticationClient.GetOrCreate(v));
     }
 }

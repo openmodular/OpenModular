@@ -73,6 +73,7 @@ public class Account : AggregateRoot<AccountId>, ITenant, ISoftDelete
     public bool IsDeleted { get; set; }
 
     public DateTimeOffset? DeletedAt { get; set; }
+    public AccountId? DeletedBy { get; set; }
 
     public Account()
     {
