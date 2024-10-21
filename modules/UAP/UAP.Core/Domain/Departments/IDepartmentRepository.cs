@@ -3,7 +3,7 @@ using OpenModular.Module.UAP.Core.Domain.Organizations;
 
 namespace OpenModular.Module.UAP.Core.Domain.Departments;
 
-internal interface IDepartmentRepository : IRepository<Department, DepartmentId>
+public interface IDepartmentRepository : IRepository<Department, DepartmentId>
 {
     /// <summary>
     /// 获取指定部门的最大子级编码

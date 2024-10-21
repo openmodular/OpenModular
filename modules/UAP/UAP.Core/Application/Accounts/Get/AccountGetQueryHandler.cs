@@ -1,12 +1,21 @@
 ﻿using OpenModular.DDD.Core.Application.Query;
-using OpenModular.Module.UAP.Core.Conventions;
+using OpenModular.Module.UAP.Core.Domain.Accounts;
 
 namespace OpenModular.Module.UAP.Core.Application.Accounts.Get;
 
 internal class AccountGetQueryHandler : QueryHandler<AccountGetQuery, AccountDto>
 {
-    public override Task<AccountDto> ExecuteAsync(AccountGetQuery request, CancellationToken cancellationToken)
+    private readonly IAccountRepository _repository;
+
+    public AccountGetQueryHandler(IAccountRepository repository)
     {
-        throw new UAPBusinessException(UAPErrorCode.Account_Deleted);
+        _repository = repository;
+    }
+
+    public override async Task<AccountDto> ExecuteAsync(AccountGetQuery request, CancellationToken cancellationToken)
+    {
+        var account = await _repository.GetAsync(request.Id, cancellationToken);
+
+        return ObjectMapper.Map<AccountDto>(account);
     }
 }

@@ -9,7 +9,7 @@ namespace OpenModular.DDD.Core.Application.Query;
 /// <typeparam name="TResult"></typeparam>
 public abstract class QueryHandler<TQuery, TResult> : HandlerBase, IQueryHandler<TQuery, TResult> where TQuery : IQuery<TResult>
 {
-    public abstract Task<TResult> ExecuteAsync(TQuery request, CancellationToken cancellationToken);
+    public abstract Task<TResult> ExecuteAsync(TQuery query, CancellationToken cancellationToken);
 
     public async Task<TResult> Handle(TQuery request, CancellationToken cancellationToken)
     {

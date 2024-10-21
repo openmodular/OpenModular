@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OpenModular.Module.UAP.Core.Domain.Accounts;
 using OpenModular.Module.UAP.Core.Domain.Authentications;
+using OpenModular.Module.UAP.Core.Domain.Configs;
 using OpenModular.Module.UAP.Core.Domain.DataSeedingHistories;
 using OpenModular.Module.UAP.Core.Domain.Departments;
 using OpenModular.Module.UAP.Core.Domain.Organizations;
@@ -10,7 +11,7 @@ namespace OpenModular.Module.UAP.Core.Infrastructure.Persistence;
 
 public class UAPDbContext(DbContextOptions<UAPDbContext> dbContextOptions) : EfDbContext<UAPDbContext>(dbContextOptions, UAPConstants.ModuleCode)
 {
-    public DbSet<Domain.Configs.Config> Configs { get; set; }
+    public DbSet<Config> Configs { get; set; }
 
     public DbSet<Organization> Organizations { get; set; }
 

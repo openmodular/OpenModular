@@ -12,20 +12,34 @@ internal class AccountCreateCommandHandler(IAccountRepository repository, IPassw
     {
         Check.NotNull(command.OperatorId, nameof(command.OperatorId));
 
-        var exists = await repository.FindAsync(m => m.UserName == command.Username || m.Email == command.Email || m.Phone == command.Phone, cancellationToken);
+        var exists = await repository.FindAsync(m => m.UserName == command.Username, cancellationToken);
         if (exists != null)
         {
-            if (exists.UserName == command.Username)
-                throw new UAPBusinessException(UAPErrorCode.Account_UsernameExists);
-            if (exists.Email == command.Email)
-                throw new UAPBusinessException(UAPErrorCode.Account_UsernameExists);
-            if (exists.Phone == command.Phone)
-                throw new UAPBusinessException(UAPErrorCode.Account_PhoneExists);
+            throw new UAPBusinessException(UAPErrorCode.Account_UsernameExists);
         }
 
-        var user = Account.Create(new AccountId(), command.Username, command.Email, command.Phone, AccountStatus.Inactive, command.OperatorId!);
+        if (command.Phone.IsNotNullOrWhiteSpace())
+        {
+            exists = await repository.FindAsync(m => m.Phone == command.Phone, cancellationToken);
+            if (exists != null)
+            {
+                throw new UAPBusinessException(UAPErrorCode.Account_PhoneExists);
+            }
+        }
 
-        user.PasswordHash = passwordHasher.HashPassword(user, command.Password);
+        if (command.Email.IsNotNullOrWhiteSpace())
+        {
+            exists = await repository.FindAsync(m => m.Email == command.Email, cancellationToken);
+            if (exists != null)
+            {
+                throw new UAPBusinessException(UAPErrorCode.Account_EmailExists);
+            }
+        }
+
+        var user = Account.Create(new AccountId(), command.Type, command.Username, command.Email, command.Phone, AccountStatus.Inactive, command.OperatorId!);
+
+        if (command.Password.IsNotNullOrWhiteSpace())
+            user.PasswordHash = passwordHasher.HashPassword(user, command.Password);
 
         await repository.InsertAsync(user, cancellationToken: cancellationToken);
 

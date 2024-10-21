@@ -16,14 +16,14 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
 
     public AuthenticationSource Source => AuthenticationSource.Local;
 
-    private readonly IAccountRepository _userRepository;
+    private readonly IAccountRepository _accountRepository;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IImageCaptchaService _imageCaptchaService;
     private readonly UAPConfig _config;
 
-    public LocalPasswordAuthenticationIdentityHandler(IAccountRepository userRepository, IPasswordHasher passwordHasher, IImageCaptchaService imageCaptchaService, UAPConfig config)
+    public LocalPasswordAuthenticationIdentityHandler(IAccountRepository accountRepository, IPasswordHasher passwordHasher, IImageCaptchaService imageCaptchaService, UAPConfig config)
     {
-        _userRepository = userRepository;
+        _accountRepository = accountRepository;
         _passwordHasher = passwordHasher;
         _imageCaptchaService = imageCaptchaService;
         _config = config;
@@ -57,22 +57,22 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
             }
         }
 
-        var user = await _userRepository.FindAsync(m => m.Status != AccountStatus.Deleted && m.UserName == identity.UserName, cancellationToken);
-        if (user == null)
+        var account = await _accountRepository.FindAsync(m => m.UserName == identity.UserName, cancellationToken);
+        if (account == null)
         {
-            context.Status = AuthenticationStatus.UserNotFound;
+            context.Status = AuthenticationStatus.AccountNotFound;
             context.Message = "Authentication failed, user not found";
             return;
         }
 
-        if (!_passwordHasher.VerifyHashedPassword(user, user.PasswordHash!, identity.Password!))
+        if (!_passwordHasher.VerifyHashedPassword(account, account.PasswordHash!, identity.Password!))
         {
             context.Status = AuthenticationStatus.IncorrectPassword;
             context.Message = "Authentication failed, invalid password";
             return;
         }
 
-        context.Account = user;
+        context.Account = account;
     }
 }
 

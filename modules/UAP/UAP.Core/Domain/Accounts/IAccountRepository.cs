@@ -6,4 +6,4 @@ namespace OpenModular.Module.UAP.Core.Domain.Accounts;
 /// <summary>
 /// 账户仓储接口
 /// </summary>
-internal interface IAccountRepository : IRepository<Account, AccountId>;
+public interface IAccountRepository : IRepository<Account, AccountId>;

@@ -7,7 +7,7 @@ namespace OpenModular.Module.UAP.Core.Domain.Organizations;
 /// <summary>
 /// 组织单位仓储
 /// </summary>
-internal interface IOrganizationRepository : IRepository<Organization, OrganizationId>
+public interface IOrganizationRepository : IRepository<Organization, OrganizationId>
 {
     /// <summary>
     /// 分页查询

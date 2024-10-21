@@ -7,7 +7,7 @@ namespace OpenModular.Module.UAP.Core.Application.Authentications.Authenticate;
 
 internal class AuthenticationVerifyHandler : IAuthenticationVerifyHandler<Account>, ITransientDependency
 {
-    public static List<string> Stages = [UserStatusVerifyStageHandler.StageName];
+    public static List<string> Stages = [AccountStatusVerifyStageHandler.StageName];
 
     private readonly IEnumerable<IAuthenticationVerifyStageHandler<Account>> _handlers;
 

@@ -50,8 +50,6 @@ internal class RefreshTokenCommandHandler : CommandHandler<RefreshTokenCommand, 
         {
             case AccountStatus.Inactive:
                 throw new UAPBusinessException(UAPErrorCode.Account_Inactive);
-            case AccountStatus.Deleted:
-                throw new UAPBusinessException(UAPErrorCode.Account_Deleted);
             case AccountStatus.Disabled:
                 throw new UAPBusinessException(UAPErrorCode.Account_Disabled);
             case AccountStatus.Unverified:

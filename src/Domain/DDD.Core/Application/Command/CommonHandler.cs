@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
+using OpenModular.Common.Utils;
 using OpenModular.DDD.Core.Domain;
 using OpenModular.Module.Abstractions.Exceptions;
 
@@ -6,6 +8,16 @@ namespace OpenModular.DDD.Core.Application.Command;
 
 public abstract class HandlerBase
 {
+    /// <summary>
+    /// 对象映射器
+    /// </summary>
+    public IMapper ObjectMapper => GlobalServiceProvider.GetRequiredService<IMapper>();
+
+    /// <summary>
+    /// IMediator
+    /// </summary>
+    public IMediator Mediator => GlobalServiceProvider.GetRequiredService<IMediator>();
+
     /// <summary>
     /// 检测业务规则
     /// </summary>
@@ -31,7 +43,7 @@ public abstract class CommandHandler<TCommand> : HandlerBase, ICommandHandler<TC
         await ExecuteAsync(request, cancellationToken);
     }
 
-    public abstract Task ExecuteAsync(TCommand request, CancellationToken cancellationToken);
+    public abstract Task ExecuteAsync(TCommand command, CancellationToken cancellationToken);
 }
 
 /// <summary>
@@ -47,5 +59,5 @@ public abstract class CommandHandler<TCommand, TResult> : HandlerBase, ICommandH
         return result;
     }
 
-    public abstract Task<TResult> ExecuteAsync(TCommand request, CancellationToken cancellationToken);
+    public abstract Task<TResult> ExecuteAsync(TCommand command, CancellationToken cancellationToken);
 }

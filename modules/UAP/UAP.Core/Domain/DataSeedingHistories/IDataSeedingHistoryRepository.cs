@@ -2,7 +2,7 @@
 
 namespace OpenModular.Module.UAP.Core.Domain.DataSeedingHistories;
 
-internal interface IDataSeedingHistoryRepository : IRepository<DataSeedingHistory, DataSeedingHistoryId>
+public interface IDataSeedingHistoryRepository : IRepository<DataSeedingHistory, DataSeedingHistoryId>
 {
     /// <summary>
     /// 查询指定模块的最后更新版本

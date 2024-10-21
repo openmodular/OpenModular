@@ -5,5 +5,5 @@ namespace OpenModular.Module.UAP.Core.Domain.Accounts.Events;
 /// <summary>
 /// 账户删除领域事件
 /// </summary>
-/// <param name="User"></param>
-public record AccountDeletedDomainEvent(Account User) : DomainEventBase;
+/// <param name="Account"></param>
+public record AccountDeletedDomainEvent(Account Account) : DomainEventBase;

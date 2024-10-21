@@ -29,6 +29,10 @@ public enum UAPErrorCode
     /// </summary>
     Account_EmailFormatNotValid,
     /// <summary>
+    /// 手机号格式不正确
+    /// </summary>
+    Account_PhoneFormatNotValid,
+    /// <summary>
     /// 账户已删除
     /// </summary>
     Account_Deleted,

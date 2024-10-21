@@ -21,24 +21,24 @@ public enum AuthenticationStatus
     InvalidImageCaptcha,
 
     /// <summary>
-    /// 用户不存在
+    /// 账户不存在
     /// </summary>
-    UserNotFound,
+    AccountNotFound,
+
+    /// <summary>
+    /// 账户未激活
+    /// </summary>
+    AccountInactive,
+
+    /// <summary>
+    /// 账户被禁用
+    /// </summary>
+    AccountDisabled,
 
     /// <summary>
     /// 密码错误
     /// </summary>
     IncorrectPassword,
-
-    /// <summary>
-    /// 用户被锁定
-    /// </summary>
-    UserLocked,
-
-    /// <summary>
-    /// 用户被禁用
-    /// </summary>
-    UserDisabled,
 
     /// <summary>
     /// 认证模式无效
@@ -59,6 +59,7 @@ public enum AuthenticationStatus
     /// 认证超时
     /// </summary>
     Timeout,
+
     /// <summary>
     /// 认证环节找不到
     /// </summary>

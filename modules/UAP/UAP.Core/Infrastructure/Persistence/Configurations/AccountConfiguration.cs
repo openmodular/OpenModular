@@ -11,6 +11,10 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
     {
         builder.ToTable($"{UAPConstants.ModuleCode}_{nameof(Account)}");
 
+        builder.Property(x => x.Type).ValueGeneratedNever().HasConversion(
+            v => v.ToString(),
+            v => AccountType.Find(v));
+
         builder.Property(x => x.UserName).IsRequired().HasMaxLength(100);
         builder.Property(x => x.NormalizedUserName).IsRequired().HasMaxLength(100);
         builder.Property(x => x.PasswordHash).IsRequired().HasMaxLength(100);
@@ -26,7 +30,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
 
         builder.Property(x => x.CreatedBy).ValueGeneratedNever().HasConversion(
             v => v.ToString(),
-            v =>  new AccountId(v));
+            v => new AccountId(v));
 
         builder.Property(x => x.TenantId).ValueGeneratedNever().HasConversion(
             v => v != null ? v.ToString() : string.Empty,

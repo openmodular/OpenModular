@@ -4,13 +4,13 @@ using OpenModular.Module.UAP.Core.Conventions;
 
 namespace OpenModular.Module.UAP.Core.Domain.Accounts.Rules;
 
-internal record AccountEmailFormatNotValidRule(string? Email) : UAPBusinessRule(UAPErrorCode.Account_EmailFormatNotValid)
+internal record AccountPhoneFormatNotValidRule(string? Phone) : UAPBusinessRule(UAPErrorCode.Account_PhoneFormatNotValid)
 {
     public override bool IsBroken()
     {
-        if (Email.IsNullOrWhiteSpace())
+        if (Phone.IsNullOrWhiteSpace())
             return true;
 
-        return !new Regex(RegexExpressionConstants.Email).IsMatch(Email);
+        return !new Regex(RegexExpressionConstants.Phone).IsMatch(Phone);
     }
 }
