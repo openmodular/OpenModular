@@ -1,6 +1,4 @@
 ﻿using System.Security.Claims;
-using AutoMapper;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +20,7 @@ public class AuthenticationController : ModuleController
     private readonly ITenantResolver _tenantResolver;
     private readonly IJwtSecurityTokenStorage _tokenStorage;
 
-    public AuthenticationController(IMediator mediator, IMapper mapper, JwtSecurityTokenBuilder builder, ITenantResolver tenantResolver, IJwtSecurityTokenStorage tokenStorage) : base(mapper, mediator)
+    public AuthenticationController(JwtSecurityTokenBuilder builder, ITenantResolver tenantResolver, IJwtSecurityTokenStorage tokenStorage)
     {
         _builder = builder;
         _tenantResolver = tenantResolver;

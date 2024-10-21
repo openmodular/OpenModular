@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
@@ -14,10 +12,6 @@ namespace OpenModular.Module.UAP.Web.Controllers;
 [Tags("账户管理")]
 public class AccountController : ModuleController
 {
-    public AccountController(IMapper objectMapper, IMediator mediator) : base(objectMapper, mediator)
-    {
-    }
-
     /// <summary>
     /// 创建用户
     /// </summary>
@@ -49,5 +43,4 @@ public class AccountController : ModuleController
         var account = await Mediator.Send(query);
         return APIResponse.Success(account);
     }
-
 }

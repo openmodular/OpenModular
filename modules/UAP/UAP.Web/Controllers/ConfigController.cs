@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OpenModular.DDD.Core.Application.Dto;
@@ -13,11 +11,6 @@ namespace OpenModular.Module.UAP.Web.Controllers;
 [Tags("配置管理")]
 public class ConfigController : ModuleController
 {
-
-    public ConfigController(IMapper objectMapper, IMediator mediator) : base(objectMapper, mediator)
-    {
-    }
-
     /// <summary>
     /// 分页查询
     /// </summary>

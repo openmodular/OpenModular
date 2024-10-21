@@ -19,14 +19,15 @@ namespace OpenModular.Module.Web;
 [Authorize(Policy = OpenModularAuthorizationRequirement.Name)]
 public abstract class ControllerAbstract : ControllerBase
 {
-    protected readonly IMapper ObjectMapper;
-    protected readonly IMediator Mediator;
+    /// <summary>
+    /// AutoMapper IMapper服务
+    /// </summary>
+    public IMapper ObjectMapper => GlobalServiceProvider.GetRequiredService<IMapper>();
 
-    protected ControllerAbstract(IMapper objectMapper, IMediator mediator)
-    {
-        ObjectMapper = objectMapper;
-        Mediator = mediator;
-    }
+    /// <summary>
+    /// MediatoR服务
+    /// </summary>
+    public IMediator Mediator => GlobalServiceProvider.GetRequiredService<IMediator>();
 
     /// <summary>
     /// 当前租户标识

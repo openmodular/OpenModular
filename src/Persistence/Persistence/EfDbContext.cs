@@ -42,14 +42,14 @@ public abstract class EfDbContext<TDbContext> : DbContext where TDbContext : DbC
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
+
         var assembly = GetType().Assembly;
-        
+
         modelBuilder.ApplyConfigurationsFromAssembly(assembly);
 
-        //添加软删除过滤器
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {
+            //添加软删除过滤器
             if (typeof(ISoftDelete).IsAssignableFrom(entityType.ClrType))
             {
                 var parameter = Expression.Parameter(entityType.ClrType, "e");
