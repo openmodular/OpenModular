@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using OpenModular.Authentication.Abstractions;
+using OpenModular.Common.Utils.Extensions;
 using OpenModular.Common.Utils.Helpers;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 using OpenModular.Module.UAP.Core.Domain.Authentications;
@@ -40,6 +41,6 @@ public class AuthenticationRecordConfiguration : IEntityTypeConfiguration<Authen
 
         builder.Property(x => x.AccountId)
             .ValueGeneratedNever()
-            .HasConversion(v => v != null ? v.Value : Guid.Empty, v => v == Guid.Empty ? null : new AccountId(v));
+            .HasConversion(v => v != null ? v.Value : Guid.Empty, v => v.IsEmpty() ? null : new AccountId(v));
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using OpenModular.Common.Utils.Extensions;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 using OpenModular.Module.UAP.Core.Domain.Accounts;
 
@@ -34,10 +35,10 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
 
         builder.Property(x => x.TenantId).ValueGeneratedNever().HasConversion(
             v => v != null ? v.Value : Guid.Empty,
-            v => v == Guid.Empty ? null : new TenantId(v));
+            v => v.IsEmpty() ? null : new TenantId(v));
 
         builder.Property(x => x.DeletedBy).ValueGeneratedNever().HasConversion(
             v => v != null ? v.Value : Guid.Empty,
-            v => v == Guid.Empty ? null : new AccountId(v));
+            v => v.IsEmpty() ? null : new AccountId(v));
     }
 }
