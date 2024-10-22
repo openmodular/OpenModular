@@ -50,7 +50,7 @@ public static class QueryableExtensions
     /// <returns>过滤后的查询对象</returns>
     public static IQueryable<T> WhereNotNull<T>(this IQueryable<T> query, string? condition, Expression<Func<T, bool>> predicate)
     {
-        if (condition!.IsNullOrWhiteSpace())
+        if (condition!.IsNull())
             return query;
 
         return query.Where(predicate);
@@ -67,7 +67,7 @@ public static class QueryableExtensions
     /// <returns>过滤后的查询对象</returns>
     public static IQueryable<T> WhereNotNull<T>(this IQueryable<T> query, string? condition, Expression<Func<T, bool>> ifPredicate, Expression<Func<T, bool>> elsePredicate)
     {
-        if (condition!.IsNullOrWhiteSpace())
+        if (condition!.IsNull())
         {
             return query.Where(elsePredicate);
         }

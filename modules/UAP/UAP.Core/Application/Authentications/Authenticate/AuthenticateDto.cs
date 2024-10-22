@@ -1,9 +1,10 @@
 ﻿using OpenModular.Authentication.Abstractions;
+using OpenModular.DDD.Core.Application.Dto;
 using OpenModular.Module.UAP.Core.Application.Accounts.Get;
 
 namespace OpenModular.Module.UAP.Core.Application.Authentications.Authenticate;
 
-public class AuthenticateDto
+public class AuthenticateDto : DtoBase
 {
     /// <summary>
     /// 认证模式

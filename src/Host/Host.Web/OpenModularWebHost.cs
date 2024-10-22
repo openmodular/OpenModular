@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using OpenModular.Cache.Core;
 using OpenModular.Common.Utils;
 using OpenModular.Host.Abstractions;
@@ -222,7 +221,7 @@ public class OpenModularWebHost : IOpenModularHost
             .AddJsonFile("appsettings.json", false);
 
         var environmentVariable = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-        if (environmentVariable!.IsNotNullOrWhiteSpace())
+        if (environmentVariable!.NotNull())
         {
             configBuilder.AddJsonFile($"appsettings.{environmentVariable}.json", false);
         }
@@ -230,7 +229,7 @@ public class OpenModularWebHost : IOpenModularHost
         var config = configBuilder.Build();
         config.GetSection(WebHostOptions.Position).Bind(_hostOptions);
 
-        if (_hostOptions.Urls.IsNullOrWhiteSpace())
+        if (_hostOptions.Urls.IsNull())
             _hostOptions.Urls = "http://*:6220";
 
         config.GetSection(OpenApiOptions.Position).Bind(_openApiOptions);

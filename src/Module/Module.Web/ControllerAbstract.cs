@@ -38,7 +38,7 @@ public abstract class ControllerAbstract : ControllerBase
         {
             var tenantId = User.FindFirst(ClaimTypes.TENANT_ID);
 
-            if (tenantId != null && tenantId.Value.IsNotNullOrWhiteSpace())
+            if (tenantId != null && tenantId.Value.NotNull())
             {
                 return new TenantId(tenantId.Value);
             }
@@ -56,7 +56,7 @@ public abstract class ControllerAbstract : ControllerBase
         {
             var accountId = User.FindFirst(ClaimTypes.ACCOUNT_ID);
 
-            if (accountId != null && accountId.Value.IsNotNullOrWhiteSpace())
+            if (accountId != null && accountId.Value.NotNull())
             {
                 return new AccountId(accountId.Value);
             }
@@ -89,7 +89,7 @@ public abstract class ControllerAbstract : ControllerBase
         {
             var ty = User.FindFirst(ClaimTypes.LOGIN_TIME);
 
-            if (ty != null && ty.Value.IsNotNullOrWhiteSpace())
+            if (ty != null && ty.Value.NotNull())
             {
                 return ty.Value.ToLong();
             }

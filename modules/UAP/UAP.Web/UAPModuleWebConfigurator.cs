@@ -2,6 +2,4 @@
 
 namespace OpenModular.Module.UAP.Web;
 
-public class UAPModuleWebConfigurator : ModuleWebConfiguratorAbstract
-{
-}
+public class UAPModuleWebConfigurator : ModuleWebConfiguratorAbstract;

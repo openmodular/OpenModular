@@ -22,7 +22,7 @@ public class CacheOptions
     /// <summary>
     /// Redis配置
     /// </summary>
-    public RedisOptions Redis { get; set; }
+    public RedisOptions? Redis { get; set; }
 }
 
 /// <summary>
@@ -48,10 +48,10 @@ public class RedisOptions
     /// <summary>
     /// 连接字符串
     /// </summary>
-    public string ConnectionString { get; set; }
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// 实例名称
     /// </summary>
-    public string InstanceName { get; set; }
+    public string? InstanceName { get; set; }
 }

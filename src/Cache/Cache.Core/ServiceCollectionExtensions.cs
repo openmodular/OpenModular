@@ -48,10 +48,10 @@ public static class ServiceCollectionExtensions
 
             if (options.Mode == CacheMode.Redis)
             {
-                if (options.Redis == null || options.Redis.ConnectionString.IsNullOrWhiteSpace())
+                if (options.Redis == null || options.Redis.ConnectionString.IsNull())
                     throw new ArgumentNullException(nameof(options.Redis));
 
-                if (options.Redis.InstanceName.IsNullOrWhiteSpace())
+                if (options.Redis.InstanceName.IsNull())
                     options.Redis.InstanceName = OpenModularConstants.Name;
 
                 builder.WithDistributedCache(new RedisCache(new RedisCacheOptions

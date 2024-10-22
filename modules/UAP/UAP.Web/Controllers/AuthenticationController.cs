@@ -84,7 +84,6 @@ public class AuthenticationController : ModuleController
         {
             new(Authentication.Abstractions.ClaimTypes.TENANT_ID, tenantId != null ? tenantId.Value.ToString() : ""),
             new(Authentication.Abstractions.ClaimTypes.ACCOUNT_ID, user.Id.ToString()),
-            new(Authentication.Abstractions.ClaimTypes.ACCOUNT_NAME, user.Username),
             new(Authentication.Abstractions.ClaimTypes.LOGIN_TIME, loginTime.ToString())
         };
 

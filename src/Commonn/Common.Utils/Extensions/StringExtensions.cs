@@ -13,9 +13,9 @@ public static class StringExtensions
     /// </summary>
     /// <param name="s">输入字符串</param>
     /// <returns></returns>
-    public static byte ToByte(this string s)
+    public static byte ToByte(this string? s)
     {
-        if (s.IsNullOrWhiteSpace())
+        if (s.IsNull())
             return 0;
 
         byte.TryParse(s, out byte result);
@@ -27,9 +27,9 @@ public static class StringExtensions
     /// </summary>
     /// <param name="s"></param>
     /// <returns></returns>
-    public static char ToChar(this string s)
+    public static char ToChar(this string? s)
     {
-        if (s.IsNullOrWhiteSpace())
+        if (s.IsNull())
             return default;
 
         char.TryParse(s, out char result);
@@ -41,9 +41,9 @@ public static class StringExtensions
     /// </summary>
     /// <param name="s"></param>
     /// <returns></returns>
-    public static short ToShort(this string s)
+    public static short ToShort(this string? s)
     {
-        if (s.IsNullOrWhiteSpace())
+        if (s.IsNull())
             return 0;
 
         short.TryParse(s, out short result);
@@ -55,7 +55,7 @@ public static class StringExtensions
     /// </summary>
     /// <param name="s"></param>
     /// <returns></returns>
-    public static bool IsNullOrWhiteSpace(this string s)
+    public static bool IsNull(this string? s)
     {
         return string.IsNullOrWhiteSpace(s);
     }
@@ -65,7 +65,7 @@ public static class StringExtensions
     /// </summary>
     /// <param name="s"></param>
     /// <returns></returns>
-    public static bool IsNotNullOrWhiteSpace(this string s)
+    public static bool NotNull(this string? s)
     {
         return !string.IsNullOrWhiteSpace(s);
     }
@@ -76,8 +76,11 @@ public static class StringExtensions
     /// <param name="s"></param>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static bool EqualsIgnoreCase(this string s, string value)
+    public static bool EqualsIgnoreCase(this string? s, string? value)
     {
+        if (s.IsNull() || value.IsNull())
+            return s == value;
+
         return s.Equals(value, StringComparison.OrdinalIgnoreCase);
     }
 
@@ -87,8 +90,11 @@ public static class StringExtensions
     /// <param name="s"></param>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static bool EndsWithIgnoreCase(this string s, string value)
+    public static bool EndsWithIgnoreCase(this string? s, string? value)
     {
+        if (s.IsNull() || value.IsNull())
+            return false;
+
         return s.EndsWith(value, StringComparison.OrdinalIgnoreCase);
     }
 
@@ -98,8 +104,11 @@ public static class StringExtensions
     /// <param name="s"></param>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static bool StartsWithIgnoreCase(this string s, string value)
+    public static bool StartsWithIgnoreCase(this string? s, string? value)
     {
+        if (s.IsNull() || value.IsNull())
+            return false;
+
         return s.StartsWith(value, StringComparison.OrdinalIgnoreCase);
     }
 
@@ -108,8 +117,11 @@ public static class StringExtensions
     /// </summary>
     /// <param name="s"></param>
     /// <returns></returns>
-    public static string FirstCharToLower(this string s)
+    public static string? FirstCharToLower(this string? s)
     {
+        if (s.IsNull())
+            return null;
+
         string str = s.First().ToString().ToLower() + s.Substring(1);
         return str;
     }
@@ -119,8 +131,11 @@ public static class StringExtensions
     /// </summary>
     /// <param name="s"></param>
     /// <returns></returns>
-    public static string FirstCharToUpper(this string s)
+    public static string? FirstCharToUpper(this string? s)
     {
+        if (s.IsNull())
+            return null;
+
         string str = s.First().ToString().ToUpper() + s.Substring(1);
         return str;
     }
@@ -130,7 +145,7 @@ public static class StringExtensions
     /// </summary>
     /// <param name="s"></param>
     /// <returns></returns>
-    public static string ToBase64(this string s)
+    public static string? ToBase64(this string? s)
     {
         return s.ToBase64(Encoding.UTF8);
     }
@@ -141,8 +156,11 @@ public static class StringExtensions
     /// <param name="s"></param>
     /// <param name="encoding">编码</param>
     /// <returns></returns>
-    public static string ToBase64(this string s, Encoding encoding)
+    public static string? ToBase64(this string? s, Encoding encoding)
     {
+        if (s.IsNull())
+            return null;
+
         var bytes = encoding.GetBytes(s);
         return bytes.ToBase64();
     }
@@ -152,8 +170,11 @@ public static class StringExtensions
     /// </summary>
     /// <param name="bytes"></param>
     /// <returns></returns>
-    public static string ToBase64(this byte[] bytes)
+    public static string? ToBase64(this byte[]? bytes)
     {
+        if (bytes == null)
+            return null;
+
         return Convert.ToBase64String(bytes);
     }
 
@@ -162,8 +183,11 @@ public static class StringExtensions
     /// </summary>
     /// <param name="s"></param>
     /// <returns></returns>
-    public static string FromBase64(this string s)
+    public static string FromBase64(this string? s)
     {
+        if (s == null)
+            return null;
+
         byte[] data = Convert.FromBase64String(s);
         return Encoding.UTF8.GetString(data);
     }

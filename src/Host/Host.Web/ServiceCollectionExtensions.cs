@@ -75,7 +75,7 @@ internal static class ServiceCollectionExtensions
             var langOptions = services.BuildServiceProvider().GetRequiredService<IOptions<LangOptions>>().Value;
 
             var supportedCultures = langOptions.Supported.IsNullOrEmpty() ? ["zh-CN", "en-US"] : langOptions.Supported;
-            var defaultCulture = langOptions.DefaultLang.IsNullOrWhiteSpace() ? supportedCultures[0] : langOptions.DefaultLang;
+            var defaultCulture = langOptions.DefaultLang.IsNull() ? supportedCultures[0] : langOptions.DefaultLang;
 
             options.SetDefaultCulture(defaultCulture)
                 .AddSupportedCultures(supportedCultures);

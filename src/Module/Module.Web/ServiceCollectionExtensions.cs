@@ -20,6 +20,9 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IModuleWebCollection>(new ModuleWebCollection());
 
         services.TryAddTransient<ITenantResolver, TenantResolver>();
+
+        services.AddHttpContextAccessor();
+
         services.TryAddSingleton<ICurrentAccount, CurrentAccount>();
 
         return services;
