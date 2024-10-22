@@ -126,7 +126,7 @@ public abstract class DataSeedingDefinitionAbstract : IDataSeedingDefinition
         var objType = obj.GetType();
         foreach (var property in objType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
         {
-            var key = parentKey.IsNullOrWhiteSpace() ? property.Name : $"{parentKey}:{property.Name}";
+            var key = parentKey.IsNull() ? property.Name : $"{parentKey}:{property.Name}";
             var value = property.GetValue(obj);
 
             if (value != null)
