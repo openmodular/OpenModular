@@ -34,7 +34,7 @@ internal class DataSeedingDefinition_20240619 : UAPDataSeedingDefinition
 
     private void CreateCreator()
     {
-        var user = Account.Create(CreatorId, AccountType.Normal, "openmodular", "service@openmodular.io", "15155555555", AccountStatus.Enabled, CreatorId);
+        var user = Account.Create(CreatorId, "openmodular", "service@openmodular.io", "15155555555", AccountStatus.Enabled, CreatorId);
 
         var passwordHasher = new PasswordHasher();
 

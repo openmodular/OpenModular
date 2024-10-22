@@ -1,6 +1,5 @@
 ﻿using OpenModular.DDD.Core.Application.Command;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
-using OpenModular.Module.UAP.Core.Domain.Accounts;
 
 namespace OpenModular.Module.UAP.Core.Application.Accounts.Create;
 
@@ -9,11 +8,6 @@ namespace OpenModular.Module.UAP.Core.Application.Accounts.Create;
 /// </summary>
 public class AccountCreateCommand : Command<AccountId>
 {
-    /// <summary>
-    /// 账户类型
-    /// </summary>
-    public AccountType Type { get; set; }
-
     /// <summary>
     /// 用户名
     /// </summary>

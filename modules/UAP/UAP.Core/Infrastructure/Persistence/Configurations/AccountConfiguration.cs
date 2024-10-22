@@ -12,10 +12,6 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
     {
         builder.ToTable($"{UAPConstants.ModuleCode}_{nameof(Account)}");
 
-        builder.Property(x => x.Type).HasMaxLength(50).ValueGeneratedNever().HasConversion(
-            v => v.Name,
-            v => AccountType.GetOrCreate(v));
-
         builder.Property(x => x.UserName).IsRequired().HasMaxLength(100);
         builder.Property(x => x.NormalizedUserName).IsRequired().HasMaxLength(100);
         builder.Property(x => x.PasswordHash).IsRequired().HasMaxLength(100);

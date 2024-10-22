@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 using OpenModular.Module.UAP.Core.Application.Accounts.Create;
 using OpenModular.Module.UAP.Core.Application.Accounts.Get;
-using OpenModular.Module.UAP.Core.Domain.Accounts;
 using OpenModular.Module.UAP.Web.Models.Accounts;
 using OpenModular.Module.Web;
 
@@ -22,7 +21,6 @@ public class AccountController : ModuleController
     public async Task<APIResponse<AccountId>> Create(AccountCreateRequest request)
     {
         var command = Request2Command<AccountCreateCommand, AccountId>(request);
-        command.Type = AccountType.Normal;
 
         var accountId = await Mediator.Send(command);
 

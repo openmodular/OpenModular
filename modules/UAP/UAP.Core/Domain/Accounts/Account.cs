@@ -16,11 +16,6 @@ public class Account : AggregateRoot<AccountId>, ITenant, ISoftDelete
     public TenantId? TenantId { get; set; }
 
     /// <summary>
-    /// 账户类型
-    /// </summary>
-    public AccountType Type { get; set; }
-
-    /// <summary>
     /// 用户名
     /// </summary>
     public string UserName { get; private set; }
@@ -80,10 +75,9 @@ public class Account : AggregateRoot<AccountId>, ITenant, ISoftDelete
         //for ef
     }
 
-    private Account(AccountId accountId, AccountType accountType, string userName, string? email, string? phone, AccountStatus status, AccountId createdBy) : base(accountId)
+    private Account(AccountId accountId, string userName, string? email, string? phone, AccountStatus status, AccountId createdBy) : base(accountId)
     {
         Check.NotNull(userName, nameof(userName));
-        Check.NotNull(accountType, nameof(accountType));
 
         CheckRule(new AccountEmailFormatNotValidRule(email));
         CheckRule(new AccountPhoneFormatNotValidRule(phone));
@@ -104,15 +98,14 @@ public class Account : AggregateRoot<AccountId>, ITenant, ISoftDelete
     /// 创建用户
     /// </summary>
     /// <param name="accountId"></param>
-    /// <param name="accountType"></param>
     /// <param name="username"></param>
     /// <param name="email"></param>
     /// <param name="phone"></param>
     /// <param name="status"></param>
     /// <param name="createdBy"></param>
     /// <returns></returns>
-    public static Account Create(AccountId accountId, AccountType accountType, string username, string? email, string? phone, AccountStatus status, AccountId createdBy)
+    public static Account Create(AccountId accountId, string username, string? email, string? phone, AccountStatus status, AccountId createdBy)
     {
-        return new Account(accountId, accountType, username, email, phone, status, createdBy);
+        return new Account(accountId, username, email, phone, status, createdBy);
     }
 }

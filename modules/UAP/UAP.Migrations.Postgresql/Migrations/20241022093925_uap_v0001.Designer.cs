@@ -12,7 +12,7 @@ using OpenModular.Module.UAP.Core.Infrastructure.Persistence;
 namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
 {
     [DbContext(typeof(UAPDbContext))]
-    [Migration("20241021160906_uap_v0001")]
+    [Migration("20241022093925_uap_v0001")]
     partial class uap_v0001
     {
         /// <inheritdoc />
@@ -73,11 +73,6 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
 
                     b.Property<Guid?>("TenantId")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
