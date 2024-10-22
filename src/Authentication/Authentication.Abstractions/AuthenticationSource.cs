@@ -55,6 +55,11 @@ public sealed class AuthenticationSource
     public static AuthenticationSource ActiveDirectory = GetOrCreate("ActiveDirectory");
 
     /// <summary>
+    /// 微信
+    /// </summary>
+    public static AuthenticationSource WeChat = GetOrCreate("WeChat");
+
+    /// <summary>
     /// 企业微信
     /// </summary>
     public static AuthenticationSource WeCom = GetOrCreate("WeCom");

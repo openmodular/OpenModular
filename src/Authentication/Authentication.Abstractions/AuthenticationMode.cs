@@ -20,5 +20,9 @@ public enum AuthenticationMode
     /// <summary>
     /// 应用内免登录
     /// </summary>
-    InApp
+    InApp,
+    /// <summary>
+    /// 小程序登录
+    /// </summary>
+    MiniApp
 }
