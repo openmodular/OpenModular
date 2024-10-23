@@ -8,13 +8,8 @@ namespace OpenModular.Module.UAP.Core.Domain.Accounts;
 /// <summary>
 /// 账户
 /// </summary>
-public class Account : AggregateRoot<AccountId>, ITenant, ISoftDelete
+public class Account : AggregateRoot<AccountId>
 {
-    /// <summary>
-    /// 租户标识
-    /// </summary>
-    public TenantId? TenantId { get; set; }
-
     /// <summary>
     /// 用户名
     /// </summary>
@@ -50,32 +45,12 @@ public class Account : AggregateRoot<AccountId>, ITenant, ISoftDelete
     /// </summary>
     public AccountStatus Status { get; private set; }
 
-    /// <summary>
-    /// 创建人标识
-    /// </summary>
-    public AccountId CreatedBy { get; }
-
-    /// <summary>
-    /// 创建时间
-    /// </summary>
-    public DateTimeOffset CreatedAt { get; private set; }
-
-    /// <summary>
-    /// 更新时间
-    /// </summary>
-    public DateTimeOffset? UpdatedAt { get; set; }
-
-    public bool IsDeleted { get; set; }
-
-    public DateTimeOffset? DeletedAt { get; set; }
-    public AccountId? DeletedBy { get; set; }
-
     public Account()
     {
         //for ef
     }
 
-    private Account(AccountId accountId, string userName, string? email, string? phone, AccountStatus status, AccountId createdBy) : base(accountId)
+    private Account(AccountId accountId, string userName, string? email, string? phone, AccountStatus status) : base(accountId)
     {
         Check.NotNull(userName, nameof(userName));
 
@@ -88,24 +63,21 @@ public class Account : AggregateRoot<AccountId>, ITenant, ISoftDelete
         NormalizedEmail = email.ToUpper();
         Phone = phone;
         Status = status;
-        CreatedBy = createdBy;
-        CreatedAt = DateTimeOffset.UtcNow;
 
         AddDomainEvent(new AccountCreatedDomainEvent(this));
     }
 
     /// <summary>
-    /// 创建用户
+    /// 创建账户
     /// </summary>
     /// <param name="accountId"></param>
     /// <param name="username"></param>
     /// <param name="email"></param>
     /// <param name="phone"></param>
     /// <param name="status"></param>
-    /// <param name="createdBy"></param>
     /// <returns></returns>
-    public static Account Create(AccountId accountId, string username, string? email, string? phone, AccountStatus status, AccountId createdBy)
+    public static Account Create(AccountId accountId, string username, string? email, string? phone, AccountStatus status)
     {
-        return new Account(accountId, username, email, phone, status, createdBy);
+        return new Account(accountId, username, email, phone, status);
     }
 }

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +37,7 @@ public abstract class ControllerAbstract : ControllerBase
     {
         get
         {
-            var tenantId = User.FindFirst(ClaimTypes.TENANT_ID);
+            var tenantId = User.FindFirst(CustomClaimTypes.TENANT_ID);
 
             if (tenantId != null && tenantId.Value.NotNull())
             {
@@ -54,7 +55,7 @@ public abstract class ControllerAbstract : ControllerBase
     {
         get
         {
-            var accountId = User.FindFirst(ClaimTypes.ACCOUNT_ID);
+            var accountId = User.FindFirst(CustomClaimTypes.ACCOUNT_ID);
 
             if (accountId != null && accountId.Value.NotNull())
             {
@@ -62,6 +63,20 @@ public abstract class ControllerAbstract : ControllerBase
             }
 
             return null;
+        }
+    }
+
+    /// <summary>
+    /// 当前用户角色列表
+    /// </summary>
+    public List<string> CurrentRoles
+    {
+        get
+        {
+            return User.Claims
+                .Where(c => c.Type == ClaimTypes.Role)
+                .Select(c => c.Value)
+                .ToList();
         }
     }
 
@@ -87,7 +102,7 @@ public abstract class ControllerAbstract : ControllerBase
     {
         get
         {
-            var ty = User.FindFirst(ClaimTypes.LOGIN_TIME);
+            var ty = User.FindFirst(CustomClaimTypes.LOGIN_TIME);
 
             if (ty != null && ty.Value.NotNull())
             {

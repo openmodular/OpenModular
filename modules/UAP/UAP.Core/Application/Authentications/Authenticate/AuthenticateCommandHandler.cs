@@ -15,24 +15,20 @@ internal class AuthenticateCommandHandler : CommandHandler<AuthenticateCommand, 
     private readonly IMapper _mapper;
     private readonly IAuthenticationRecordRepository _recordRepository;
     private readonly ILogger<AuthenticateCommandHandler> _logger;
+    private readonly UAPModuleLocalizer _localizer;
 
-    public AuthenticateCommandHandler(IEnumerable<IAuthenticationIdentityHandler<Account>> identityHandlers, IAuthenticationVerifyHandler<Account> verifyHandler, IMapper mapper, IAuthenticationRecordRepository recordRepository, ILogger<AuthenticateCommandHandler> logger)
+    public AuthenticateCommandHandler(IEnumerable<IAuthenticationIdentityHandler<Account>> identityHandlers, IAuthenticationVerifyHandler<Account> verifyHandler, IMapper mapper, IAuthenticationRecordRepository recordRepository, ILogger<AuthenticateCommandHandler> logger, UAPModuleLocalizer localizer)
     {
         _identityHandlers = identityHandlers;
         _verifyHandler = verifyHandler;
         _mapper = mapper;
         _recordRepository = recordRepository;
         _logger = logger;
+        _localizer = localizer;
     }
 
     public override async Task<AuthenticateDto> ExecuteAsync(AuthenticateCommand request, CancellationToken cancellationToken)
     {
-        var identityHandler = _identityHandlers.FirstOrDefault(x => x.Mode == request.Mode && x.Source == request.Source);
-        if (identityHandler == null)
-        {
-            throw new UAPBusinessException(UAPErrorCode.Auth_NotSupportMode);
-        }
-
         var context = new AuthenticationContext<Account>
         {
             Mode = request.Mode,
@@ -43,6 +39,14 @@ internal class AuthenticateCommandHandler : CommandHandler<AuthenticateCommand, 
             Client = request.Client
         };
 
+        var identityHandler = _identityHandlers.FirstOrDefault(x => x.Mode == request.Mode && x.Source == request.Source);
+        if (identityHandler == null)
+        {
+            context.Status = AuthenticationStatus.InvalidMode;
+            context.Message = _localizer["Authentication failed, invalid authentication mode"];
+            return _mapper.Map<AuthenticateDto>(context);
+        }
+
         await identityHandler.HandleAsync(request.Payload, context, cancellationToken);
 
         if (context.Success)
@@ -50,8 +54,20 @@ internal class AuthenticateCommandHandler : CommandHandler<AuthenticateCommand, 
             await _verifyHandler.HandleAsync(context, cancellationToken);
         }
 
-        #region ==添加认证记录==
+        await AddAuthenticationRecordAsync(context, cancellationToken);
 
+        context.Claims.Add(new(CustomClaimTypes.TENANT_ID, request.TenantId != null ? request.TenantId.Value.ToString() : ""));
+        context.Claims.Add(new(CustomClaimTypes.ACCOUNT_ID, context.Account!.Id.ToString()));
+        context.Claims.Add(new(CustomClaimTypes.LOGIN_TIME, context.AuthenticateTime.ToString()));
+
+        return _mapper.Map<AuthenticateDto>(context);
+    }
+
+    /// <summary>
+    /// 添加认证记录
+    /// </summary>
+    private async Task AddAuthenticationRecordAsync(AuthenticationContext<Account> context, CancellationToken cancellationToken)
+    {
         try
         {
             var record = AuthenticationRecord.Create(context.Mode, context.Source, context.Client, context.AuthenticateTime);
@@ -67,15 +83,11 @@ internal class AuthenticateCommandHandler : CommandHandler<AuthenticateCommand, 
                 record.AccountId = context.Account.Id;
             }
 
-            await _recordRepository.InsertAsync(record, cancellationToken: cancellationToken);
+            await _recordRepository.InsertAsync(record, true, cancellationToken: cancellationToken);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Insert authentication record failed.");
         }
-
-        #endregion
-
-        return _mapper.Map<AuthenticateDto>(context);
     }
 }

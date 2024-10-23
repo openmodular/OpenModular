@@ -8,8 +8,19 @@ public static class EnumerableExtensions
     /// <typeparam name="T"></typeparam>
     /// <param name="source"></param>
     /// <returns></returns>
-    public static bool IsNullOrEmpty<T>(this IEnumerable<T> source)
+    public static bool IsNullOrEmpty<T>(this IEnumerable<T>? source)
     {
         return source == null || !source.Any();
+    }
+
+    /// <summary>
+    /// 判断集合不为null或者空集合
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    public static bool NotNullOrEmpty<T>(this IEnumerable<T>? source)
+    {
+        return source != null && source.Any();
     }
 }

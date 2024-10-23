@@ -1,4 +1,5 @@
-﻿using OpenModular.Authentication.Abstractions;
+﻿using System.Security.Claims;
+using OpenModular.Authentication.Abstractions;
 using OpenModular.DDD.Core.Application.Dto;
 using OpenModular.Module.UAP.Core.Application.Accounts.Get;
 
@@ -14,7 +15,7 @@ public class AuthenticateDto : DtoBase
     /// <summary>
     /// 认证源
     /// </summary>
-    public required AuthenticationSource Source { get; set; }
+    public AuthenticationSource Source { get; set; }
 
     /// <summary>
     /// 认证成功
@@ -22,14 +23,19 @@ public class AuthenticateDto : DtoBase
     public bool Success => Status == AuthenticationStatus.Success;
 
     /// <summary>
-    /// 用户信息
+    /// 账户信息
     /// </summary>
-    public required AccountDto Account { get; set; }
+    public AccountDto Account { get; set; }
+
+    /// <summary>
+    /// 账户凭证
+    /// </summary>
+    public List<Claim> Claims { get; set; }
 
     /// <summary>
     /// 客户端
     /// </summary>
-    public required AuthenticationClient Client { get; set; }
+    public AuthenticationClient Client { get; set; }
 
     /// <summary>
     /// 认证时间

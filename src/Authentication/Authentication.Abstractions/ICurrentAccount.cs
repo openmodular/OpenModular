@@ -16,4 +16,9 @@ public interface ICurrentAccount
     /// 账户标识
     /// </summary>
     AccountId? AccountId { get; }
+
+    /// <summary>
+    /// 角色列表
+    /// </summary>
+    List<string> Roles { get; }
 }

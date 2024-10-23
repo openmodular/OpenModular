@@ -23,5 +23,10 @@ public enum AccountStatus
     /// <summary>
     /// 已禁用
     /// </summary>
-    Disabled
+    Disabled,
+
+    /// <summary>
+    /// 已删除
+    /// </summary>
+    Deleted
 }

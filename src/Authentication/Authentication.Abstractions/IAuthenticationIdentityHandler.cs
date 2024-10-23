@@ -3,7 +3,7 @@
 /// <summary>
 /// 认证身份处理器
 /// </summary>
-public interface IAuthenticationIdentityHandler<TUser> where TUser : class
+public interface IAuthenticationIdentityHandler<TAccount> where TAccount : class
 {
     /// <summary>
     /// 认证模式
@@ -22,5 +22,5 @@ public interface IAuthenticationIdentityHandler<TUser> where TUser : class
     /// <param name="context"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task HandleAsync(string payload, AuthenticationContext<TUser> context, CancellationToken cancellationToken);
+    Task HandleAsync(string payload, AuthenticationContext<TAccount> context, CancellationToken cancellationToken);
 }

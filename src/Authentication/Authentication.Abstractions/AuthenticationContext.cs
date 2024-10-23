@@ -1,4 +1,6 @@
-﻿namespace OpenModular.Authentication.Abstractions;
+﻿using System.Security.Claims;
+
+namespace OpenModular.Authentication.Abstractions;
 
 /// <summary>
 /// 认证上下文
@@ -49,6 +51,11 @@ public class AuthenticationContext<TAccount> where TAccount : class
     /// 账户信息
     /// </summary>
     public TAccount? Account { get; set; }
+
+    /// <summary>
+    /// 身份信息
+    /// </summary>
+    public List<Claim> Claims { get; set; } = new();
 
     /// <summary>
     /// 认证状态

@@ -1,6 +1,6 @@
 ﻿namespace OpenModular.Authentication.Abstractions;
 
-public class ClaimTypes
+public class CustomClaimTypes
 {
     /// <summary>
     /// 租户编号
@@ -26,9 +26,4 @@ public class ClaimTypes
     /// 登录IP
     /// </summary>
     public const string LOGIN_IP = "ip";
-
-    /// <summary>
-    /// 角色
-    /// </summary>
-    public const string ROLES = "ro";
 }

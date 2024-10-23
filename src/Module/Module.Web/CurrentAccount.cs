@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using OpenModular.Authentication.Abstractions;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 
@@ -17,7 +18,7 @@ internal class CurrentAccount : ICurrentAccount
     {
         get
         {
-            var tenantId = _accessor.HttpContext?.User.FindFirst(ClaimTypes.TENANT_ID);
+            var tenantId = _accessor.HttpContext?.User.FindFirst(CustomClaimTypes.TENANT_ID);
 
             if (tenantId != null && tenantId.Value.NotNull())
             {
@@ -32,7 +33,7 @@ internal class CurrentAccount : ICurrentAccount
     {
         get
         {
-            var accountId = _accessor.HttpContext?.User.FindFirst(ClaimTypes.ACCOUNT_ID);
+            var accountId = _accessor.HttpContext?.User.FindFirst(CustomClaimTypes.ACCOUNT_ID);
 
             if (accountId != null && accountId.Value.NotNull())
             {
@@ -40,6 +41,15 @@ internal class CurrentAccount : ICurrentAccount
             }
 
             return null;
+        }
+    }
+
+    public List<string> Roles
+    {
+        get
+        {
+            return _accessor.HttpContext?.User.Claims.Where(m => m.Type == ClaimTypes.Role).Select(m => m.Value)
+                .ToList();
         }
     }
 }

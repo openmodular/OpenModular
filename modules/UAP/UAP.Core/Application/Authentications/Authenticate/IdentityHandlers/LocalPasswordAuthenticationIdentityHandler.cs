@@ -20,13 +20,15 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
     private readonly IPasswordHasher _passwordHasher;
     private readonly IImageCaptchaService _imageCaptchaService;
     private readonly UAPConfig _config;
+    private readonly UAPModuleLocalizer _localizer;
 
-    public LocalPasswordAuthenticationIdentityHandler(IAccountRepository accountRepository, IPasswordHasher passwordHasher, IImageCaptchaService imageCaptchaService, UAPConfig config)
+    public LocalPasswordAuthenticationIdentityHandler(IAccountRepository accountRepository, IPasswordHasher passwordHasher, IImageCaptchaService imageCaptchaService, UAPConfig config, UAPModuleLocalizer localizer)
     {
         _accountRepository = accountRepository;
         _passwordHasher = passwordHasher;
         _imageCaptchaService = imageCaptchaService;
         _config = config;
+        _localizer = localizer;
     }
 
     public async Task HandleAsync(string? payload, AuthenticationContext<Account> context, CancellationToken cancellationToken)
@@ -34,7 +36,7 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
         if (payload!.IsNull())
         {
             context.Status = AuthenticationStatus.InvalidIdentity;
-            context.Message = "Authentication failed, invalid authentication identity";
+            context.Message = _localizer["Authentication failed, invalid authentication identity"];
 
             return;
         }
@@ -43,7 +45,7 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
         if (identity == null || identity.UserName!.IsNull() || identity.Password!.IsNull())
         {
             context.Status = AuthenticationStatus.InvalidIdentity;
-            context.Message = "Authentication failed, invalid authentication identity";
+            context.Message = _localizer["Authentication failed, invalid authentication identity"];
             return;
         }
 
@@ -52,23 +54,23 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
             if (identity.CaptchaId!.IsNull() || identity.Captcha!.IsNull() || !await _imageCaptchaService.VerifyAsync(identity.CaptchaId!, identity.Captcha!))
             {
                 context.Status = AuthenticationStatus.InvalidImageCaptcha;
-                context.Message = "Authentication failed, invalid image captcha";
+                context.Message = _localizer["Authentication failed, invalid image captcha"];
                 return;
             }
         }
 
-        var account = await _accountRepository.FindAsync(m => m.UserName == identity.UserName, cancellationToken);
+        var account = await _accountRepository.FindAsync(m => m.Status != AccountStatus.Deleted && m.UserName == identity.UserName, cancellationToken);
         if (account == null)
         {
             context.Status = AuthenticationStatus.AccountNotFound;
-            context.Message = "Authentication failed, user not found";
+            context.Message = _localizer["Authentication failed, user not found"];
             return;
         }
 
         if (!_passwordHasher.VerifyHashedPassword(account, account.PasswordHash!, identity.Password!))
         {
             context.Status = AuthenticationStatus.IncorrectPassword;
-            context.Message = "Authentication failed, invalid password";
+            context.Message = _localizer["Authentication failed, invalid password"];
             return;
         }
 

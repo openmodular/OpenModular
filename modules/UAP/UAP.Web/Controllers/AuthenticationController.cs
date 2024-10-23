@@ -1,11 +1,8 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OpenModular.Authentication.Abstractions;
 using OpenModular.Authentication.JwtBearer;
-using OpenModular.DDD.Core.Domain.Entities.TypeIds;
-using OpenModular.Module.UAP.Core.Application.Accounts.Get;
 using OpenModular.Module.UAP.Core.Application.Authentications.Authenticate;
 using OpenModular.Module.UAP.Core.Application.Authentications.RefreshToken;
 using OpenModular.Module.UAP.Web.Models.Authentications;
@@ -52,7 +49,7 @@ public class AuthenticationController : ModuleController
 
         if (dto.Success)
         {
-            response.Jwt = await BuildJwtCredentialAsync(dto.Account, command.TenantId, dto.AuthenticateTime);
+            response.Jwt = await _builder.BuildAsync(dto.Claims);
 
             await _tokenStorage.SaveAsync(dto.Account.Id, dto.Client, response.Jwt);
         }
@@ -71,22 +68,10 @@ public class AuthenticationController : ModuleController
     {
         var command = new RefreshTokenCommand { RefreshToken = request.RefreshToken, Client = AuthenticationClient.Find(request.Client) };
         var user = await Mediator.Send(command);
-        var credential = await BuildJwtCredentialAsync(user, null, DateTimeOffset.UtcNow);
+        var credential = await _builder.BuildAsync(User.Claims.ToList());
 
         await _tokenStorage.SaveAsync(user.Id, command.Client, credential);
 
         return APIResponse.Success(credential);
-    }
-
-    private ValueTask<JwtSecurityToken> BuildJwtCredentialAsync(AccountDto user, TenantId? tenantId, DateTimeOffset loginTime)
-    {
-        var claims = new List<Claim>
-        {
-            new(Authentication.Abstractions.ClaimTypes.TENANT_ID, tenantId != null ? tenantId.Value.ToString() : ""),
-            new(Authentication.Abstractions.ClaimTypes.ACCOUNT_ID, user.Id.ToString()),
-            new(Authentication.Abstractions.ClaimTypes.LOGIN_TIME, loginTime.ToString())
-        };
-
-        return _builder.BuildAsync(claims);
     }
 }

@@ -3,7 +3,7 @@ using OpenModular.Module.UAP.Core.Domain.Accounts;
 
 namespace OpenModular.Module.UAP.Core.Application.Accounts.Get;
 
-internal class AccountGetQueryHandler : QueryHandler<AccountGetQuery, AccountDto>
+internal class AccountGetQueryHandler : QueryHandler<AccountGetQuery, AccountDto?>
 {
     private readonly IAccountRepository _repository;
 
@@ -12,9 +12,17 @@ internal class AccountGetQueryHandler : QueryHandler<AccountGetQuery, AccountDto
         _repository = repository;
     }
 
-    public override async Task<AccountDto> ExecuteAsync(AccountGetQuery request, CancellationToken cancellationToken)
+    public override async Task<AccountDto?> ExecuteAsync(AccountGetQuery request, CancellationToken cancellationToken)
     {
-        var account = await _repository.GetAsync(request.Id, cancellationToken);
+        var account = await _repository.FindAsync(m => (request.Id != null && m.Id == request.Id)
+                                    || (request.UserName.NotNull() && m.NormalizedUserName == request.UserName.ToUpper())
+                                    || (request.Email.NotNull() && m.NormalizedEmail == request.Email.ToUpper())
+                                        || (request.Phone.NotNull() && m.Phone == request.Phone.ToUpper()), cancellationToken);
+
+        if (account == null || account.Status == AccountStatus.Deleted)
+        {
+            return null;
+        }
 
         return ObjectMapper.Map<AccountDto>(account);
     }

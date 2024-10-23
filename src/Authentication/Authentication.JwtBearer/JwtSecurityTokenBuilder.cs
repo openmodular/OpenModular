@@ -35,7 +35,7 @@ public class JwtSecurityTokenBuilder
 
         var jwtCredential = new JwtSecurityToken
         {
-            LoginTime = claims.First(m => m.Type == Abstractions.ClaimTypes.LOGIN_TIME).Value.ToLong(),
+            LoginTime = claims.First(m => m.Type == Abstractions.CustomClaimTypes.LOGIN_TIME).Value.ToLong(),
             AccessToken = token,
             ExpiresIn = (options.Expires < 0 ? 120 : options.Expires) * 60,
         };

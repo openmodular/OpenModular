@@ -11,6 +11,11 @@ public enum AuthenticationStatus
     Success,
 
     /// <summary>
+    /// 系统错误
+    /// </summary>
+    SystemError,
+
+    /// <summary>
     /// 无效的认证身份
     /// </summary>
     InvalidIdentity,
