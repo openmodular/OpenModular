@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection.Extensions;
 using OpenModular.Authentication.Abstractions;
+using OpenModular.Module.Abstractions;
 using OpenModular.Module.Core;
 using OpenModular.Module.Web;
 using OpenModular.Module.Web.Conventions;
@@ -36,6 +37,18 @@ public static class ServiceCollectionExtensions
     public static IModuleWebCollection GetModuleWebCollection(this IServiceCollection services)
     {
         return (IModuleWebCollection)services.First(m => m.ServiceType == typeof(IModuleWebCollection)).ImplementationInstance!;
+    }
+
+    /// <summary>
+    /// 注册模块
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="module"></param>
+    /// <returns></returns>
+    public static IServiceCollection RegisterModule(this IServiceCollection services, IModule module)
+    {
+        services.RegisterModuleCore(module);
+        return services;
     }
 
     /// <summary>

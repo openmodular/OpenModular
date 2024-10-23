@@ -9,6 +9,7 @@ using OpenModular.Host.Abstractions;
 using OpenModular.Host.Web.Middlewares;
 using OpenModular.Host.Web.OpenApi;
 using OpenModular.Host.Web.Options;
+using OpenModular.Module.Abstractions;
 using OpenModular.Module.Core;
 using OpenModular.Module.Web;
 using Serilog;
@@ -41,7 +42,18 @@ public class OpenModularWebHost : IOpenModularHost
     }
 
     /// <summary>
-    /// 注册模块API
+    /// 注册模块
+    /// </summary>
+    /// <typeparam name="TModule"></typeparam>
+    public void RegisterModule<TModule>() where TModule : IModule, new()
+    {
+        var module = new TModule();
+
+        _services.RegisterModule(module);
+    }
+
+    /// <summary>
+    /// 使用模块的Web端注册模块
     /// </summary>
     /// <typeparam name="TModuleWeb"></typeparam>
     public void RegisterModuleWeb<TModuleWeb>() where TModuleWeb : IModuleWeb, new()
@@ -134,10 +146,12 @@ public class OpenModularWebHost : IOpenModularHost
         var app = _builder.Build();
 
         //执行数据库迁移
-        app.ExecuteDbMigration();
+        if (!_hostOptions.DisableDbMigration)
+            app.ExecuteDbMigration();
 
         //执行数据种子
-        app.ExecuteDataSeeding();
+        if (!_hostOptions.DisableDataSeeding)
+            app.ExecuteDataSeeding();
 
         //异常处理
         app.UseMiddleware<ExceptionHandleMiddleware>();

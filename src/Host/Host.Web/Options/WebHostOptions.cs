@@ -38,4 +38,14 @@ public class WebHostOptions
     /// 默认页面
     /// </summary>
     public string DefaultPage { get; set; } = "index.html";
+
+    /// <summary>
+    /// 禁用数据库迁移
+    /// </summary>
+    public bool DisableDbMigration { get; set; }
+
+    /// <summary>
+    /// 禁用数据种子
+    /// </summary>
+    public bool DisableDataSeeding { get; set; }
 }
