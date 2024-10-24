@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection.Extensions;
 using OpenModular.Authentication.Abstractions;
+using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 using OpenModular.Module.Abstractions;
 using OpenModular.Module.Core;
 using OpenModular.Module.Web;
@@ -80,6 +81,12 @@ public static class ServiceCollectionExtensions
         {
             //API分组约定
             c.Conventions.Add(new ApiExplorerGroupConvention());
+        });
+
+        builder.AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.Converters.Add(new AccountIdJsonConverter());
+            options.JsonSerializerOptions.Converters.Add(new TenantIdJsonConverter());
         });
 
         var descriptors = services.GetModuleWebCollection();

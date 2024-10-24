@@ -1,5 +1,6 @@
 ﻿using OpenModular.DDD.Core.Application.Command;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
+using OpenModular.Module.UAP.Core.Domain.Accounts;
 
 namespace OpenModular.Module.UAP.Core.Application.Accounts.Create;
 
@@ -32,4 +33,9 @@ public class AccountCreateCommand : Command<AccountId>
     /// 确认密码
     /// </summary>
     public string? ConfirmPassword { get; set; }
+
+    /// <summary>
+    /// 用户状态
+    /// </summary>
+    public AccountStatus Status { get; set; }
 }

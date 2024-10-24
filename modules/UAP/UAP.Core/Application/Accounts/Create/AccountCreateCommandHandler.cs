@@ -36,7 +36,7 @@ internal class AccountCreateCommandHandler(IAccountRepository repository, IPassw
             }
         }
 
-        var user = Account.Create(new AccountId(), command.Username, command.Email, command.Phone, AccountStatus.Inactive);
+        var user = Account.Create(new AccountId(), command.Username, command.Email, command.Phone, command.Status);
 
         if (command.Password.NotNull())
             user.PasswordHash = passwordHasher.HashPassword(user, command.Password);

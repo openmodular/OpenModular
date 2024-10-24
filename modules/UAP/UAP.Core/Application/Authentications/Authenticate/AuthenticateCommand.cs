@@ -27,7 +27,7 @@ public class AuthenticateCommand : Command<AuthenticateDto>
     /// <summary>
     /// 身份载体
     /// </summary>
-    public string Payload { get; set; }
+    public string? Payload { get; set; }
 
     /// <summary>
     /// 认证客户端

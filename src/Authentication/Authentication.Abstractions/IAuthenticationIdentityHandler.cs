@@ -22,5 +22,5 @@ public interface IAuthenticationIdentityHandler<TAccount> where TAccount : class
     /// <param name="context"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task HandleAsync(string payload, AuthenticationContext<TAccount> context, CancellationToken cancellationToken);
+    Task HandleAsync(string? payload, AuthenticationContext<TAccount> context, CancellationToken cancellationToken);
 }
