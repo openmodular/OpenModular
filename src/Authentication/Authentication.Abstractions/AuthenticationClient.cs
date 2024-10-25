@@ -39,7 +39,7 @@ public class AuthenticationClient
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
-    public static AuthenticationClient Find(string name)
+    public static AuthenticationClient? Find(string name)
     {
         return _clients.FirstOrDefault(s => s.Name == name);
     }
@@ -50,7 +50,7 @@ public class AuthenticationClient
     public static AuthenticationClient Web = GetOrCreate(nameof(Web));
 
     // 重载 == 运算符
-    public static bool operator ==(AuthenticationClient left, AuthenticationClient right)
+    public static bool operator ==(AuthenticationClient? left, AuthenticationClient? right)
     {
         if (ReferenceEquals(left, right))
         {
@@ -66,13 +66,13 @@ public class AuthenticationClient
     }
 
     // 重载 != 运算符
-    public static bool operator !=(AuthenticationClient left, AuthenticationClient right)
+    public static bool operator !=(AuthenticationClient? left, AuthenticationClient? right)
     {
         return !(left == right);
     }
 
     // 重写 Equals 方法
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is AuthenticationClient other)
         {

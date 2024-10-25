@@ -12,17 +12,17 @@ public class AuthenticationRecord : AggregateRoot<int>
     /// <summary>
     /// 认证模式
     /// </summary>
-    public AuthenticationMode Mode { get; }
+    public AuthenticationMode Mode { get; set; }
 
     /// <summary>
     /// 认证源
     /// </summary>
-    public AuthenticationSource Source { get; }
+    public AuthenticationSource? Source { get; set; }
 
     /// <summary>
     /// 认证客户端
     /// </summary>
-    public AuthenticationClient Client { get; set; }
+    public AuthenticationClient? Client { get; set; }
 
     /// <summary>
     /// IPv4地址
@@ -64,7 +64,7 @@ public class AuthenticationRecord : AggregateRoot<int>
         //for ef
     }
 
-    private AuthenticationRecord(AuthenticationMode mode, AuthenticationSource source, AuthenticationClient client, DateTimeOffset authenticateTime)
+    private AuthenticationRecord(AuthenticationMode mode, AuthenticationSource? source, AuthenticationClient? client, DateTimeOffset authenticateTime)
     {
         Mode = mode;
         Source = source;
@@ -77,9 +77,10 @@ public class AuthenticationRecord : AggregateRoot<int>
     /// </summary>
     /// <param name="mode"></param>
     /// <param name="source"></param>
+    /// <param name="client"></param>
     /// <param name="authenticateTime"></param>
     /// <returns></returns>
-    public static AuthenticationRecord Create(AuthenticationMode mode, AuthenticationSource source, AuthenticationClient client, DateTimeOffset authenticateTime)
+    public static AuthenticationRecord Create(AuthenticationMode mode, AuthenticationSource? source, AuthenticationClient? client, DateTimeOffset authenticateTime)
     {
         return new AuthenticationRecord(mode, source, client, authenticateTime);
     }

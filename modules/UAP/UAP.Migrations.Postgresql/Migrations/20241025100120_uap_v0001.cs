@@ -36,6 +36,7 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Mode = table.Column<int>(type: "integer", nullable: false),
                     Source = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Client = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     IPv4 = table.Column<long>(type: "bigint", nullable: true),
@@ -57,8 +58,8 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Client = table.Column<string>(type: "text", nullable: false),
-                    AccessToken = table.Column<string>(type: "text", nullable: false),
-                    RefreshToken = table.Column<string>(type: "text", nullable: false),
+                    AccessToken = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    RefreshToken = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Expires = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -72,7 +73,7 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ModuleCode = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Key = table.Column<string>(type: "text", nullable: false),
+                    Key = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
                     Value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>

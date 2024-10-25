@@ -12,7 +12,7 @@ using OpenModular.Module.UAP.Core.Infrastructure.Persistence;
 namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
 {
     [DbContext(typeof(UAPDbContext))]
-    [Migration("20241023074507_uap_v0001")]
+    [Migration("20241025100120_uap_v0001")]
     partial class uap_v0001
     {
         /// <inheritdoc />
@@ -99,6 +99,9 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                     b.Property<string>("Message")
                         .HasColumnType("text");
 
+                    b.Property<int>("Mode")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Source")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -119,7 +122,8 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
 
                     b.Property<string>("AccessToken")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Client")
                         .IsRequired()
@@ -130,7 +134,8 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
 
                     b.Property<string>("RefreshToken")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
@@ -144,7 +149,8 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
 
                     b.Property<string>("Key")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
 
                     b.Property<string>("ModuleCode")
                         .IsRequired()

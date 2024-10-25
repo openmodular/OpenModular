@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using OpenModular.Authentication.Abstractions;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 using OpenModular.Module.Abstractions;
 using OpenModular.Module.Core;
 using OpenModular.Module.Web;
 using OpenModular.Module.Web.Conventions;
+using OpenModular.Module.Web.ModelBinderProviders;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;
@@ -81,6 +83,9 @@ public static class ServiceCollectionExtensions
         {
             //API分组约定
             c.Conventions.Add(new ApiExplorerGroupConvention());
+
+            //TypeId绑定
+            c.ModelBinderProviders.Insert(0, new TypeIdBinderProvider());
         });
 
         builder.AddJsonOptions(options =>

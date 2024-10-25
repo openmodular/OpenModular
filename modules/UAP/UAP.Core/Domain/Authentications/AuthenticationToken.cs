@@ -12,17 +12,17 @@ public class AuthenticationToken : AggregateRoot<AccountId>
     /// <summary>
     /// 认证客户端
     /// </summary>
-    public AuthenticationClient Client { get; }
+    public AuthenticationClient? Client { get; set; }
 
     /// <summary>
     /// 访问令牌
     /// </summary>
-    public string AccessToken { get; set; }
+    public string? AccessToken { get; set; }
 
     /// <summary>
     /// 刷新令牌
     /// </summary>
-    public string RefreshToken { get; set; }
+    public string? RefreshToken { get; set; }
 
     /// <summary>
     /// 访问令牌有效期
@@ -34,7 +34,7 @@ public class AuthenticationToken : AggregateRoot<AccountId>
         //for ef
     }
 
-    private AuthenticationToken(AccountId accountId, AuthenticationClient client) : base(accountId)
+    private AuthenticationToken(AccountId accountId, AuthenticationClient? client) : base(accountId)
     {
         Client = client;
     }
@@ -45,7 +45,7 @@ public class AuthenticationToken : AggregateRoot<AccountId>
     /// <param name="accountId"></param>
     /// <param name="client"></param>
     /// <returns></returns>
-    public static AuthenticationToken Create(AccountId accountId, AuthenticationClient client)
+    public static AuthenticationToken Create(AccountId accountId, AuthenticationClient? client)
     {
         return new AuthenticationToken(accountId, client);
     }

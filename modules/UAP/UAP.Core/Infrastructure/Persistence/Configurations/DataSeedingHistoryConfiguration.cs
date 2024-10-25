@@ -11,7 +11,6 @@ public class DataSeedingHistoryConfiguration : IEntityTypeConfiguration<DataSeed
         builder.ToTable($"{UAPConstants.ModuleCode}_{nameof(DataSeedingHistory)}");
 
         builder.HasKey(x => x.Id);
-
         builder.Property(x => x.Id).ValueGeneratedNever().HasConversion(
             v => v.Value,
             v => new DataSeedingHistoryId(v));

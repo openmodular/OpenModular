@@ -22,13 +22,13 @@ public class AuthenticationRecordConfiguration : IEntityTypeConfiguration<Authen
             .IsRequired()
             .HasMaxLength(50)
             .ValueGeneratedNever()
-            .HasConversion(v => v.Schema, v => AuthenticationSource.GetOrCreate(v));
+            .HasConversion(v => v != null ? v.Schema : string.Empty, v => AuthenticationSource.Find(v));
 
         builder.Property(x => x.Client)
             .IsRequired()
             .HasMaxLength(50)
             .ValueGeneratedNever()
-            .HasConversion(v => v.Name, v => AuthenticationClient.GetOrCreate(v));
+            .HasConversion(v => v != null ? v.Name : string.Empty, v => AuthenticationClient.Find(v));
 
         builder.Property(x => x.IPv4)
             .HasConversion(v => new IpHelper().Ipv4ToInt(v), v => new IpHelper().IntToIpv4(v));

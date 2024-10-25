@@ -5,6 +5,18 @@ namespace OpenModular;
 public static class Check
 {
     /// <summary>
+    /// 字符串不为 null, 空或者空白(等同于string.IsNullOrWhiteSpace)
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="parameterName"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    public static string NotNull(string? value, string parameterName)
+    {
+        return NotNull(value, parameterName, Int32.MaxValue, 0);
+    }
+
+    /// <summary>
     /// 字符串不为 null, 空或者空白(等同于string.IsNullOrWhiteSpace)，或者指定长度范围
     /// </summary>
     /// <param name="value"></param>
@@ -13,7 +25,7 @@ public static class Check
     /// <param name="minLength"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static string NotNullOrWhiteSpace(string value, string parameterName, int maxLength = int.MaxValue, int minLength = 0)
+    public static string NotNull(string? value, string parameterName, int maxLength, int minLength)
     {
         if (value.IsNull())
         {

@@ -10,6 +10,5 @@ internal class UAPModuleConfigurator : ModuleConfiguratorAbstract
     {
         context.Services.AddOpenModularDbContext<UAPDbContext>();
         context.Services.AddDataSeeding<UAPDbContext>();
-        context.Services.AddTypedIdJsonConverters();
     }
 }

@@ -77,6 +77,10 @@ public static class OpenApiExtensions
             //隐藏属性
             c.SchemaFilter<SwaggerIgnoreSchemaFilter>();
             c.OperationFilter<SwaggerIgnoreOperationFilter>();
+
+            //转换TypeId
+            c.SchemaFilter<TypeIdSchemaFilter>();
+            c.OperationFilter<TypeIdOperationFilter>();
         });
 
         return services;

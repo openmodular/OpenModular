@@ -4,9 +4,19 @@ namespace OpenModular.Module.UAP.Core.Domain.DataSeedingHistories;
 
 public class DataSeedingHistory : AggregateRoot<DataSeedingHistoryId>
 {
-    public string ModuleCode { get; }
+    private string _moduleCode;
 
-    public int Version { get; }
+    public string ModuleCode
+    {
+        get => _moduleCode;
+        set
+        {
+            Check.NotNull(value, nameof(ModuleCode));
+            _moduleCode = value;
+        }
+    }
+
+    public int Version { get; set; }
 
     public DataSeedingHistory()
     {
@@ -15,8 +25,6 @@ public class DataSeedingHistory : AggregateRoot<DataSeedingHistoryId>
 
     private DataSeedingHistory(string moduleCode, int version) : base(new DataSeedingHistoryId())
     {
-        Check.NotNullOrWhiteSpace(moduleCode, nameof(moduleCode));
-
         ModuleCode = moduleCode;
         Version = version;
     }

@@ -10,15 +10,27 @@ namespace OpenModular.Module.UAP.Core.Domain.Accounts;
 /// </summary>
 public class Account : AggregateRoot<AccountId>
 {
+    private string? _userName;
+    private string? _email;
+    private string? _phone;
+
     /// <summary>
     /// 用户名
     /// </summary>
-    public string UserName { get; private set; }
+    public string? UserName
+    {
+        get => _userName;
+        set
+        {
+            Check.NotNull(value, nameof(UserName));
+            _userName = value;
+        }
+    }
 
     /// <summary>
     /// 标准化用户名
     /// </summary>
-    public string NormalizedUserName { get; }
+    public string NormalizedUserName { get; set; }
 
     /// <summary>
     /// 密码哈希值
@@ -28,7 +40,15 @@ public class Account : AggregateRoot<AccountId>
     /// <summary>
     /// 邮箱
     /// </summary>
-    public string? Email { get; set; }
+    public string? Email
+    {
+        get => _email;
+        set
+        {
+            CheckRule(new AccountEmailFormatNotValidRule(value));
+            _email = value;
+        }
+    }
 
     /// <summary>
     /// 标准化邮箱
@@ -38,12 +58,20 @@ public class Account : AggregateRoot<AccountId>
     /// <summary>
     /// 手机号
     /// </summary>
-    public string? Phone { get; set; }
+    public string? Phone
+    {
+        get => _phone;
+        set
+        {
+            CheckRule(new AccountPhoneFormatNotValidRule(value));
+            _phone = value;
+        }
+    }
 
     /// <summary>
     /// 账户状态
     /// </summary>
-    public AccountStatus Status { get; private set; }
+    public AccountStatus Status { get; set; }
 
     public Account()
     {
@@ -52,15 +80,10 @@ public class Account : AggregateRoot<AccountId>
 
     private Account(AccountId accountId, string userName, string? email, string? phone, AccountStatus status) : base(accountId)
     {
-        Check.NotNull(userName, nameof(userName));
-
-        CheckRule(new AccountEmailFormatNotValidRule(email));
-        CheckRule(new AccountPhoneFormatNotValidRule(phone));
-
         UserName = userName;
         NormalizedUserName = userName.ToUpper();
         Email = email;
-        NormalizedEmail = email.ToUpper();
+        NormalizedEmail = email ?? email.ToUpper();
         Phone = phone;
         Status = status;
 

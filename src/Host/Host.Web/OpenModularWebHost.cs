@@ -19,9 +19,10 @@ namespace OpenModular.Host.Web;
 public class OpenModularWebHost : IOpenModularHost
 {
     private readonly WebApplicationBuilder _builder;
-    private readonly IServiceCollection _services;
     private readonly WebHostOptions _hostOptions;
     private readonly OpenApiOptions _openApiOptions;
+
+    public IServiceCollection Services { get; }
 
     public OpenModularWebHost(string[] args)
     {
@@ -36,9 +37,9 @@ public class OpenModularWebHost : IOpenModularHost
 
         _builder.WebHost.UseUrls(_hostOptions.Urls);
 
-        _services = _builder.Services;
+        Services = _builder.Services;
 
-        _services.AddModuleWebService();
+        Services.AddModuleWebService();
     }
 
     /// <summary>
@@ -49,7 +50,7 @@ public class OpenModularWebHost : IOpenModularHost
     {
         var module = new TModule();
 
-        _services.RegisterModule(module);
+        Services.RegisterModule(module);
     }
 
     /// <summary>
@@ -60,7 +61,7 @@ public class OpenModularWebHost : IOpenModularHost
     {
         var moduleApi = new TModuleWeb();
 
-        _services.RegisterModuleWeb(moduleApi);
+        Services.RegisterModuleWeb(moduleApi);
     }
 
     /// <summary>
@@ -75,70 +76,70 @@ public class OpenModularWebHost : IOpenModularHost
 
     private void ConfigureService()
     {
-        var moduleConfigureContext = new ModuleConfigureContext(_services, _builder.Environment, _builder.Configuration);
+        var moduleConfigureContext = new ModuleConfigureContext(Services, _builder.Environment, _builder.Configuration);
 
         //添加多语言支持
-        _services.AddOpenModularLocalization(_builder.Configuration);
+        Services.AddOpenModularLocalization(_builder.Configuration);
 
         //添加公共服务
-        _services.AddCommonUtils();
+        Services.AddCommonUtils();
 
         //添加领域驱动服务
-        _services.AddDDD();
+        Services.AddDDD();
 
         //添加输出缓存服务
-        _services.AddOutputCache();
+        Services.AddOutputCache();
 
         //添加模块前置服务
-        _services.AddModuleWebPreConfigureService(moduleConfigureContext);
+        Services.AddModuleWebPreConfigureService(moduleConfigureContext);
 
         //添加MVC服务
-        _services.AddOpenModularMvc();
+        Services.AddOpenModularMvc();
 
         //添加OpenAPI服务
-        _services.AddOpenModularOpenApi(_openApiOptions);
+        Services.AddOpenModularOpenApi(_openApiOptions);
 
         //添加MediatR服务
-        _services.AddOpenModularMediatR();
+        Services.AddOpenModularMediatR();
 
         //添加CORS服务
-        _services.AddOpenModularCors(_hostOptions);
+        Services.AddOpenModularCors(_hostOptions);
 
         //解决Multipart body length limit 134217728 exceeded
-        _services.Configure<FormOptions>(x =>
+        Services.Configure<FormOptions>(x =>
         {
             x.ValueLengthLimit = int.MaxValue;
             x.MultipartBodyLengthLimit = int.MaxValue;
         });
 
         //添加HttpClient相关
-        _services.AddHttpClient();
+        Services.AddHttpClient();
 
         //添加JWT认证
-        _services.AddJwtBearer();
+        Services.AddJwtBearer();
 
         //添加授权服务
-        _services.AddOpenModularAuthorization();
+        Services.AddOpenModularAuthorization();
 
         //添加数据持久化服务
-        _services.AddPersistence(_builder.Configuration);
+        Services.AddPersistence(_builder.Configuration);
 
         //添加缓存服务
-        _services.AddOpenModularCache(_builder.Configuration);
+        Services.AddOpenModularCache(_builder.Configuration);
 
         //添加配置服务
-        _services.AddOpenModularConfig();
+        Services.AddOpenModularConfig();
 
-        _services.AddDatabaseDeveloperPageExceptionFilter();
+        Services.AddDatabaseDeveloperPageExceptionFilter();
 
         //添加模块服务
-        _services.AddModuleWebConfigureService(moduleConfigureContext);
+        Services.AddModuleWebConfigureService(moduleConfigureContext);
 
         //添加模块后置服务
-        _services.AddModuleWebPostConfigureService(moduleConfigureContext);
+        Services.AddModuleWebPostConfigureService(moduleConfigureContext);
 
         //添加中间件服务
-        _services.AddOpenModularMiddlewares();
+        Services.AddOpenModularMiddlewares();
     }
 
     private async Task ConfigureAsync()
