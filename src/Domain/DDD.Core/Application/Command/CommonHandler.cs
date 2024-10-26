@@ -2,6 +2,7 @@
 using MediatR;
 using OpenModular.Common.Utils;
 using OpenModular.DDD.Core.Domain;
+using OpenModular.DDD.Core.Domain.Events;
 using OpenModular.Module.Abstractions.Exceptions;
 
 namespace OpenModular.DDD.Core.Application.Command;
@@ -29,6 +30,15 @@ public abstract class HandlerBase
         {
             throw new ModuleBusinessException(rule.ModuleCode, rule.ErrorCode);
         }
+    }
+
+    /// <summary>
+    /// 发布领域事件
+    /// </summary>
+    /// <param name="domainEvent"></param>
+    public void PublishDomainEvent(IDomainEvent domainEvent)
+    {
+        DomainEventManager.Instance.Add(domainEvent);
     }
 }
 

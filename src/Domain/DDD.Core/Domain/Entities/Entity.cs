@@ -6,28 +6,13 @@ namespace OpenModular.DDD.Core.Domain.Entities;
 /// <inheritdoc/>
 public abstract class Entity : IEntity
 {
-    private readonly List<IDomainEvent> _domainEvents = new();
-
     /// <summary>
-    /// 已发布的领域事件集合
-    /// </summary>
-    public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
-
-    /// <summary>
-    /// 清除领域事件
-    /// </summary>
-    public void ClearDomainEvents()
-    {
-        _domainEvents.Clear();
-    }
-
-    /// <summary>
-    /// 添加领域事件
+    /// 发布领域事件
     /// </summary>
     /// <param name="domainEvent"></param>
-    public void AddDomainEvent(IDomainEvent domainEvent)
+    public void PublishDomainEvent(IDomainEvent domainEvent)
     {
-        _domainEvents.Add(domainEvent);
+        DomainEventManager.Instance.Add(domainEvent);
     }
 
     /// <summary>

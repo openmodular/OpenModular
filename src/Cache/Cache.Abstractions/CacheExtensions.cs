@@ -134,13 +134,24 @@ namespace OpenModular.Cache.Abstractions
             return FusionCache.TryGet<TValue>(key, setupAction, token);
         }
 
+
         #endregion
 
         #region Set overloads
 
+        public ValueTask SetAsync<TValue>(string key, TValue value, CancellationToken token = default)
+        {
+            return FusionCache.SetAsync(key, value, default, token);
+        }
+
         public ValueTask SetAsync<TValue>(string key, TValue value, TimeSpan duration, CancellationToken token = default)
         {
             return FusionCache.SetAsync(key, value, duration, token);
+        }
+
+        public void Set<TValue>(string key, TValue value, CancellationToken token = default)
+        {
+            FusionCache.Set(key, value, default, token);
         }
 
         public void Set<TValue>(string key, TValue value, TimeSpan duration, CancellationToken token = default)

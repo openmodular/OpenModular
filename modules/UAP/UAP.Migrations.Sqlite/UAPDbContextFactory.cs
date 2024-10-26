@@ -12,7 +12,7 @@ public class UAPDbContextFactory : IDesignTimeDbContextFactory<UAPDbContext>
 
         var builder = new DbContextOptionsBuilder<UAPDbContext>()
             .UseSqlite("data source=./Data/Database/OpenModular.sdb", o => o.MigrationsAssembly(typeof(UAPDbContextFactory).Assembly.FullName));
-   
+
         return new UAPDbContext(builder.Options);
     }
 }

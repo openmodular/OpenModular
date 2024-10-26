@@ -7,7 +7,7 @@ using OpenModular.Persistence;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure.Persistence;
 
-public class UAPDbContext(DbContextOptions<UAPDbContext> dbContextOptions) : EfDbContext<UAPDbContext>(dbContextOptions, UAPConstants.ModuleCode)
+public class UAPDbContext(DbContextOptions<UAPDbContext> dbContextOptions) : EfDbContext<UAPDbContext>(UAPConstants.ModuleCode, dbContextOptions)
 {
     public DbSet<Config> Configs { get; set; }
 

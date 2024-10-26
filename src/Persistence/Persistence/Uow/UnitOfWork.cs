@@ -1,12 +1,15 @@
 ﻿using System.Data.Common;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
+using OpenModular.Common.Utils.Extensions;
+using OpenModular.DDD.Core.Domain.Events;
 using OpenModular.DDD.Core.Uow;
 
 namespace OpenModular.Persistence.Uow;
 
-public class UnitOfWork(IDbContextBuilder dbContextBuilder, IServiceProvider serviceProvider) : IUnitOfWork
+public class UnitOfWork(IDbContextBuilder dbContextBuilder, IMediator mediator, IServiceProvider serviceProvider) : IUnitOfWork
 {
     private readonly List<DbContext> _dbContexts = new();
     private IDbContextTransaction? _transaction;
@@ -28,6 +31,15 @@ public class UnitOfWork(IDbContextBuilder dbContextBuilder, IServiceProvider ser
         if (_transaction != null)
         {
             await _transaction.CommitAsync(cancellationToken);
+        }
+
+        var events = DomainEventManager.Instance.GetAllEvents();
+        if (events.NotNullOrEmpty())
+        {
+            foreach (var domainEvent in events!)
+            {
+                await mediator.Publish(domainEvent, cancellationToken);
+            }
         }
     }
 

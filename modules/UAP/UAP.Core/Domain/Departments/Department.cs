@@ -70,7 +70,7 @@ public class Department : AggregateRoot<DepartmentId>
         CreatedBy = createdBy;
         CreatedAt = DateTime.UtcNow;
 
-        AddDomainEvent(new DepartmentCreatedDomainEvent(this));
+        PublishDomainEvent(new DepartmentCreatedDomainEvent(this));
     }
 
     /// <summary>

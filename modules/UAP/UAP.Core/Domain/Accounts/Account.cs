@@ -87,7 +87,7 @@ public class Account : AggregateRoot<AccountId>
         Phone = phone;
         Status = status;
 
-        AddDomainEvent(new AccountCreatedDomainEvent(this));
+        PublishDomainEvent(new AccountCreatedDomainEvent(this));
     }
 
     /// <summary>

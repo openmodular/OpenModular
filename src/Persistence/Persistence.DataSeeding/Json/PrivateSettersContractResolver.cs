@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using OpenModular.DDD.Core.Domain.Entities;
 
 namespace OpenModular.Persistence.DataSeeding.Json;
 
@@ -42,7 +41,7 @@ public class PrivateSettersContractResolver : JsonConverterFactory
             foreach (var property in jsonDocument.RootElement.EnumerateObject())
             {
                 var propertyInfo = typeToConvert.GetProperty(property.Name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                if (propertyInfo == null || propertyInfo.Name.Equals(nameof(Entity.DomainEvents)))
+                if (propertyInfo == null)
                     continue;
 
                 var value = JsonSerializer.Deserialize(property.Value.GetRawText(), propertyInfo.PropertyType, options);
