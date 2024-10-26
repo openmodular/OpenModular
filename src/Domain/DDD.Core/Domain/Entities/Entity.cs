@@ -25,7 +25,7 @@ public abstract class Entity : IEntity
     /// 添加领域事件
     /// </summary>
     /// <param name="domainEvent"></param>
-    protected void AddDomainEvent(IDomainEvent domainEvent)
+    public void AddDomainEvent(IDomainEvent domainEvent)
     {
         _domainEvents.Add(domainEvent);
     }
