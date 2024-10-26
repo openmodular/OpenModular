@@ -183,13 +183,24 @@ namespace OpenModular.Cache.Abstractions
             FusionCache.Remove(key, setupAction, token);
         }
 
+
         #endregion
 
         #region Expire overloads
 
+        public ValueTask ExpireAsync(string key, CancellationToken token = default)
+        {
+            return FusionCache.ExpireAsync(key, null, token);
+        }
+
         public ValueTask ExpireAsync(string key, Action<FusionCacheEntryOptions> setupAction, CancellationToken token = default)
         {
             return FusionCache.ExpireAsync(key, setupAction, token);
+        }
+
+        public void Expire(string key, CancellationToken token = default)
+        {
+            FusionCache.ExpireAsync(key, null, token);
         }
 
         public void Expire(string key, Action<FusionCacheEntryOptions> setupAction, CancellationToken token = default)

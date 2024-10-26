@@ -36,68 +36,57 @@ namespace OpenModular.Cache.Abstractions
             return FusionCache.CreateEntryOptions(setupAction, duration);
         }
 
-        public ValueTask<TValue> GetOrSetAsync<TValue>(string key, Func<FusionCacheFactoryExecutionContext<TValue>, CancellationToken, Task<TValue>> factory, MaybeValue<TValue> failSafeDefaultValue = new(),
-            FusionCacheEntryOptions? options = null, CancellationToken token = new())
+        public ValueTask<TValue> GetOrSetAsync<TValue>(string key, Func<FusionCacheFactoryExecutionContext<TValue>, CancellationToken, Task<TValue>> factory, MaybeValue<TValue> failSafeDefaultValue = new(), FusionCacheEntryOptions? options = null, CancellationToken token = new())
         {
             return FusionCache.GetOrSetAsync(key, factory, failSafeDefaultValue, options, token);
         }
 
-        public TValue GetOrSet<TValue>(string key, Func<FusionCacheFactoryExecutionContext<TValue>, CancellationToken, TValue> factory, MaybeValue<TValue> failSafeDefaultValue = new(),
-            FusionCacheEntryOptions? options = null, CancellationToken token = new())
+        public TValue GetOrSet<TValue>(string key, Func<FusionCacheFactoryExecutionContext<TValue>, CancellationToken, TValue> factory, MaybeValue<TValue> failSafeDefaultValue = new(), FusionCacheEntryOptions? options = null, CancellationToken token = new())
         {
             return FusionCache.GetOrSet(key, factory, failSafeDefaultValue, options, token);
         }
 
-        public ValueTask<TValue> GetOrSetAsync<TValue>(string key, TValue defaultValue, FusionCacheEntryOptions? options = null,
-            CancellationToken token = new())
+        public ValueTask<TValue> GetOrSetAsync<TValue>(string key, TValue defaultValue, FusionCacheEntryOptions? options = null, CancellationToken token = new())
         {
             return FusionCache.GetOrSetAsync(key, defaultValue, options, token);
         }
 
-        public TValue GetOrSet<TValue>(string key, TValue defaultValue, FusionCacheEntryOptions? options = null,
-            CancellationToken token = new())
+        public TValue GetOrSet<TValue>(string key, TValue defaultValue, FusionCacheEntryOptions? options = null, CancellationToken token = new())
         {
             return FusionCache.GetOrSet(key, defaultValue, options, token);
         }
 
-        public ValueTask<TValue?> GetOrDefaultAsync<TValue>(string key, TValue? defaultValue = default(TValue?),
-            FusionCacheEntryOptions? options = null, CancellationToken token = new())
+        public ValueTask<TValue?> GetOrDefaultAsync<TValue>(string key, TValue? defaultValue = default(TValue?), FusionCacheEntryOptions? options = null, CancellationToken token = new())
         {
             return FusionCache.GetOrDefaultAsync(key, defaultValue, options, token);
         }
 
-        public TValue? GetOrDefault<TValue>(string key, TValue? defaultValue = default(TValue?),
-            FusionCacheEntryOptions? options = null, CancellationToken token = new())
+        public TValue? GetOrDefault<TValue>(string key, TValue? defaultValue = default(TValue?), FusionCacheEntryOptions? options = null, CancellationToken token = new())
         {
             return FusionCache.GetOrDefault(key, defaultValue, options, token);
         }
 
-        public ValueTask<MaybeValue<TValue>> TryGetAsync<TValue>(string key, FusionCacheEntryOptions? options = null,
-            CancellationToken token = new())
+        public ValueTask<MaybeValue<TValue>> TryGetAsync<TValue>(string key, FusionCacheEntryOptions? options = null, CancellationToken token = new())
         {
             return FusionCache.TryGetAsync<TValue>(key, options, token);
         }
 
-        public MaybeValue<TValue> TryGet<TValue>(string key, FusionCacheEntryOptions? options = null,
-            CancellationToken token = new())
+        public MaybeValue<TValue> TryGet<TValue>(string key, FusionCacheEntryOptions? options = null, CancellationToken token = new())
         {
             return FusionCache.TryGet<TValue>(key, options, token);
         }
 
-        public ValueTask SetAsync<TValue>(string key, TValue value, FusionCacheEntryOptions? options = null,
-            CancellationToken token = new())
+        public ValueTask SetAsync<TValue>(string key, TValue value, FusionCacheEntryOptions? options = null, CancellationToken token = new())
         {
             return FusionCache.SetAsync(key, value, options, token);
         }
 
-        public void Set<TValue>(string key, TValue value, FusionCacheEntryOptions? options = null,
-            CancellationToken token = new())
+        public void Set<TValue>(string key, TValue value, FusionCacheEntryOptions? options = null, CancellationToken token = new())
         {
             FusionCache.Set(key, value, options, token);
         }
 
-        public ValueTask RemoveAsync(string key, FusionCacheEntryOptions? options = null,
-            CancellationToken token = new())
+        public ValueTask RemoveAsync(string key, FusionCacheEntryOptions? options = null, CancellationToken token = new())
         {
             return FusionCache.RemoveAsync(key, options, token);
         }
@@ -107,8 +96,7 @@ namespace OpenModular.Cache.Abstractions
             FusionCache.Remove(key, options, token);
         }
 
-        public ValueTask ExpireAsync(string key, FusionCacheEntryOptions? options = null,
-            CancellationToken token = new())
+        public ValueTask ExpireAsync(string key, FusionCacheEntryOptions? options = null, CancellationToken token = new())
         {
             return FusionCache.ExpireAsync(key, options, token);
         }

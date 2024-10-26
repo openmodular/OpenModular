@@ -4,7 +4,6 @@ using OpenModular.Module.Abstractions;
 using OpenModular.Module.UAP.Core.Conventions;
 using System.Reflection;
 using OpenModular.Configuration.Abstractions;
-using ZiggyCreatures.Caching.Fusion;
 
 namespace OpenModular.Module.UAP.Core.Domain.Configs;
 
