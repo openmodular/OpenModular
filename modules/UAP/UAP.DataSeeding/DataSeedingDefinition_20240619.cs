@@ -9,7 +9,7 @@ using OpenModular.Module.UAP.Core.Infrastructure;
 
 namespace OpenModular.Module.UAP.DataSeeding;
 
-internal class DataSeedingDefinition_20240619 : UAPDataSeedingDefinition
+public class DataSeedingDefinition_20240619 : UAPDataSeedingDefinition
 {
     /// <summary>
     /// 创世主

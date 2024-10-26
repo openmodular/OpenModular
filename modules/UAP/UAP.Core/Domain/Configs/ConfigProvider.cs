@@ -4,16 +4,17 @@ using OpenModular.Module.Abstractions;
 using OpenModular.Module.UAP.Core.Conventions;
 using System.Reflection;
 using OpenModular.Configuration.Abstractions;
+using ZiggyCreatures.Caching.Fusion;
 
 namespace OpenModular.Module.UAP.Core.Domain.Configs;
 
 internal class ConfigProvider : IConfigProvider, ITransientDependency
 {
-    private readonly UAPCacheProvider _cache;
+    private readonly UAPCache _cache;
     private readonly IConfigRepository _repository;
     private readonly IModuleCollection _modules;
 
-    public ConfigProvider(UAPCacheProvider cache, IConfigRepository repository, IModuleCollection modules)
+    public ConfigProvider(UAPCache cache, IConfigRepository repository, IModuleCollection modules)
     {
         _cache = cache;
         _repository = repository;
@@ -30,7 +31,7 @@ internal class ConfigProvider : IConfigProvider, ITransientDependency
 
         var cacheKey = UAPCacheKeys.Config(module.Module.Code);
 
-        return _cache.GetOrSetAsync(cacheKey, token => GetFromRepositoryAsync<TConfig>(module, token), TimeSpan.FromDays(7));
+        return _cache.GetOrSetAsync<TConfig>(cacheKey, token => GetFromRepositoryAsync<TConfig>(module, token));
     }
 
     public ValueTask<object?> GetAsync(Type configType)
@@ -43,7 +44,7 @@ internal class ConfigProvider : IConfigProvider, ITransientDependency
 
         var cacheKey = UAPCacheKeys.Config(module.Module.Code);
 
-        return _cache.GetOrSetAsync(cacheKey, token => GetFromRepositoryAsync(module, configType, token), TimeSpan.FromDays(7));
+        return _cache.GetOrSetAsync(cacheKey, token => GetFromRepositoryAsync(module, configType, token));
     }
 
     public async ValueTask SetAsync<TConfig>(TConfig config) where TConfig : IConfig, new()
@@ -75,7 +76,7 @@ internal class ConfigProvider : IConfigProvider, ITransientDependency
 
         var cacheKey = UAPCacheKeys.Config(module.Module.Code);
 
-        await _cache.SetAsync(cacheKey, config, TimeSpan.FromDays(7));
+        await _cache.SetAsync(cacheKey, config);
     }
 
     private async Task<TConfig> GetFromRepositoryAsync<TConfig>(IModuleDescriptor module, CancellationToken cancellationToken) where TConfig : IConfig, new()

@@ -15,9 +15,9 @@ internal class DefaultImageCaptchaService : IImageCaptchaService, ISingletonDepe
     private readonly Color[] _colors = new[] { Color.Black, Color.Red, Color.Blue, Color.Green, Color.Orange, Color.Brown, Color.Brown, Color.DarkBlue };
 
     private readonly StringHelper _stringHelper;
-    private readonly UAPCacheProvider _cache;
+    private readonly UAPCache _cache;
 
-    public DefaultImageCaptchaService(StringHelper stringHelper, UAPCacheProvider cache)
+    public DefaultImageCaptchaService(StringHelper stringHelper, UAPCache cache)
     {
         _stringHelper = stringHelper;
         _cache = cache;

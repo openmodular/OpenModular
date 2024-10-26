@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using OpenModular.Cache.Abstractions;
 using OpenModular.Common.Utils;
-using OpenModular.Module.Core;
 using ZiggyCreatures.Caching.Fusion;
 using ZiggyCreatures.Caching.Fusion.Serialization.SystemTextJson;
 
@@ -32,11 +31,11 @@ public static class ServiceCollectionExtensions
 
         foreach (var module in modules)
         {
-            // 查找缓存提供器的实现
-            var providerType = module.Module.GetType().Assembly.GetTypes()
-                .FirstOrDefault(t => t.IsAssignableTo(typeof(ICacheProvider)));
+            // 查找模块缓存器的实现
+            var cacheType = module.Module.GetType().Assembly.GetTypes()
+                .FirstOrDefault(t => t.IsAssignableTo(typeof(ICache)));
 
-            if (providerType == null)
+            if (cacheType == null)
                 continue;
 
             var builder = services.AddFusionCache(module.Module.Code).WithOptions(op =>
@@ -63,8 +62,7 @@ public static class ServiceCollectionExtensions
 
             builder.AsKeyedServiceByCacheName();
 
-            services.AddSingleton(providerType);
-            services.AddSingleton(typeof(ICacheProvider), providerType);
+            services.AddSingleton(cacheType);
         }
 
         return services;

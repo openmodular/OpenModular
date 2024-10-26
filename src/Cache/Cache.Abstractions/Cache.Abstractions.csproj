@@ -4,4 +4,8 @@
 		<PackageReference Include="ZiggyCreatures.FusionCache" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Commonn\Common.Utils\Common.Utils.csproj" />
+	</ItemGroup>
+
 </Project>

@@ -12,7 +12,7 @@ using OpenModular.Module.UAP.Core.Infrastructure.Persistence;
 namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
 {
     [DbContext(typeof(UAPDbContext))]
-    [Migration("20241025100120_uap_v0001")]
+    [Migration("20241025140921_uap_v0001")]
     partial class uap_v0001
     {
         /// <inheritdoc />
@@ -122,8 +122,7 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
 
                     b.Property<string>("AccessToken")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Client")
                         .IsRequired()

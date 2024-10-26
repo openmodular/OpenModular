@@ -58,7 +58,7 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Client = table.Column<string>(type: "text", nullable: false),
-                    AccessToken = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    AccessToken = table.Column<string>(type: "text", nullable: false),
                     RefreshToken = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Expires = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },

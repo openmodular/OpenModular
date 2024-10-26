@@ -17,7 +17,7 @@ public class AuthenticationTokenConfiguration : IEntityTypeConfiguration<Authent
             v => v.Value,
             v => new AccountId(v));
 
-        builder.Property(x => x.AccessToken).IsRequired().HasMaxLength(100);
+        builder.Property(x => x.AccessToken).IsRequired();
         builder.Property(x => x.RefreshToken).IsRequired().HasMaxLength(100);
 
         builder.Property(x => x.Client).IsRequired().ValueGeneratedNever().HasConversion(

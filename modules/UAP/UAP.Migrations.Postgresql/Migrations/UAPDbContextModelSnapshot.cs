@@ -119,8 +119,7 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
 
                     b.Property<string>("AccessToken")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Client")
                         .IsRequired()

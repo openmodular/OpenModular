@@ -1,6 +1,6 @@
 ﻿<Project>
 	<PropertyGroup>
-		<Version>1.0.0-beta.63</Version>
+		<Version>1.0.0-beta.64</Version>
 		<Authors>OpenModular</Authors>
 		<NoWarn>$(NoWarn);1591</NoWarn>
 		<Nullable>enable</Nullable>

@@ -1,6 +1,6 @@
 ﻿using OpenModular.Common.Utils;
 
-namespace OpenModular.Cache.Core;
+namespace OpenModular.Cache.Abstractions;
 
 /// <summary>
 /// 缓存配置项
