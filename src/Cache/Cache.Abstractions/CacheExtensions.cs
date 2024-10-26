@@ -26,6 +26,74 @@ namespace OpenModular.Cache.Abstractions
             return FusionCache.GetOrSet(key, defaultValue, setupAction, token);
         }
 
+        public ValueTask<TValue> GetOrSetAsync<TValue>(string key, Func<CancellationToken, Task<TValue>> factory, MaybeValue<TValue> failSafeDefaultValue,
+            FusionCacheEntryOptions? options = null, CancellationToken token = default)
+        {
+            return FusionCache.GetOrSetAsync(key, factory, failSafeDefaultValue, options, token);
+        }
+
+        public TValue GetOrSet<TValue>(string key, Func<CancellationToken, TValue> factory, MaybeValue<TValue> failSafeDefaultValue,
+            FusionCacheEntryOptions? options = null, CancellationToken token = default)
+        {
+            return FusionCache.GetOrSet(key, factory, failSafeDefaultValue, options, token);
+        }
+
+        public ValueTask<TValue> GetOrSetAsync<TValue>(string key, Func<CancellationToken, Task<TValue>> factory, MaybeValue<TValue> failSafeDefaultValue, TimeSpan duration,
+            CancellationToken token = default)
+        {
+            return FusionCache.GetOrSetAsync(key, factory, failSafeDefaultValue, duration, token);
+        }
+
+        public TValue GetOrSet<TValue>(string key, Func<CancellationToken, TValue> factory, MaybeValue<TValue> failSafeDefaultValue, TimeSpan duration,
+            CancellationToken token = default)
+        {
+            return FusionCache.GetOrSet(key, factory, failSafeDefaultValue, duration, token);
+        }
+
+        public ValueTask<TValue> GetOrSetAsync<TValue>(string key, Func<CancellationToken, Task<TValue>> factory, MaybeValue<TValue> failSafeDefaultValue, Action<FusionCacheEntryOptions> setupAction,
+            CancellationToken token = default)
+        {
+            return FusionCache.GetOrSetAsync(key, factory, failSafeDefaultValue, setupAction, token);
+        }
+
+        public TValue GetOrSet<TValue>(string key, Func<CancellationToken, TValue> factory, MaybeValue<TValue> failSafeDefaultValue, Action<FusionCacheEntryOptions> setupAction,
+            CancellationToken token = default)
+        {
+            return FusionCache.GetOrSet(key, factory, failSafeDefaultValue, setupAction, token);
+        }
+
+        public ValueTask<TValue> GetOrSetAsync<TValue>(string key, Func<CancellationToken, Task<TValue>> factory, FusionCacheEntryOptions? options = null,
+            CancellationToken token = default)
+        {
+            return FusionCache.GetOrSetAsync<TValue>(key, factory, options, token);
+        }
+
+        public TValue GetOrSet<TValue>(string key, Func<CancellationToken, TValue> factory, FusionCacheEntryOptions? options = null,
+            CancellationToken token = default)
+        {
+            return FusionCache.GetOrSet<TValue>(key, factory, options, token);
+        }
+
+        public ValueTask<TValue> GetOrSetAsync<TValue>(string key, Func<CancellationToken, Task<TValue>> factory, TimeSpan duration, CancellationToken token = default)
+        {
+            return FusionCache.GetOrSetAsync(key, factory, duration, token);
+        }
+
+        public TValue GetOrSet<TValue>(string key, Func<CancellationToken, TValue> factory, TimeSpan duration, CancellationToken token = default)
+        {
+            return FusionCache.GetOrSet(key, factory, duration, token);
+        }
+
+        public ValueTask<TValue> GetOrSetAsync<TValue>(string key, Func<CancellationToken, Task<TValue>> factory, Action<FusionCacheEntryOptions> setupAction, CancellationToken token = default)
+        {
+            return FusionCache.GetOrSetAsync(key, factory, setupAction, token);
+        }
+
+        public TValue GetOrSet<TValue>(string key, Func<CancellationToken, TValue> factory, Action<FusionCacheEntryOptions> setupAction, CancellationToken token = default)
+        {
+            return FusionCache.GetOrSet(key, factory, setupAction, token);
+        }
+
         #endregion
 
         #region GetOrDefault overloads
