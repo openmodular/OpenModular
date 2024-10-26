@@ -38,9 +38,13 @@ public interface ICache : IFusionCache
 
     #region GetOrSet overloads (with factory)
 
-    ValueTask<TValue> GetOrSetAsync<TValue>(string key, Func<CancellationToken, Task<TValue>> factory, FusionCacheEntryOptions? options = null, CancellationToken token = default);
+    ValueTask<TValue> GetOrSetAsync<TValue>(string key, Func<CancellationToken, Task<TValue>> factory, CancellationToken token = default);
 
-    TValue GetOrSet<TValue>(string key, Func<CancellationToken, TValue> factory, FusionCacheEntryOptions? options = null, CancellationToken token = default);
+    ValueTask<TValue> GetOrSetAsync<TValue>(string key, Func<CancellationToken, Task<TValue>> factory, FusionCacheEntryOptions? options, CancellationToken token = default);
+
+    TValue GetOrSet<TValue>(string key, Func<CancellationToken, TValue> factory, CancellationToken token = default);
+
+    TValue GetOrSet<TValue>(string key, Func<CancellationToken, TValue> factory, FusionCacheEntryOptions? options, CancellationToken token = default);
 
     ValueTask<TValue> GetOrSetAsync<TValue>(string key, Func<CancellationToken, Task<TValue>> factory, TimeSpan duration, CancellationToken token = default);
 
@@ -94,8 +98,11 @@ public interface ICache : IFusionCache
 
     #region Remove
 
-    ValueTask RemoveAsync(string key, Action<FusionCacheEntryOptions> setupAction,
-        CancellationToken token = default);
+    ValueTask RemoveAsync(string key, CancellationToken token);
+
+    ValueTask RemoveAsync(string key, Action<FusionCacheEntryOptions> setupAction, CancellationToken token = default);
+
+    void Remove(string key, CancellationToken token);
 
     void Remove(string key, Action<FusionCacheEntryOptions> setupAction, CancellationToken token = default);
 
