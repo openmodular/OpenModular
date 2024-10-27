@@ -41,7 +41,7 @@ public static class ServiceCollectionExtensions
 
             var builder = services.AddFusionCache(module.Module.Code).WithOptions(op =>
             {
-                op.CacheKeyPrefix = module.Module.Code;
+                op.CacheKeyPrefix = module.Module.Code + ":";
             });
 
             builder.WithSerializer(new FusionCacheSystemTextJsonSerializer());

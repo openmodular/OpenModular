@@ -34,7 +34,7 @@ public static class ServiceCollectionExtensions
             {
                 var provider = sp.GetRequiredService<IConfigProvider>();
 
-                return provider.GetAsync(configType).GetAwaiter().GetResult();
+                return (provider.GetAsync(configType).GetAwaiter().GetResult() ?? Activator.CreateInstance(configType))!;
             });
         }
 
