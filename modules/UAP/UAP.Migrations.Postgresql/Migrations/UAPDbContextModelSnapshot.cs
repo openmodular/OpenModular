@@ -143,11 +143,6 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
-
                     b.Property<string>("ModuleCode")
                         .IsRequired()
                         .HasMaxLength(100)

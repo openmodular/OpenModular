@@ -16,6 +16,5 @@ public class ConfigConfiguration : IEntityTypeConfiguration<Config>
             v => new ConfigId(v));
 
         builder.Property(x => x.ModuleCode).IsRequired().HasMaxLength(100);
-        builder.Property(x => x.Key).IsRequired().HasMaxLength(300);
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-using System.Text.Json;
-using OpenModular.Configuration.Abstractions;
+﻿using System.Text.Json;
 
 namespace OpenModular.Persistence.DataSeeding.Builder;
 
@@ -106,46 +104,5 @@ public abstract class DataSeedingDefinitionAbstract : IDataSeedingDefinition
     protected void AddSqlServer(string sql)
     {
         DataCollection.Add(new DataSeedingRecord(Module, string.Empty, DataSeedingMode.SQL, sql, _version, DataSeedingSqlMode.SqlServer));
-    }
-
-    /// <summary>
-    /// 解析配置类
-    /// </summary>
-    /// <typeparam name="TConfig"></typeparam>
-    /// <param name="config"></param>
-    /// <returns></returns>
-    protected Dictionary<string, string> ResolveConfig<TConfig>(TConfig config) where TConfig : IConfig
-    {
-        var dic = new Dictionary<string, string>();
-        Object2Dictionary(config, dic, String.Empty);
-        return dic;
-    }
-
-    private void Object2Dictionary(object obj, Dictionary<string, string> configDictionary, string parentKey)
-    {
-        var objType = obj.GetType();
-        foreach (var property in objType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-        {
-            var key = parentKey.IsNull() ? property.Name : $"{parentKey}:{property.Name}";
-            var value = property.GetValue(obj);
-
-            if (value != null)
-            {
-                if (IsSimpleType(property.PropertyType))
-                {
-
-                    configDictionary[key] = value.ToString() ?? string.Empty;
-                }
-                else
-                {
-                    Object2Dictionary(value, configDictionary, key);
-                }
-            }
-        }
-    }
-
-    private bool IsSimpleType(Type type)
-    {
-        return type.IsPrimitive || type.IsEnum || type == typeof(string) || type == typeof(decimal);
     }
 }

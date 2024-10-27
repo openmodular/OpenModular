@@ -160,7 +160,10 @@ public class OpenModularWebHost : IOpenModularHost
         //基地址
         app.UsePathBase(_hostOptions);
 
-        //设置默认页
+        //启用静态文件
+        app.UseStaticFiles();
+
+        //设置默认目录
         app.UseDefaultDir(_hostOptions);
 
         //设置默认页

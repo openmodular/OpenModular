@@ -73,7 +73,6 @@ namespace OpenModular.Module.UAP.Migrations.Postgresql.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ModuleCode = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Key = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
                     Value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>

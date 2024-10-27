@@ -8,7 +8,6 @@ namespace OpenModular.Module.UAP.Core.Domain.Configs;
 public class Config : AggregateRoot<ConfigId>
 {
     private string _moduleCode;
-    private string _key;
 
     /// <summary>
     /// 模块编码
@@ -24,20 +23,6 @@ public class Config : AggregateRoot<ConfigId>
     }
 
     /// <summary>
-    /// 键
-    /// </summary>
-    public string Key
-    {
-        get => _key;
-        set
-        {
-            Check.NotNull(value, nameof(Key));
-
-            _key = value;
-        }
-    }
-
-    /// <summary>
     /// 值
     /// </summary>
     public string? Value { get; set; }
@@ -47,15 +32,14 @@ public class Config : AggregateRoot<ConfigId>
         //fro ef
     }
 
-    private Config(string moduleCode, string key, string? value) : base(new ConfigId())
+    private Config(string moduleCode, string? value) : base(new ConfigId())
     {
         ModuleCode = moduleCode;
-        Key = key;
         Value = value;
     }
 
-    public static Config Create(string moduleCode, string key, string? value)
+    public static Config Create(string moduleCode, string? value)
     {
-        return new Config(moduleCode, key, value);
+        return new Config(moduleCode, value);
     }
 }

@@ -35,4 +35,18 @@ public static class JsonExtensions
 
         return JsonSerializer.Deserialize<T>(obj, Options);
     }
+
+    /// <summary>
+    /// 将一个JSON字符串转为对象
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="objType"></param>
+    /// <returns></returns>
+    public static object? ToModel(this string? obj, Type objType)
+    {
+        if (obj == null)
+            return default;
+
+        return JsonSerializer.Deserialize(obj, objType, Options);
+    }
 }

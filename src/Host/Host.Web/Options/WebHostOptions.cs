@@ -17,7 +17,7 @@ public class WebHostOptions
     /// <summary>
     /// 基础路径
     /// </summary>
-    public string BasePath { get; set; }
+    public string? BasePath { get; set; }
 
     /// <summary>
     /// 指定跨域访问时预检请求的有效期，单位秒，默认30分钟

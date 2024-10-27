@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
-using OpenModular.Common.Utils.DependencyInjection;
+﻿using OpenModular.Common.Utils.DependencyInjection;
 using OpenModular.Module.Abstractions;
 using OpenModular.Module.UAP.Core.Conventions;
-using System.Reflection;
+using OpenModular.Common.Utils.Extensions;
 using OpenModular.Configuration.Abstractions;
 
 namespace OpenModular.Module.UAP.Core.Domain.Configs;
@@ -55,23 +54,17 @@ internal class ConfigProvider : IConfigProvider, ITransientDependency
             return;
         }
 
-        var dic = new Dictionary<string, string>();
-        Object2Dictionary(config, dic, string.Empty);
-
-        foreach (var d in dic)
+        var configItem = await _repository.FindAsync(m => m.ModuleCode == module.Module.Code);
+        if (configItem != null)
         {
-            var configItem = await _repository.FindAsync(m => m.ModuleCode == module.Module.Code && m.Key == d.Key);
-            if (configItem != null)
-            {
-                configItem.Value = d.Value;
+            configItem.Value = config.ToJson();
 
-                await _repository.UpdateAsync(configItem);
-            }
-            else
-            {
-                configItem = Config.Create(module.Module.Code, d.Key, d.Value);
-                await _repository.InsertAsync(configItem);
-            }
+            await _repository.UpdateAsync(configItem);
+        }
+        else
+        {
+            configItem = Config.Create(module.Module.Code, config.ToJson());
+            await _repository.InsertAsync(configItem);
         }
 
         var cacheKey = UAPCacheKeys.Config(module.Module.Code);
@@ -81,65 +74,25 @@ internal class ConfigProvider : IConfigProvider, ITransientDependency
 
     private async Task<TConfig> GetFromRepositoryAsync<TConfig>(IModuleDescriptor module, CancellationToken cancellationToken) where TConfig : IConfig, new()
     {
-        var config = new TConfig();
+        var config = await _repository.FindAsync(m => m.ModuleCode == module.Module.Code, cancellationToken);
 
-        var configItems = await _repository.GetListAsync(m => m.ModuleCode == module.Module.Code, cancellationToken);
-
-        if (!configItems.Any())
+        if (config == null)
         {
-            return config;
+            return new TConfig();
         }
 
-        var builder = new ConfigurationBuilder().AddInMemoryCollection(configItems.Select(m => new KeyValuePair<string, string?>(m.Key, m.Value)));
-
-        builder.Build().Bind(config);
-
-        return config;
+        return config.Value.ToModel<TConfig>()!;
     }
 
     private async Task<object?> GetFromRepositoryAsync(IModuleDescriptor module, Type configType, CancellationToken cancellationToken)
     {
-        var config = Activator.CreateInstance(configType);
+        var config = await _repository.FindAsync(m => m.ModuleCode == module.Module.Code, cancellationToken);
 
-        var configItems = await _repository.GetListAsync(m => m.ModuleCode == module.Module.Code, cancellationToken);
-
-        if (!configItems.Any())
+        if (config == null)
         {
-            return config;
+            return Activator.CreateInstance(configType);
         }
 
-        var builder = new ConfigurationBuilder().AddInMemoryCollection(configItems.Select(m => new KeyValuePair<string, string?>(m.Key, m.Value)));
-
-        builder.Build().Bind(config);
-
-        return config;
-    }
-
-    private void Object2Dictionary(object obj, Dictionary<string, string> configDictionary, string parentKey)
-    {
-        var objType = obj.GetType();
-        foreach (var property in objType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-        {
-            var key = parentKey.IsNull() ? property.Name : $"{parentKey}:{property.Name}";
-            var value = property.GetValue(obj);
-
-            if (value != null)
-            {
-                if (IsSimpleType(property.PropertyType))
-                {
-
-                    configDictionary[key] = value.ToString() ?? string.Empty;
-                }
-                else
-                {
-                    Object2Dictionary(value, configDictionary, key);
-                }
-            }
-        }
-    }
-
-    private bool IsSimpleType(Type type)
-    {
-        return type.IsPrimitive || type.IsEnum || type == typeof(string) || type == typeof(decimal);
+        return config.Value.ToModel(configType)!;
     }
 }

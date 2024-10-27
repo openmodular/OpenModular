@@ -1,4 +1,5 @@
-﻿using OpenModular.Common.Utils.Helpers;
+﻿using Microsoft.Extensions.Configuration;
+using OpenModular.Common.Utils.Helpers;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 using OpenModular.Module.UAP.Core;
 using OpenModular.Module.UAP.Core.Conventions;
@@ -6,6 +7,8 @@ using OpenModular.Module.UAP.Core.Domain.Accounts;
 using OpenModular.Module.UAP.Core.Domain.Configs;
 using OpenModular.Module.UAP.Core.Domain.Organizations;
 using OpenModular.Module.UAP.Core.Infrastructure;
+using System.Text.Json;
+using OpenModular.Common.Utils.Extensions;
 
 namespace OpenModular.Module.UAP.DataSeeding;
 
@@ -60,11 +63,6 @@ public class DataSeedingDefinition_20240619 : UAPDataSeedingDefinition
             }
         };
 
-        var configItems = ResolveConfig(config);
-
-        foreach (var configItem in configItems)
-        {
-            AddInsert(Config.Create(UAPConstants.ModuleCode, configItem.Key, configItem.Value));
-        }
+        AddInsert(Config.Create(UAPConstants.ModuleCode, config.ToJson()));
     }
 }
