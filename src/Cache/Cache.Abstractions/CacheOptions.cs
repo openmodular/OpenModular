@@ -54,4 +54,9 @@ public class RedisOptions
     /// 实例名称
     /// </summary>
     public string? InstanceName { get; set; }
+
+    /// <summary>
+    /// 开启背板功能
+    /// </summary>
+    public bool EnableBackplane { get; set; }
 }

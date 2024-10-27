@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using OpenModular.Cache.Abstractions;
 using OpenModular.Common.Utils;
 using ZiggyCreatures.Caching.Fusion;
+using ZiggyCreatures.Caching.Fusion.Backplane.StackExchangeRedis;
 using ZiggyCreatures.Caching.Fusion.Serialization.SystemTextJson;
 
 namespace OpenModular.Cache.Core;
@@ -58,6 +59,14 @@ public static class ServiceCollectionExtensions
                     Configuration = options.Redis.ConnectionString,
                     InstanceName = options.Redis.InstanceName
                 }));
+
+                if (options.Redis.EnableBackplane)
+                {
+                    builder.WithBackplane(new RedisBackplane(new RedisBackplaneOptions
+                    {
+                        Configuration = options.Redis.ConnectionString
+                    }));
+                }
             }
 
             builder.AsKeyedServiceByCacheName();

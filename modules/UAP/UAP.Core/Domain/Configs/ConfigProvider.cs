@@ -12,6 +12,7 @@ internal class ConfigProvider : IConfigProvider, ITransientDependency
     private readonly UAPCache _cache;
     private readonly IConfigRepository _repository;
     private readonly IModuleCollection _modules;
+    private const int Duration = 30;//30 day
 
     public ConfigProvider(UAPCache cache, IConfigRepository repository, IModuleCollection modules)
     {
@@ -30,7 +31,7 @@ internal class ConfigProvider : IConfigProvider, ITransientDependency
 
         var cacheKey = UAPCacheKeys.Config(module.Module.Code);
 
-        return _cache.GetOrSetAsync<TConfig>(cacheKey, token => GetFromRepositoryAsync<TConfig>(module, token));
+        return _cache.GetOrSetAsync<TConfig>(cacheKey, token => GetFromRepositoryAsync<TConfig>(module, token), TimeSpan.FromDays(Duration));
     }
 
     public ValueTask<object?> GetAsync(Type configType)
@@ -43,7 +44,7 @@ internal class ConfigProvider : IConfigProvider, ITransientDependency
 
         var cacheKey = UAPCacheKeys.Config(module.Module.Code);
 
-        return _cache.GetOrSetAsync(cacheKey, token => GetFromRepositoryAsync(module, configType, token));
+        return _cache.GetOrSetAsync(cacheKey, token => GetFromRepositoryAsync(module, configType, token), TimeSpan.FromDays(Duration));
     }
 
     public async ValueTask SetAsync<TConfig>(TConfig config) where TConfig : IConfig, new()
@@ -75,7 +76,7 @@ internal class ConfigProvider : IConfigProvider, ITransientDependency
 
         var cacheKey = UAPCacheKeys.Config(module.Module.Code);
 
-        await _cache.SetAsync(cacheKey, config);
+        await _cache.SetAsync(cacheKey, config, TimeSpan.FromDays(Duration));
     }
 
     private async Task<TConfig> GetFromRepositoryAsync<TConfig>(IModuleDescriptor module, CancellationToken cancellationToken) where TConfig : IConfig, new()
