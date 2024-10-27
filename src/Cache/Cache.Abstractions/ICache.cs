@@ -298,7 +298,7 @@ public interface ICache : IFusionCache
     /// <param name="value">The value to put in the cache.</param>
     /// <param name="token">An optional <see cref="CancellationToken"/> to cancel the operation.</param>
     /// <returns>A <see cref="Task"/> to await the completion of the operation.</returns>
-    ValueTask SetAsync<TValue>(string key, TValue value, CancellationToken token = default);
+    ValueTask SetAsync<TValue>(string key, TValue value, CancellationToken token);
 
     /// <summary>
     /// Put the <paramref name="value"/> in the cache for the specified <paramref name="key"/> with the provided <paramref name="duration"/>. If a value is already there it will be overwritten.
@@ -318,7 +318,7 @@ public interface ICache : IFusionCache
     /// <param name="key">The cache key which identifies the entry in the cache.</param>
     /// <param name="value">The value to put in the cache.</param>
     /// <param name="token">An optional <see cref="CancellationToken"/> to cancel the operation.</param>
-    void Set<TValue>(string key, TValue value, CancellationToken token = default);
+    void Set<TValue>(string key, TValue value, CancellationToken token);
 
     /// <summary>
     /// Put the <paramref name="value"/> in the cache for the specified <paramref name="key"/> with the provided <paramref name="duration"/>. If a value is already there it will be overwritten.

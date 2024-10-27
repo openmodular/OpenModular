@@ -139,7 +139,7 @@ namespace OpenModular.Cache.Abstractions
 
         #region Set overloads
 
-        public ValueTask SetAsync<TValue>(string key, TValue value, CancellationToken token = default)
+        public ValueTask SetAsync<TValue>(string key, TValue value, CancellationToken token)
         {
             return FusionCache.SetAsync(key, value, default, token);
         }
@@ -149,7 +149,7 @@ namespace OpenModular.Cache.Abstractions
             return FusionCache.SetAsync(key, value, duration, token);
         }
 
-        public void Set<TValue>(string key, TValue value, CancellationToken token = default)
+        public void Set<TValue>(string key, TValue value, CancellationToken token)
         {
             FusionCache.Set(key, value, default, token);
         }

@@ -15,7 +15,14 @@ internal class TypeIdOperationFilter : IOperationFilter
 
             if (parameterDescription != null)
             {
-                parameter.Name = parameterDescription.ParameterDescriptor.Name;
+                if (parameterDescription.ParameterDescriptor.Name.Equals("request"))
+                {
+                    parameter.Name = parameterDescription.Name.TrimEnd(".Value");
+                }
+                else
+                {
+                    parameter.Name = parameterDescription.ParameterDescriptor.Name;
+                }
                 parameter.Schema.Type = "string";
                 parameter.Schema.Format = null;
             }
