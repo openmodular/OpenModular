@@ -44,7 +44,7 @@ public static class ServiceCollectionExtensions
                 op.CacheKeyPrefix = module.Module.Code + ":";
             });
 
-            builder.WithSerializer(new FusionCacheSystemTextJsonSerializer());
+            builder.WithSerializer(new FusionCacheSystemTextJsonSerializer(CacheJsonSerializerOptions.Options));
 
             if (options.Mode == CacheMode.Redis)
             {

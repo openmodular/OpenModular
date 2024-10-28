@@ -56,19 +56,9 @@ namespace OpenModular.Cache.Abstractions
             return FusionCache.GetOrSet(key, factory, failSafeDefaultValue, setupAction, token);
         }
 
-        public ValueTask<TValue> GetOrSetAsync<TValue>(string key, Func<CancellationToken, Task<TValue>> factory, CancellationToken token = default)
-        {
-            return FusionCache.GetOrSetAsync<TValue>(key, factory, default(FusionCacheEntryOptions?), token);
-        }
-
         public ValueTask<TValue> GetOrSetAsync<TValue>(string key, Func<CancellationToken, Task<TValue>> factory, FusionCacheEntryOptions? options, CancellationToken token = default)
         {
             return FusionCache.GetOrSetAsync<TValue>(key, factory, options, token);
-        }
-
-        public TValue GetOrSet<TValue>(string key, Func<CancellationToken, TValue> factory, CancellationToken token = default)
-        {
-            return FusionCache.GetOrSet<TValue>(key, factory, default(FusionCacheEntryOptions?), token);
         }
 
         public TValue GetOrSet<TValue>(string key, Func<CancellationToken, TValue> factory, FusionCacheEntryOptions? options, CancellationToken token = default)

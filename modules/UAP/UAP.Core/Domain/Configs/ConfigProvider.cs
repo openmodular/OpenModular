@@ -1,8 +1,10 @@
-﻿using OpenModular.Common.Utils.DependencyInjection;
+﻿using System.Text.Json;
+using OpenModular.Common.Utils.DependencyInjection;
 using OpenModular.Module.Abstractions;
 using OpenModular.Module.UAP.Core.Conventions;
 using OpenModular.Common.Utils.Extensions;
 using OpenModular.Configuration.Abstractions;
+using OpenModular.Cache.Abstractions;
 
 namespace OpenModular.Module.UAP.Core.Domain.Configs;
 
@@ -33,7 +35,7 @@ internal class ConfigProvider : IConfigProvider, ITransientDependency
         return _cache.GetOrSetAsync<TConfig>(cacheKey, token => GetFromRepositoryAsync<TConfig>(module, token), TimeSpan.FromDays(Duration));
     }
 
-    public ValueTask<object?> GetAsync(Type configType)
+    public async ValueTask<object?> GetAsync(Type configType)
     {
         var module = _modules.FirstOrDefault(m => m.Config != null && m.Config.ConfigType == configType);
         if (module == null)
@@ -43,7 +45,15 @@ internal class ConfigProvider : IConfigProvider, ITransientDependency
 
         var cacheKey = UAPCacheKeys.Config(module.Module.Code);
 
-        return _cache.GetOrSetAsync(cacheKey, token => GetFromRepositoryAsync(module, configType, token), TimeSpan.FromDays(Duration));
+        var cacheValue = await _cache.GetOrSetAsync(cacheKey,
+            token => GetFromRepositoryAsync(module, configType, token), TimeSpan.FromDays(Duration));
+
+        if (cacheValue != null && cacheValue is JsonElement jsonElement)
+        {
+            return JsonSerializer.Deserialize(jsonElement.GetRawText(), configType, CacheJsonSerializerOptions.Options);
+        }
+
+        return cacheValue;
     }
 
     public async ValueTask SetAsync<TConfig>(TConfig config) where TConfig : IConfig, new()
