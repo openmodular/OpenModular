@@ -4,7 +4,7 @@ namespace OpenModular.Common.Utils.Paging;
 /// 分页查询结果
 /// </summary>
 /// <typeparam name="T">类型</typeparam>
-public class PagedResult<T>
+public partial class PagedResult<T>
 {
     /// <summary>
     /// 查询结果集
@@ -30,6 +30,11 @@ public class PagedResult<T>
     /// 总页数
     /// </summary>
     public long TotalPage => (Total - 1 + Size) / Size;
+
+    /// <summary>
+    /// 扩展属性
+    /// </summary>
+    public object? Extend { get; set; }
 
     public PagedResult()
     {

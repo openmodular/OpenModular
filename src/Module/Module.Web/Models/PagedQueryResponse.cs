@@ -1,9 +1,10 @@
-﻿namespace OpenModular.DDD.Core.Application.Dto;
+﻿namespace OpenModular.Module.Web.Models;
 
 /// <summary>
-/// 分页查询数据传输对象
+/// 分页查询相应
 /// </summary>
-public class PagedDto<TData> : DtoBase where TData : class
+/// <typeparam name="TData"></typeparam>
+public class PagedQueryResponse<TData> : ResponseBase
 {
     /// <summary>
     /// 查询结果集
@@ -35,18 +36,18 @@ public class PagedDto<TData> : DtoBase where TData : class
     /// </summary>
     public object? Extend { get; set; }
 
-    public PagedDto()
+    public PagedQueryResponse()
     {
         Rows = new List<TData>();
     }
 
-    public PagedDto(List<TData> rows, long total)
+    public PagedQueryResponse(List<TData> rows, long total)
     {
         Rows = rows;
         Total = total;
     }
 
-    public PagedDto(List<TData> rows, long total, int index, int size)
+    public PagedQueryResponse(List<TData> rows, long total, int index, int size)
     {
         Rows = rows;
         Total = total;

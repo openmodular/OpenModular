@@ -1,6 +1,6 @@
 ﻿namespace OpenModular.Module.Web;
 
-public class APIResponse(int code, string message)
+public class APIResponse(int code, string? message)
 {
     /// <summary>
     /// 错误码
@@ -10,7 +10,7 @@ public class APIResponse(int code, string message)
     /// <summary>
     /// 错误信息
     /// </summary>
-    public string Message { get; } = message;
+    public string? Message { get; } = message;
 
     public static APIResponse Success()
     {
@@ -23,7 +23,7 @@ public class APIResponse(int code, string message)
     }
 }
 
-public class APIResponse<TData>(int code, string message, TData data) : APIResponse(code, message)
+public class APIResponse<TData>(int code, string? message, TData data) : APIResponse(code, message)
 {
     public TData Data { get; } = data;
 }

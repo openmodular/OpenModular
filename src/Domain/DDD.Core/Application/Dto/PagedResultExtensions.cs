@@ -12,12 +12,12 @@ public static class PagedResultExtensions
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TData"></typeparam>
-    /// <param name="result"></param>
+    /// <param name="pagedResult"></param>
     /// <returns></returns>
-    public static PagedDto<TData> ToPagedDto<TEntity, TData>(this PagedResult<TEntity> result) where TEntity : IEntity where TData : class
+    public static PagedDto<TData> ToPagedDto<TEntity, TData>(this PagedResult<TEntity> pagedResult) where TEntity : IEntity where TData : class
     {
         var mapper = GlobalServiceProvider.GetRequiredService<IMapper>();
-        var rows = mapper.Map<List<TData>>(result.Rows);
-        return new PagedDto<TData>(rows, result.Total, result.Index, result.Size);
+        var rows = mapper.Map<List<TData>>(pagedResult.Rows);
+        return new PagedDto<TData>(rows, pagedResult.Total, pagedResult.Index, pagedResult.Size) { Extend = pagedResult.Extend };
     }
 }
