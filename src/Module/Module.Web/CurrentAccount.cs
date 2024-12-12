@@ -20,7 +20,7 @@ internal class CurrentAccount : ICurrentAccount
         {
             var tenantId = _accessor.HttpContext?.User.FindFirst(CustomClaimTypes.TENANT_ID);
 
-            if (tenantId != null && tenantId.Value.NotNull())
+            if (tenantId != null && tenantId.Value.NotNullOrWhiteSpace())
             {
                 return new TenantId(tenantId.Value);
             }
@@ -35,7 +35,7 @@ internal class CurrentAccount : ICurrentAccount
         {
             var accountId = _accessor.HttpContext?.User.FindFirst(CustomClaimTypes.ACCOUNT_ID);
 
-            if (accountId != null && accountId.Value.NotNull())
+            if (accountId != null && accountId.Value.NotNullOrWhiteSpace())
             {
                 return new AccountId(accountId.Value);
             }

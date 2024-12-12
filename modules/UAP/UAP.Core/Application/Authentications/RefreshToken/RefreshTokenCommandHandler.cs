@@ -25,7 +25,7 @@ internal class RefreshTokenCommandHandler : CommandHandler<RefreshTokenCommand, 
 
     public override async Task<AccountDto> ExecuteAsync(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
-        Check.NotNull(request.RefreshToken, nameof(request.RefreshToken));
+        Check.NullOrWhiteSpace(request.RefreshToken, nameof(request.RefreshToken));
 
         var token = await _tokenRepository.FindAsync(m => m.RefreshToken == request.RefreshToken && m.Client == request.Client, cancellationToken);
         if (token == null)

@@ -33,7 +33,7 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
 
     public async Task HandleAsync(string? payload, AuthenticationContext<Account> context, CancellationToken cancellationToken)
     {
-        if (payload!.IsNull())
+        if (payload!.IsNullOrWhiteSpace())
         {
             context.Status = AuthenticationStatus.InvalidIdentity;
             context.Message = _localizer["Authentication failed, invalid authentication identity"];
@@ -42,7 +42,7 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
         }
 
         var identity = payload.ToModel<PasswordIdentity>();
-        if (identity == null || identity.UserName!.IsNull() || identity.Password!.IsNull())
+        if (identity == null || identity.UserName!.IsNullOrWhiteSpace() || identity.Password!.IsNullOrWhiteSpace())
         {
             context.Status = AuthenticationStatus.InvalidIdentity;
             context.Message = _localizer["Authentication failed, invalid authentication identity"];
@@ -51,7 +51,7 @@ internal class LocalPasswordAuthenticationIdentityHandler : IAuthenticationIdent
 
         if (_config.Authentication.ImageCaptcha.IsEnabled)
         {
-            if (identity.CaptchaId!.IsNull() || identity.Captcha!.IsNull() || !await _imageCaptchaService.VerifyAsync(identity.CaptchaId!, identity.Captcha!))
+            if (identity.CaptchaId!.IsNullOrWhiteSpace() || identity.Captcha!.IsNullOrWhiteSpace() || !await _imageCaptchaService.VerifyAsync(identity.CaptchaId!, identity.Captcha!))
             {
                 context.Status = AuthenticationStatus.InvalidImageCaptcha;
                 context.Message = _localizer["Authentication failed, invalid image captcha"];

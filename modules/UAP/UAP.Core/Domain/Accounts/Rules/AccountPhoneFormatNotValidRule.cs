@@ -8,7 +8,7 @@ internal record AccountPhoneFormatNotValidRule(string? Phone) : UAPBusinessRule(
 {
     public override bool IsBroken()
     {
-        if (Phone.IsNull())
+        if (Phone.IsNullOrWhiteSpace())
             return true;
 
         return !new Regex(RegexExpressionConstants.Phone).IsMatch(Phone);

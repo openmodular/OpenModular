@@ -15,7 +15,7 @@ public static class StringExtensions
     /// <returns></returns>
     public static byte ToByte(this string? s)
     {
-        if (s.IsNull())
+        if (s.IsNullOrWhiteSpace())
             return 0;
 
         byte.TryParse(s, out byte result);
@@ -29,7 +29,7 @@ public static class StringExtensions
     /// <returns></returns>
     public static char ToChar(this string? s)
     {
-        if (s.IsNull())
+        if (s.IsNullOrWhiteSpace())
             return default;
 
         char.TryParse(s, out char result);
@@ -43,7 +43,7 @@ public static class StringExtensions
     /// <returns></returns>
     public static short ToShort(this string? s)
     {
-        if (s.IsNull())
+        if (s.IsNullOrWhiteSpace())
             return 0;
 
         short.TryParse(s, out short result);
@@ -55,7 +55,7 @@ public static class StringExtensions
     /// </summary>
     /// <param name="s"></param>
     /// <returns></returns>
-    public static bool IsNull(this string? s)
+    public static bool IsNullOrWhiteSpace(this string? s)
     {
         return string.IsNullOrWhiteSpace(s);
     }
@@ -65,7 +65,7 @@ public static class StringExtensions
     /// </summary>
     /// <param name="s"></param>
     /// <returns></returns>
-    public static bool NotNull(this string? s)
+    public static bool NotNullOrWhiteSpace(this string? s)
     {
         return !string.IsNullOrWhiteSpace(s);
     }
@@ -78,7 +78,7 @@ public static class StringExtensions
     /// <returns></returns>
     public static bool EqualsIgnoreCase(this string? s, string? value)
     {
-        if (s.IsNull() || value.IsNull())
+        if (s.IsNullOrWhiteSpace() || value.IsNullOrWhiteSpace())
             return s == value;
 
         return s.Equals(value, StringComparison.OrdinalIgnoreCase);
@@ -92,7 +92,7 @@ public static class StringExtensions
     /// <returns></returns>
     public static bool EndsWithIgnoreCase(this string? s, string? value)
     {
-        if (s.IsNull() || value.IsNull())
+        if (s.IsNullOrWhiteSpace() || value.IsNullOrWhiteSpace())
             return false;
 
         return s.EndsWith(value, StringComparison.OrdinalIgnoreCase);
@@ -106,7 +106,7 @@ public static class StringExtensions
     /// <returns></returns>
     public static bool StartsWithIgnoreCase(this string? s, string? value)
     {
-        if (s.IsNull() || value.IsNull())
+        if (s.IsNullOrWhiteSpace() || value.IsNullOrWhiteSpace())
             return false;
 
         return s.StartsWith(value, StringComparison.OrdinalIgnoreCase);
@@ -119,7 +119,7 @@ public static class StringExtensions
     /// <returns></returns>
     public static string? FirstCharToLower(this string? s)
     {
-        if (s.IsNull())
+        if (s.IsNullOrWhiteSpace())
             return null;
 
         string str = s.First().ToString().ToLower() + s.Substring(1);
@@ -133,7 +133,7 @@ public static class StringExtensions
     /// <returns></returns>
     public static string? FirstCharToUpper(this string? s)
     {
-        if (s.IsNull())
+        if (s.IsNullOrWhiteSpace())
             return null;
 
         string str = s.First().ToString().ToUpper() + s.Substring(1);
@@ -158,7 +158,7 @@ public static class StringExtensions
     /// <returns></returns>
     public static string? ToBase64(this string? s, Encoding encoding)
     {
-        if (s.IsNull())
+        if (s.IsNullOrWhiteSpace())
             return null;
 
         var bytes = encoding.GetBytes(s);

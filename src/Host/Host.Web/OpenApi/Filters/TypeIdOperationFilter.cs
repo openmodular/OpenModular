@@ -17,7 +17,7 @@ internal class TypeIdOperationFilter : IOperationFilter
             {
                 if (parameterDescription.ParameterDescriptor.Name.Equals("request"))
                 {
-                    parameter.Name = parameterDescription.Name.TrimEnd(".Value");
+                    parameter.Name = parameterDescription.Name.TrimEnd(".Value".ToCharArray());
                 }
                 else
                 {

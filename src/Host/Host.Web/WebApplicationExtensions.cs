@@ -48,7 +48,7 @@ public static class WebApplicationExtensions
     public static IApplicationBuilder UsePathBase(this IApplicationBuilder app, WebHostOptions options)
     {
         var pathBase = options.BasePath;
-        if (pathBase.NotNull())
+        if (pathBase.NotNullOrWhiteSpace())
         {
             //1、配置请求基础地址：
             app.Use((context, next) =>
@@ -73,7 +73,7 @@ public static class WebApplicationExtensions
     public static IApplicationBuilder UseDefaultPage(this IApplicationBuilder app, WebHostOptions options)
     {
         //设置默认文档
-        if (options.DefaultPage.NotNull())
+        if (options.DefaultPage.NotNullOrWhiteSpace())
         {
             var defaultFilesOptions = new DefaultFilesOptions();
             defaultFilesOptions.DefaultFileNames.Clear();
@@ -92,7 +92,7 @@ public static class WebApplicationExtensions
     /// <returns></returns>
     public static IApplicationBuilder UseDefaultDir(this IApplicationBuilder app, WebHostOptions options)
     {
-        if (options.DefaultDir.NotNull())
+        if (options.DefaultDir.NotNullOrWhiteSpace())
         {
             var rewriteOptions = new RewriteOptions().AddRedirect("^$", options.DefaultDir);
             app.UseRewriter(rewriteOptions);

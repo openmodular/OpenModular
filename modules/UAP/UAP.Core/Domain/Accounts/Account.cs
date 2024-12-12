@@ -22,7 +22,7 @@ public class Account : AggregateRoot<AccountId>
         get => _userName;
         set
         {
-            Check.NotNull(value, nameof(UserName));
+            Check.NullOrWhiteSpace(value, nameof(UserName));
             _userName = value;
         }
     }

@@ -11,9 +11,9 @@ public static class Check
     /// <param name="parameterName"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static string NotNull(string? value, string parameterName)
+    public static string NullOrWhiteSpace(string? value, string parameterName)
     {
-        return NotNull(value, parameterName, Int32.MaxValue, 0);
+        return NullOrWhiteSpace(value, parameterName, Int32.MaxValue, 0);
     }
 
     /// <summary>
@@ -25,9 +25,9 @@ public static class Check
     /// <param name="minLength"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static string NotNull(string? value, string parameterName, int maxLength, int minLength)
+    public static string NullOrWhiteSpace(string? value, string parameterName, int maxLength, int minLength)
     {
-        if (value.IsNull())
+        if (value.IsNullOrWhiteSpace())
         {
             throw new ArgumentException($"{parameterName} can not be null, empty or white space!", parameterName);
         }

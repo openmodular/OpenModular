@@ -219,7 +219,7 @@ public class RepositoryAbstract<TEntity, TKey, TDbContext>(IDbContextProvider<TD
     /// <returns></returns>
     protected async Task<Common.Utils.Paging.PagedResult<T>> ToPagedAsync<T>(IQueryable<T> query, Pagination pagination)
     {
-        if (pagination.OrderBy!.NotNull())
+        if (pagination.OrderBy!.NotNullOrWhiteSpace())
         {
             query = query.OrderBy(pagination.OrderBy!);
         }

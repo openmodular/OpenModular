@@ -15,7 +15,7 @@ public class IpHelper : ISingletonDependency
     /// <returns>如果是ipv4地址，则为true，否则为false</returns>
     public bool IsIpv4(string? str)
     {
-        if (str.IsNull())
+        if (str.IsNullOrWhiteSpace())
             return false;
 
         return Regex.IsMatch(str, RegexExpressionConstants.IPv4);

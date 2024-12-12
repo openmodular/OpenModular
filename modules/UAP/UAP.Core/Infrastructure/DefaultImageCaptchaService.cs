@@ -38,7 +38,7 @@ internal class DefaultImageCaptchaService : IImageCaptchaService, ISingletonDepe
 
     public async Task<bool> VerifyAsync(string id, string code)
     {
-        if (id.IsNull() || code.IsNull())
+        if (id.IsNullOrWhiteSpace() || code.IsNullOrWhiteSpace())
             return false;
 
         var cacheCode = await _cache.TryGetAsync<string>(UAPCacheKeys.Captcha(id));

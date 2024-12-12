@@ -45,15 +45,15 @@ public class Organization : AggregateRoot<OrganizationId>
 
     private Organization(OrganizationId id, string name, string code, string description, AccountId createdBy) : base(id)
     {
-        Check.NotNull(name, nameof(name));
-        Check.NotNull(code, nameof(code));
+        Check.NullOrWhiteSpace(name, nameof(name));
+        Check.NullOrWhiteSpace(code, nameof(code));
 
         Name = name;
         Code = code;
         Description = description;
 
         CreatedBy = createdBy;
-        CreatedAt = DateTime.UtcNow;
+        CreatedAt = DateTimeOffset.UtcNow;
     }
 
     public static Organization Create(string name, string code, string description, AccountId createdBy)

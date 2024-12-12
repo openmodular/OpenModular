@@ -82,7 +82,7 @@ public static class ServiceCollectionExtensions
         {
             //将数据库相对路径转换为绝对路径
             var connectionStringBuilder = new SqliteConnectionStringBuilder(connectionString);
-            if (connectionStringBuilder.DataSource.IsNull())
+            if (connectionStringBuilder.DataSource.IsNullOrWhiteSpace())
             {
                 connectionStringBuilder.DataSource = "./Data/Database/OpenModular.db";
             }
@@ -93,7 +93,7 @@ public static class ServiceCollectionExtensions
             }
 
             var dir = Path.GetDirectoryName(connectionStringBuilder.DataSource);
-            if (dir!.NotNull() && !Directory.Exists(dir))
+            if (dir!.NotNullOrWhiteSpace() && !Directory.Exists(dir))
             {
                 Directory.CreateDirectory(dir!);
             }

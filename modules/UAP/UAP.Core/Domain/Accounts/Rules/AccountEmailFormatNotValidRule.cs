@@ -8,7 +8,7 @@ internal record AccountEmailFormatNotValidRule(string? Email) : UAPBusinessRule(
 {
     public override bool IsBroken()
     {
-        if (Email.IsNull())
+        if (Email.IsNullOrWhiteSpace())
             return true;
 
         return !new Regex(RegexExpressionConstants.Email).IsMatch(Email);

@@ -35,7 +35,7 @@ internal class DefaultDataSeedingHandler<TDbContext> : IDataSeedingHandler where
 
     public async Task DoAsync()
     {
-        Check.NotNull(_options.DbFileName, nameof(_options.DbFileName));
+        Check.NullOrWhiteSpace(_options.DbFileName, nameof(_options.DbFileName));
 
         var lastVersion = await _historyStorage.GetLastVersionAsync(_moduleCode);
 

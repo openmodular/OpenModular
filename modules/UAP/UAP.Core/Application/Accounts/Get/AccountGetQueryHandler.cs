@@ -15,9 +15,9 @@ internal class AccountGetQueryHandler : QueryHandler<AccountGetQuery, AccountDto
     public override async Task<AccountDto?> ExecuteAsync(AccountGetQuery request, CancellationToken cancellationToken)
     {
         var account = await _repository.FindAsync(m => (request.Id != null && m.Id == request.Id)
-                                    || (request.UserName.NotNull() && m.NormalizedUserName == request.UserName.ToUpper())
-                                    || (request.Email.NotNull() && m.NormalizedEmail == request.Email.ToUpper())
-                                        || (request.Phone.NotNull() && m.Phone == request.Phone.ToUpper()), cancellationToken);
+                                    || (request.UserName.NotNullOrWhiteSpace() && m.NormalizedUserName == request.UserName.ToUpper())
+                                    || (request.Email.NotNullOrWhiteSpace() && m.NormalizedEmail == request.Email.ToUpper())
+                                        || (request.Phone.NotNullOrWhiteSpace() && m.Phone == request.Phone.ToUpper()), cancellationToken);
 
         if (account == null || account.Status == AccountStatus.Deleted)
         {

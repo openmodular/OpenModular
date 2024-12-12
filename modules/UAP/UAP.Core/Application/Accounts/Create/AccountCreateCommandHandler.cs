@@ -18,7 +18,7 @@ internal class AccountCreateCommandHandler(IAccountRepository repository, IPassw
             throw new UAPBusinessException(UAPErrorCode.Account_UsernameExists);
         }
 
-        if (command.Phone.NotNull())
+        if (command.Phone.NotNullOrWhiteSpace())
         {
             exists = await repository.FindAsync(m => m.Phone == command.Phone, cancellationToken);
             if (exists != null)
@@ -27,7 +27,7 @@ internal class AccountCreateCommandHandler(IAccountRepository repository, IPassw
             }
         }
 
-        if (command.Email.NotNull())
+        if (command.Email.NotNullOrWhiteSpace())
         {
             exists = await repository.FindAsync(m => m.Email == command.Email, cancellationToken);
             if (exists != null)
@@ -38,7 +38,7 @@ internal class AccountCreateCommandHandler(IAccountRepository repository, IPassw
 
         var user = Account.Create(new AccountId(), command.Username, command.Email, command.Phone, command.Status);
 
-        if (command.Password.NotNull())
+        if (command.Password.NotNullOrWhiteSpace())
             user.PasswordHash = passwordHasher.HashPassword(user, command.Password);
 
         await repository.InsertAsync(user, cancellationToken: cancellationToken);

@@ -17,7 +17,7 @@ public class Config : AggregateRoot<ConfigId>
         get => _moduleCode;
         set
         {
-            Check.NotNull(value, nameof(ModuleCode));
+            Check.NullOrWhiteSpace(value, nameof(ModuleCode));
             _moduleCode = value;
         }
     }
