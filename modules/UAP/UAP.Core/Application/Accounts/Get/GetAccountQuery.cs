@@ -7,7 +7,7 @@ namespace OpenModular.Module.UAP.Core.Application.Accounts.Get;
 /// 根据指定参数查询账户信息
 /// <para>只能指定一个参数</para>
 /// </summary>
-public class AccountGetQuery : Query<AccountDto?>
+public class GetAccountQuery : Query<AccountDto?>
 {
     /// <summary>
     /// 账户标识

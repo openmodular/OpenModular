@@ -33,6 +33,10 @@ public enum UAPErrorCode
     /// </summary>
     Account_PhoneFormatNotValid,
     /// <summary>
+    /// 用户名或手机号或邮箱至少填写一个
+    /// </summary>
+    Account_UserNameOrEmailOrPhone,
+    /// <summary>
     /// 账户已删除
     /// </summary>
     Account_Deleted,

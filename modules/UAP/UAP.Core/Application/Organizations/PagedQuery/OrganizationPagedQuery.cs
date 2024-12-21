@@ -3,9 +3,9 @@ using OpenModular.Module.UAP.Core.Application.Organizations.Get;
 
 namespace OpenModular.Module.UAP.Core.Application.Organizations.PagedQuery;
 
-public class OrganizationPagedQueryQuery : PagedQueryBase<OrganizationDto>
+public class OrganizationPagedQuery : PagedQueryBase<OrganizationDto>
 {
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
-    public string Code { get; set; }
+    public string? Code { get; set; }
 }

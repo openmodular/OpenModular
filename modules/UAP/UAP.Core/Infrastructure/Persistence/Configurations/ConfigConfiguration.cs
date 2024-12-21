@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using OpenModular.Module.UAP.Core.Domain.Configs;
+using OpenModular.Module.UAP.Core.Conventions;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure.Persistence.Configurations;
 

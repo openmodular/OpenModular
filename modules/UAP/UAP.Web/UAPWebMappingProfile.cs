@@ -19,6 +19,6 @@ public class UAPWebMappingProfile : Profile
             .ForMember(x => x.Source, y => y.MapFrom(m => AuthenticationSource.GetOrCreate(m.Source)))
             .ForMember(x => x.Client, y => y.MapFrom(m => AuthenticationClient.GetOrCreate(m.Client)));
 
-        CreateMap<AccountCreateRequest, AccountCreateCommand>();
+        CreateMap<AccountCreateRequest, CreateAccountCommand>();
     }
 }

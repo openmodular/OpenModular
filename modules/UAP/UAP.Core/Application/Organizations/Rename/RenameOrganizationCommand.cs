@@ -6,7 +6,7 @@ namespace OpenModular.Module.UAP.Core.Application.Organizations.Rename;
 /// <summary>
 /// 重命名组织命令
 /// </summary>
-public class OrganizationRenameCommand : Command
+public class RenameOrganizationCommand : Command
 {
     /// <summary>
     /// 组织编号

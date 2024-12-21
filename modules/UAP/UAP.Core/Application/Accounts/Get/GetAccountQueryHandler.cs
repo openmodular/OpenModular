@@ -3,16 +3,16 @@ using OpenModular.Module.UAP.Core.Domain.Accounts;
 
 namespace OpenModular.Module.UAP.Core.Application.Accounts.Get;
 
-internal class AccountGetQueryHandler : QueryHandler<AccountGetQuery, AccountDto?>
+internal class GetAccountQueryHandler : QueryHandler<GetAccountQuery, AccountDto?>
 {
     private readonly IAccountRepository _repository;
 
-    public AccountGetQueryHandler(IAccountRepository repository)
+    public GetAccountQueryHandler(IAccountRepository repository)
     {
         _repository = repository;
     }
 
-    public override async Task<AccountDto?> ExecuteAsync(AccountGetQuery request, CancellationToken cancellationToken)
+    public override async Task<AccountDto?> ExecuteAsync(GetAccountQuery request, CancellationToken cancellationToken)
     {
         var account = await _repository.FindAsync(m => (request.Id != null && m.Id == request.Id)
                                     || (request.UserName.NotNullOrWhiteSpace() && m.NormalizedUserName == request.UserName.ToUpper())

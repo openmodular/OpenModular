@@ -10,27 +10,15 @@ namespace OpenModular.Module.UAP.Core.Domain.Accounts;
 /// </summary>
 public class Account : AggregateRoot<AccountId>
 {
-    private string? _userName;
-    private string? _email;
-    private string? _phone;
-
     /// <summary>
     /// 用户名
     /// </summary>
-    public string? UserName
-    {
-        get => _userName;
-        set
-        {
-            Check.NullOrWhiteSpace(value, nameof(UserName));
-            _userName = value;
-        }
-    }
+    public string? UserName { get; set; }
 
     /// <summary>
     /// 标准化用户名
     /// </summary>
-    public string NormalizedUserName { get; set; }
+    public string? NormalizedUserName { get; set; }
 
     /// <summary>
     /// 密码哈希值
@@ -40,15 +28,7 @@ public class Account : AggregateRoot<AccountId>
     /// <summary>
     /// 邮箱
     /// </summary>
-    public string? Email
-    {
-        get => _email;
-        set
-        {
-            CheckRule(new AccountEmailFormatNotValidRule(value));
-            _email = value;
-        }
-    }
+    public string? Email { get; set; }
 
     /// <summary>
     /// 标准化邮箱
@@ -58,15 +38,7 @@ public class Account : AggregateRoot<AccountId>
     /// <summary>
     /// 手机号
     /// </summary>
-    public string? Phone
-    {
-        get => _phone;
-        set
-        {
-            CheckRule(new AccountPhoneFormatNotValidRule(value));
-            _phone = value;
-        }
-    }
+    public string? Phone { get; set; }
 
     /// <summary>
     /// 账户状态
@@ -78,12 +50,16 @@ public class Account : AggregateRoot<AccountId>
         //for ef
     }
 
-    private Account(AccountId accountId, string userName, string? email, string? phone, AccountStatus status) : base(accountId)
+    private Account(AccountId accountId, string? userName, string? email, string? phone, AccountStatus status) : base(accountId)
     {
+        CheckRule(new UserValidRule(userName, email, phone));
+        CheckRule(new AccountEmailFormatNotValidRule(email));
+        CheckRule(new AccountPhoneFormatNotValidRule(phone));
+
         UserName = userName;
-        NormalizedUserName = userName.ToUpper();
+        NormalizedUserName = userName?.ToUpper();
         Email = email;
-        NormalizedEmail = email ?? email.ToUpper();
+        NormalizedEmail = email?.ToUpper();
         Phone = phone;
         Status = status;
 
@@ -99,7 +75,7 @@ public class Account : AggregateRoot<AccountId>
     /// <param name="phone"></param>
     /// <param name="status"></param>
     /// <returns></returns>
-    public static Account Create(AccountId accountId, string username, string? email, string? phone, AccountStatus status)
+    public static Account Create(AccountId accountId, string? username, string? email, string? phone, AccountStatus status)
     {
         return new Account(accountId, username, email, phone, status);
     }

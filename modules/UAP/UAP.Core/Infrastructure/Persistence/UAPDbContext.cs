@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OpenModular.Module.UAP.Core.Conventions;
 using OpenModular.Module.UAP.Core.Domain.Accounts;
 using OpenModular.Module.UAP.Core.Domain.Authentications;
 using OpenModular.Module.UAP.Core.Domain.Configs;

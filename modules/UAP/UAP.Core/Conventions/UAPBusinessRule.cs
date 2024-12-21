@@ -2,7 +2,7 @@
 
 namespace OpenModular.Module.UAP.Core.Conventions;
 
-internal abstract record UAPBusinessRule(UAPErrorCode errorCode) : IBusinessRule
+internal abstract class UAPBusinessRule(UAPErrorCode errorCode) : IBusinessRule
 {
     public string ModuleCode => UAPConstants.ModuleCode;
 

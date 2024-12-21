@@ -20,7 +20,7 @@ public class AccountController : ModuleController
     [AllowAnonymous]
     public async Task<APIResponse<AccountDto>> Get([FromQuery] AccountId id)
     {
-        var query = new AccountGetQuery { Id = id };
+        var query = new GetAccountQuery { Id = id };
         var dto = await Mediator.Send(query);
         if (dto == null)
             throw new EntityNotFoundException();

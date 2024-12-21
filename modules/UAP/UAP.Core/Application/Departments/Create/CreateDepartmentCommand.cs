@@ -7,7 +7,7 @@ namespace OpenModular.Module.UAP.Core.Application.Departments.Create;
 /// <summary>
 /// 创建部门命令
 /// </summary>
-public class DepartmentCreateCommand : Command<DepartmentId>
+public class CreateDepartmentCommand : Command<DepartmentId>
 {
     /// <summary>
     /// 组织标识

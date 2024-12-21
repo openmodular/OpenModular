@@ -2,7 +2,7 @@
 using OpenModular.Module.Abstractions;
 using OpenModular.Module.UAP.Core.Infrastructure.Persistence;
 
-namespace OpenModular.Module.UAP.Core;
+namespace OpenModular.Module.UAP.Core.Conventions;
 
 internal class UAPModuleConfigurator : ModuleConfiguratorAbstract
 {

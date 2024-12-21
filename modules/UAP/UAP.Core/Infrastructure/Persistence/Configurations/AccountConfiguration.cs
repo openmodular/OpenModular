@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
+using OpenModular.Module.UAP.Core.Conventions;
 using OpenModular.Module.UAP.Core.Domain.Accounts;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure.Persistence.Configurations;

@@ -2,7 +2,7 @@
 
 namespace OpenModular.Module.UAP.Core.Domain.Accounts.Rules;
 
-internal record AccountCannotActivateWhenAlreadyActivatedRule(AccountStatus ActivatedStatus) : UAPBusinessRule(UAPErrorCode.Account_EmailFormatNotValid)
+internal class AccountCannotActivateWhenAlreadyActivatedRule(AccountStatus activatedStatus) : UAPBusinessRule(UAPErrorCode.Account_EmailFormatNotValid)
 {
-    public override bool IsBroken() => ActivatedStatus != AccountStatus.Inactive;
+    public override bool IsBroken() => activatedStatus != AccountStatus.Inactive;
 }

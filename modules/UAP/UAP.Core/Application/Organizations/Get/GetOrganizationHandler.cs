@@ -4,9 +4,9 @@ using OpenModular.Module.UAP.Core.Domain.Organizations;
 
 namespace OpenModular.Module.UAP.Core.Application.Organizations.Get;
 
-internal class OrganizationGetHandler(IOrganizationRepository repository, IMapper mapper) : QueryHandler<OrganizationGetQuery, OrganizationDto>
+internal class GetOrganizationHandler(IOrganizationRepository repository, IMapper mapper) : QueryHandler<GetOrganizationQuery, OrganizationDto>
 {
-    public override async Task<OrganizationDto> ExecuteAsync(OrganizationGetQuery request, CancellationToken cancellationToken)
+    public override async Task<OrganizationDto> ExecuteAsync(GetOrganizationQuery request, CancellationToken cancellationToken)
     {
         var org = await repository.GetAsync(request.Id, cancellationToken);
 

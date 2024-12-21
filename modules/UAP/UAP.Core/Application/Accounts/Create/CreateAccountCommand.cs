@@ -7,12 +7,12 @@ namespace OpenModular.Module.UAP.Core.Application.Accounts.Create;
 /// <summary>
 /// 创建账户命令
 /// </summary>
-public class AccountCreateCommand : Command<AccountId>
+public class CreateAccountCommand : Command<AccountId>
 {
     /// <summary>
     /// 用户名
     /// </summary>
-    public string Username { get; set; }
+    public string? UserName { get; set; }
 
     /// <summary>
     /// 邮箱

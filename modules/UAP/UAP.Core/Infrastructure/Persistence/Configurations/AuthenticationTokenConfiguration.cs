@@ -3,6 +3,7 @@ using OpenModular.Module.UAP.Core.Domain.Authentications;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OpenModular.DDD.Core.Domain.Entities.TypeIds;
 using OpenModular.Authentication.Abstractions;
+using OpenModular.Module.UAP.Core.Conventions;
 
 namespace OpenModular.Module.UAP.Core.Infrastructure.Persistence.Configurations;
 

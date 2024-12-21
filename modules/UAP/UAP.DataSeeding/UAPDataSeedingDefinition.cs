@@ -1,4 +1,4 @@
-﻿using OpenModular.Module.UAP.Core;
+﻿using OpenModular.Module.UAP.Core.Conventions;
 using OpenModular.Persistence.DataSeeding.Builder;
 
 namespace OpenModular.Module.UAP.DataSeeding

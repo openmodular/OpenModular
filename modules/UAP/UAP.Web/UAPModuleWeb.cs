@@ -1,4 +1,4 @@
-﻿using OpenModular.Module.UAP.Core;
+﻿using OpenModular.Module.UAP.Core.Conventions;
 using OpenModular.Module.Web;
 
 namespace OpenModular.Module.UAP.Web;

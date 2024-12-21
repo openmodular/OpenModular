@@ -5,12 +5,12 @@ using OpenModular.Module.UAP.Core.Domain.Organizations;
 
 namespace OpenModular.Module.UAP.Core.Application.Organizations.GetTree;
 
-internal class OrganizationTreeGetHandler(
+internal class GetOrganizationTreeHandler(
     IOrganizationRepository organizationRepository,
     IDepartmentRepository departmentRepository)
-    : QueryHandler<OrganizationTreeGetQuery, OrganizationTreeDto>
+    : QueryHandler<GetOrganizationTreeQuery, OrganizationTreeDto>
 {
-    public override async Task<OrganizationTreeDto> ExecuteAsync(OrganizationTreeGetQuery request, CancellationToken cancellationToken)
+    public override async Task<OrganizationTreeDto> ExecuteAsync(GetOrganizationTreeQuery request, CancellationToken cancellationToken)
     {
         var org = await organizationRepository.GetAsync(request.OrganizationId, cancellationToken);
         var departments = await departmentRepository.GetListAsync(m => m.Code.StartsWith(org.Code), cancellationToken);

@@ -1,10 +1,10 @@
 ﻿using System.Text.Json;
 using OpenModular.Common.Utils.DependencyInjection;
 using OpenModular.Module.Abstractions;
-using OpenModular.Module.UAP.Core.Conventions;
 using OpenModular.Common.Utils.Extensions;
 using OpenModular.Configuration.Abstractions;
 using OpenModular.Cache.Abstractions;
+using OpenModular.Module.UAP.Core.Conventions;
 
 namespace OpenModular.Module.UAP.Core.Domain.Configs;
 
