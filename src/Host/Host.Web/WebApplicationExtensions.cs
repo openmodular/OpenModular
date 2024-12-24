@@ -65,43 +65,6 @@ public static class WebApplicationExtensions
     }
 
     /// <summary>
-    /// 设置默认页为index.html
-    /// </summary>
-    /// <param name="app"></param>
-    /// <param name="options"></param>
-    /// <returns></returns>
-    public static IApplicationBuilder UseDefaultPage(this IApplicationBuilder app, WebHostOptions options)
-    {
-        //设置默认文档
-        if (options.DefaultPage.NotNullOrWhiteSpace())
-        {
-            var defaultFilesOptions = new DefaultFilesOptions();
-            defaultFilesOptions.DefaultFileNames.Clear();
-            defaultFilesOptions.DefaultFileNames.Add(options.DefaultPage);
-            app.UseDefaultFiles(defaultFilesOptions);
-        }
-
-        return app;
-    }
-
-    /// <summary>
-    /// 设置默认目录
-    /// </summary>
-    /// <param name="app"></param>
-    /// <param name="options"></param>
-    /// <returns></returns>
-    public static IApplicationBuilder UseDefaultDir(this IApplicationBuilder app, WebHostOptions options)
-    {
-        if (options.DefaultDir.NotNullOrWhiteSpace())
-        {
-            var rewriteOptions = new RewriteOptions().AddRedirect("^$", options.DefaultDir);
-            app.UseRewriter(rewriteOptions);
-        }
-
-        return app;
-    }
-
-    /// <summary>
     /// 使用代理
     /// </summary>
     /// <param name="app"></param>

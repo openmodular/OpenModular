@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenModular.Cache.Core;
 using OpenModular.Common.Utils;
-using OpenModular.Host.Abstractions;
 using OpenModular.Host.Web.Middlewares;
 using OpenModular.Host.Web.OpenApi;
 using OpenModular.Host.Web.Options;
@@ -16,7 +15,7 @@ using Serilog;
 
 namespace OpenModular.Host.Web;
 
-public class OpenModularWebHost : IOpenModularHost
+public class OpenModularWebHost
 {
     private readonly WebApplicationBuilder _builder;
     private readonly WebHostOptions _hostOptions;
@@ -163,11 +162,9 @@ public class OpenModularWebHost : IOpenModularHost
         //启用静态文件
         app.UseStaticFiles();
 
-        //设置默认目录
-        app.UseDefaultDir(_hostOptions);
+        app.UseBlazorFrameworkFiles();
 
-        //设置默认页
-        app.UseDefaultPage(_hostOptions);
+        app.MapFallbackToFile("index.html");
 
         //代理
         app.UseProxy(_hostOptions);

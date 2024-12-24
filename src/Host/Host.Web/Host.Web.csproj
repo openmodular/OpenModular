@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
 		<PackageReference Include="Serilog.AspNetCore" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
@@ -15,7 +16,6 @@
 		<ProjectReference Include="..\..\Module\Module.Web\Module.Web.csproj" />
 		<ProjectReference Include="..\..\Persistence\Persistence.DataSeeding\Persistence.DataSeeding.csproj" />
 		<ProjectReference Include="..\..\Persistence\Persistence\Persistence.csproj" />
-		<ProjectReference Include="..\Host.Abstractions\Host.Abstractions.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\src\Module\Module.Blazor\Module.Blazor.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="../UAP.Core/Conventions/UAPConstants.cs" Link="UAPConstants.cs" />
+	</ItemGroup>
+</Project>
