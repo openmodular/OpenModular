@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Host.Blazor\Host.Blazor.csproj" />
+		<ProjectReference Include="..\UAP\UAP.Blazor\UAP.Blazor.csproj" />
+	</ItemGroup>
+
+</Project>

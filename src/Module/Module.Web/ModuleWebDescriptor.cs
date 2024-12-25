@@ -11,7 +11,7 @@ internal class ModuleWebDescriptor : IModuleWebDescriptor
 
     public IModuleWeb ModuleWeb { get; }
 
-    public IModuleWebConfigurator Configurator { get; set; }
+    public IModuleWebConfigurator? Configurator { get; private set; }
 
     private void LoadConfigurator()
     {

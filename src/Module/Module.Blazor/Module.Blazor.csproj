@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
-	  <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+		<PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -10,11 +11,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Components\" />
+		<Folder Include="Components\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Commonn\Common.Utils\Common.Utils.csproj" />
+		<ProjectReference Include="..\..\Commonn\Common.Utils\Common.Utils.csproj" />
 	</ItemGroup>
 
 </Project>
